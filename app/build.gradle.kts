@@ -12,7 +12,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.homework3"
+    namespace = "com.example.betteryou"
     compileSdk = 36
 
     defaultConfig {

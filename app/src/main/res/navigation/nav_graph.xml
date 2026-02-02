@@ -6,7 +6,7 @@
     app:startDestination="@id/splashFragment">
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.example.homework3.presentation.screen.splash_screen.SplashFragment"
+        android:name="com.example.betteryou.presentation.screen.splash_screen.SplashFragment"
         android:label="SplashFragment" >
         <action
             android:id="@+id/action_splashFragment_to_homeFragment"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.homework3.presentation.screen.menu.HomeFragment"
+        android:name="com.example.betteryou.presentation.screen.menu.HomeFragment"
         android:label="HomeFragment" >
         <deepLink
             app:uri="homework3://users" />
