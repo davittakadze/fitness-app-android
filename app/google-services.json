@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "332828208044",
+    "project_id": "tbc-project-9966c",
+    "storage_bucket": "tbc-project-9966c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332828208044:android:91e9ef6e98199ae094e809",
+        "android_client_info": {
+          "package_name": "com.example.homework3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332828208044-ju6bd19a6tbd8s5bsltfmovtujjejqo2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.homework3",
+            "certificate_hash": "540d20f34752bc7089a5b9e3ef2c163a89240ca7"
+          }
+        },
+        {
+          "client_id": "332828208044-16dmleh2vtn27ernunalr2cq5v28liud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBH3mLL9wviXQ8NNNzCMYTNIgqUnnpWQ5Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "332828208044-16dmleh2vtn27ernunalr2cq5v28liud.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

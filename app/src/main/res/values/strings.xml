@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">homework3</string>
+    <string name="application_name">Guardian</string>
+    <string name="login">Log In</string>
+    <string name="register">Register</string>
+    <string name="next">Next</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="weight">Weight (kg)</string>
+    <string name="height">Height (cm)</string>
+    <string name="age">Age</string>
+    <string name="sleep_time">Sleep time</string>
+    <string name="wake_up_time">Wake up time</string>
+    <string name="sex">Sex</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="google_sign_up">Sign up with Google</string>
+    <string name="google_sign_in_failed">Google sign in failed</string>
+    <string name="profile">Profile</string>
+    <string name="edit_profile_picture">Edit profile picture</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="save_changes">Save changes</string>
+    <string name="log_out">Log out</string>
+    <string name="delete_account">Delete account</string>
+    <string name="date_format">DD / MM / YYYY</string>
+    <string name="height_placeholder">170cm</string>
+    <string name="weight_placeholder">60kg</string>
+</resources>
