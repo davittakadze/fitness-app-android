@@ -17,8 +17,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.betteryou.R
-import com.example.betteryou.ui.theme.local_theme.LocalTBCColors
+import com.example.betteryou.core_res.R
+import com.example.betteryou.core_ui.local_theme.LocalTBCColors
 
 @Composable
 fun SplashScreen(

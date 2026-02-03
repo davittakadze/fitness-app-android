@@ -24,15 +24,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.betteryou.R
-import com.example.betteryou.ui.theme.TBCTheme
-import com.example.betteryou.ui.theme.local_theme.LocalTBCColors
-import com.example.betteryou.ui.theme.local_theme.LocalTBCTypography
-import com.example.betteryou.ui.theme.util.components.AppButtonType
-import com.example.betteryou.ui.theme.util.Spacer
-import com.example.betteryou.ui.theme.util.components.TBCAppButton
-import com.example.betteryou.ui.theme.util.components.TBCAppPasswordField
-import com.example.betteryou.ui.theme.util.components.TBCAppTextField
+import com.example.betteryou.core_res.R
+import com.example.betteryou.core_ui.TBCTheme
+import com.example.betteryou.core_ui.local_theme.LocalTBCColors
+import com.example.betteryou.core_ui.local_theme.LocalTBCTypography
+import com.example.betteryou.core_ui.util.Spacer
+import com.example.betteryou.core_ui.util.components.AppButtonType
+import com.example.betteryou.core_ui.util.components.TBCAppButton
+import com.example.betteryou.core_ui.util.components.TBCAppPasswordField
+import com.example.betteryou.core_ui.util.components.TBCAppTextField
 
 @Composable
 fun LogInScreen(

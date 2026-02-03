@@ -46,16 +46,16 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.example.betteryou.R
-import com.example.betteryou.ui.theme.util.Radius
-import com.example.betteryou.ui.theme.util.Spacer
-import com.example.betteryou.ui.theme.TBCTheme
-import com.example.betteryou.ui.theme.local_theme.LocalTBCColors
-import com.example.betteryou.ui.theme.local_theme.LocalTBCTypography
-import com.example.betteryou.ui.theme.util.components.AppButtonType
-import com.example.betteryou.ui.theme.util.components.DatePickerRow
-import com.example.betteryou.ui.theme.util.components.TBCAppButton
-import com.example.betteryou.ui.theme.util.components.ThinTBCAppTextField
+import com.example.betteryou.core_res.R
+import com.example.betteryou.core_ui.TBCTheme
+import com.example.betteryou.core_ui.local_theme.LocalTBCColors
+import com.example.betteryou.core_ui.local_theme.LocalTBCTypography
+import com.example.betteryou.core_ui.util.Radius
+import com.example.betteryou.core_ui.util.Spacer
+import com.example.betteryou.core_ui.util.components.AppButtonType
+import com.example.betteryou.core_ui.util.components.DatePickerRow
+import com.example.betteryou.core_ui.util.components.TBCAppButton
+import com.example.betteryou.core_ui.util.components.ThinTBCAppTextField
 import java.io.File
 
 @Composable
