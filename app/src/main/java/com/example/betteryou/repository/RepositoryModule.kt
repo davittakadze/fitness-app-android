@@ -1,11 +1,9 @@
 package com.example.betteryou.repository
 
 import com.example.betteryou.data.local.DatastoreManagerImpl
-import com.example.betteryou.data.repository.login.LogInRepositoryImpl
 import com.example.betteryou.data.repository.register.RegisterRepositoryImpl
 import com.example.betteryou.data.repository.auth.AuthRepositoryImpl
 import com.example.betteryou.domain.repository.DatastoreRepository
-import com.example.betteryou.domain.repository.login.LogInRepository
 import com.example.betteryou.domain.repository.register.RegisterRepository
 import com.example.betteryou.domain.repository.token.AuthRepository
 import dagger.Binds
@@ -22,11 +20,6 @@ abstract class RepositoryModule {
     abstract fun bindRegisterRepository(
         registerRepositoryImpl: RegisterRepositoryImpl
     ): RegisterRepository
-    @Binds
-    @Singleton
-    abstract fun bindLogInRepository(
-        logInRepositoryImpl: LogInRepositoryImpl
-    ): LogInRepository
 
     @Binds
     @Singleton

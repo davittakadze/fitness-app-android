@@ -14,20 +14,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.example.betteryou.presentation.screen.login.navigation.logInNavGraph
+import com.example.betteryou.presentation.navigation.MainRoute
+import com.example.betteryou.presentation.screen.profile.navigation.ProfileRoute
+import com.example.betteryou.presentation.screen.profile.navigation.profileNavGraph
 import com.example.betteryou.presentation.screen.register.navigation.registerNavGraph
 import com.example.betteryou.presentation.screen.splash.navigation.SplashRoute
 import com.example.betteryou.presentation.screen.splash.navigation.splashNavGraph
-import kotlinx.serialization.Serializable
-import com.example.betteryou.presentation.screen.profile.navigation.ProfileRoute
-import com.example.betteryou.presentation.screen.profile.navigation.profileNavGraph
+import com.example.presentation.login.navigation.logInNavGraph
+import com.example.presentation.navigation.GoogleTokenHolder
 import com.example.presentation.navigation.menuNavGraph
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.example.presentation.navigation.GoogleTokenHolder
-@Serializable
-data object MainRoute
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

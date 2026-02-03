@@ -1,0 +1,62 @@
+package com.example.presentation.login
+
+import androidx.lifecycle.viewModelScope
+import com.example.betteryou.domain.common.Resource
+import com.example.betteryou.presentation.common.BaseViewModel
+import com.example.domain.repository.usecase.login.LogInUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class LogInViewModel @Inject constructor(
+    private val useCase: LogInUseCase
+) : BaseViewModel<LogInState, LogInEvent, LogInSideEffect>(LogInState()) {
+    override fun onEvent(event: LogInEvent) {
+        when (event) {
+            is LogInEvent.OnEmailChange -> updateState { LogInState(email = event.email) }
+            is LogInEvent.OnPasswordChange ->
+                updateState { LogInState(password = event.password) }
+            is LogInEvent.OnLogInButtonClick -> logIn(event.email, event.password)
+            is LogInEvent.OnBackButtonClick -> emitSideEffect(LogInSideEffect.NavigateBack)
+            is LogInEvent.PasswordVisibilityChange -> updateState { LogInState(isPasswordVisible = event.isVisible) }
+        }
+    }
+
+    private fun logIn(email: String, password: String) {
+        viewModelScope.launch {
+
+            useCase(email, password).collect { resource ->
+
+                when (resource) {
+
+                    is Resource.Loader -> {
+                        updateState {
+                            LogInState(isLoading = resource.isLoading)
+                        }
+                    }
+
+                    is Resource.Success -> {
+                        updateState {
+                            LogInState(isLoading = false)
+                        }
+
+                        emitSideEffect(LogInSideEffect.NavigateHome)
+                    }
+
+                    is Resource.Error -> {
+                        updateState {
+                            LogInState(isLoading = false)
+                        }
+                        emitSideEffect(
+                            LogInSideEffect.ShowError(
+                                resource.errorMessage
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
