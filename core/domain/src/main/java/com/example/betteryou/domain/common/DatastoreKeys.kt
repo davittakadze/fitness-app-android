@@ -1,4 +1,4 @@
-package com.example.betteryou.domain
+package com.example.betteryou.domain.common
 
 import androidx.datastore.preferences.core.stringPreferencesKey
 

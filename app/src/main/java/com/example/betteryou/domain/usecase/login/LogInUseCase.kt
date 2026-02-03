@@ -1,7 +1,7 @@
 package com.example.betteryou.domain.usecase.login
 
 import android.util.Patterns
-import com.example.betteryou.domain.Resource
+import com.example.betteryou.domain.common.Resource
 import com.example.betteryou.domain.repository.login.LogInRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf

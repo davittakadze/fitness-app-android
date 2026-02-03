@@ -1,13 +1,12 @@
-package com.example.betteryou.data.repository.datastore
+package com.example.betteryou.data.local
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import com.example.betteryou.domain.repository.datastore.DatastoreRepository
+import com.example.betteryou.domain.repository.DatastoreRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
-
 
 class DatastoreManagerImpl @Inject constructor(private val dataStore: DataStore<Preferences>) :
     DatastoreRepository {

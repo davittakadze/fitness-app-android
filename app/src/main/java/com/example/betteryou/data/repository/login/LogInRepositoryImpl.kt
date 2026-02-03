@@ -1,7 +1,7 @@
 package com.example.betteryou.data.repository.login
 
 import com.example.betteryou.data.common.HandleFirebase
-import com.example.betteryou.domain.Resource
+import com.example.betteryou.domain.common.Resource
 import com.example.betteryou.domain.repository.login.LogInRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException

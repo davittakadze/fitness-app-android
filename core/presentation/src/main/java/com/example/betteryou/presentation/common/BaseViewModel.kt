@@ -2,7 +2,7 @@ package com.example.betteryou.presentation.common
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.betteryou.domain.Resource
+import com.example.betteryou.domain.common.Resource
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
