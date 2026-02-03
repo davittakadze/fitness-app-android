@@ -1,6 +1,6 @@
 package com.example.betteryou.domain.repository.login
 
-import com.example.betteryou.domain.Resource
+import com.example.betteryou.domain.common.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface LogInRepository {

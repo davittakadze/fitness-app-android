@@ -1,8 +1,7 @@
-package com.example.betteryou.domain.repository.datastore
+package com.example.betteryou.domain.repository
 
 import androidx.datastore.preferences.core.Preferences
 import kotlinx.coroutines.flow.Flow
-
 
 interface DatastoreRepository {
     fun <T> getPreference(key: Preferences.Key<T>, defaultValue: T): Flow<T>

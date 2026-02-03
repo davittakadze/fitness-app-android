@@ -1,7 +1,7 @@
-package com.example.betteryou.domain.usecase.datastore
+package com.example.betteryou.domain.usecase
 
 import androidx.datastore.preferences.core.Preferences
-import com.example.betteryou.domain.repository.datastore.DatastoreRepository
+import com.example.betteryou.domain.repository.DatastoreRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

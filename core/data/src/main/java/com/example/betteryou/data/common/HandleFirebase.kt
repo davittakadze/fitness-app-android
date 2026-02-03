@@ -1,6 +1,6 @@
 package com.example.betteryou.data.common
 
-import com.example.betteryou.domain.Resource
+import com.example.betteryou.domain.common.Resource
 import com.google.firebase.auth.FirebaseAuthException
 import kotlinx.coroutines.flow.flow
 import java.io.IOException

@@ -1,11 +1,11 @@
 package com.example.betteryou.repository
 
-import com.example.betteryou.data.repository.datastore.DatastoreManagerImpl
+import com.example.betteryou.data.local.DatastoreManagerImpl
 import com.example.betteryou.data.repository.login.LogInRepositoryImpl
 import com.example.betteryou.data.repository.register.GoogleSignUpRepositoryImpl
 import com.example.betteryou.data.repository.register.RegisterRepositoryImpl
 import com.example.betteryou.data.repository.auth.AuthRepositoryImpl
-import com.example.betteryou.domain.repository.datastore.DatastoreRepository
+import com.example.betteryou.domain.repository.DatastoreRepository
 import com.example.betteryou.domain.repository.login.LogInRepository
 import com.example.betteryou.domain.repository.register.GoogleSignUpRepository
 import com.example.betteryou.domain.repository.register.RegisterRepository

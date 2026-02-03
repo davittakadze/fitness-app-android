@@ -14,4 +14,5 @@ kotlin {
 
 dependencies{
     implementation(libs.androidx.datastore.preferences)
+    implementation("com.google.dagger:dagger:2.51")
 }

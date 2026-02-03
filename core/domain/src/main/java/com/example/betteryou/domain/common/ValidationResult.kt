@@ -1,4 +1,4 @@
-package com.example.betteryou.domain
+package com.example.betteryou.domain.common
 
 sealed class ValidationResult {
     object Success : ValidationResult()

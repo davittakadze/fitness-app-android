@@ -485,6 +485,6 @@ private fun SexItem(
 @Composable
 fun ProfileScreenPreview() {
     TBCTheme {
-        ProfileContent(ProfileState(), { })
+        ProfileContent(ProfileState()) { }
     }
 }
