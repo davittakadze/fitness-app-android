@@ -60,6 +60,7 @@ fun MenuScreen(
                 }
 
                 is MenuSideEffect.NavigateToHome -> onGoogleSignInClick()
+
                 is MenuSideEffect.ShowError ->
                     Toast.makeText(
                         context,
@@ -67,7 +68,7 @@ fun MenuScreen(
                         Toast.LENGTH_SHORT
                     ).show()
 
-                MenuSideEffect.RequestGoogleSignIn -> TODO()
+                else -> Unit
             }
         }
     }
