@@ -7,8 +7,8 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.protobuf)
-    id("com.google.gms.google-services")
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -119,6 +119,10 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation(projects.core.data)
+    implementation(projects.core.domain)
+    implementation(projects.core.presentation)
+    implementation(projects.coreUi)
 }
 protobuf {
     protoc {

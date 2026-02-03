@@ -124,7 +124,7 @@ private fun MenuContent(
             modifier = Modifier
                 .fillMaxSize()
                 .background(LocalTBCColors.current.background)
-                .padding(24.dp)
+                .padding(vertical=40.dp,horizontal=24.dp)
         ) {
             Spacer(modifier = Modifier.weight(1f))
 

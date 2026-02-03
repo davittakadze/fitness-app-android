@@ -1,7 +1,7 @@
 package com.example.betteryou.presentation.screen.login
 
 import androidx.lifecycle.viewModelScope
-import com.example.betteryou.domain.common.Resource
+import com.example.betteryou.domain.Resource
 import com.example.betteryou.domain.usecase.login.LogInUseCase
 import com.example.betteryou.presentation.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

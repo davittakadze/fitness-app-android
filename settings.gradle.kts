@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     repositories {
         google {
@@ -21,3 +23,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "BetterYou"
 include(":app")
+include(":core:data")
+include(":core:domain")
+include(":core:presentation")
+include(":core_ui")
