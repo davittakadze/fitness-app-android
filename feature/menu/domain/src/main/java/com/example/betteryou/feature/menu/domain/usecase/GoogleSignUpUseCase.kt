@@ -1,6 +1,6 @@
-package com.example.betteryou.domain.usecase.register
+package com.example.betteryou.feature.menu.domain.usecase
 
-import com.example.betteryou.domain.repository.register.GoogleSignUpRepository
+import com.example.betteryou.feature.menu.domain.repository.GoogleSignUpRepository
 import javax.inject.Inject
 
 class GoogleSignUpUseCase @Inject constructor(

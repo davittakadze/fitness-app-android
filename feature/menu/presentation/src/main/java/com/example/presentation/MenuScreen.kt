@@ -1,8 +1,6 @@
-package com.example.betteryou.presentation.screen.menu
+package com.example.presentation
 
 import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -21,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -39,10 +36,6 @@ import com.example.betteryou.core_ui.util.components.AppButtonType
 import com.example.betteryou.core_ui.util.components.TBCAppButton
 import com.example.betteryou.core_ui.util.components.TBCAppCircularProgress
 import com.example.betteryou.core_ui.util.components.TBCAppGoogleButton
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 
 @Composable
 fun MenuScreen(
@@ -52,33 +45,7 @@ fun MenuScreen(
     viewModel: MenuViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-
     val context = LocalContext.current
-
-   // val googleClient = rememberGoogleSignInClient(context)
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        val data = result.data ?: return@rememberLauncherForActivityResult
-        val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-
-        try {
-            val account = task.getResult(ApiException::class.java)
-            val idToken = account.idToken
-
-            if (!idToken.isNullOrEmpty()) {
-                viewModel.onEvent(
-                    MenuEvent.OnGoogleRegisterClick(idToken)
-                )
-            }
-        } catch (e: ApiException) {
-            Toast.makeText(
-                context,
-                e.localizedMessage ?: context.getString(R.string.google_sign_in_failed),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
@@ -99,31 +66,29 @@ fun MenuScreen(
                         effect.error,
                         Toast.LENGTH_SHORT
                     ).show()
+
+                MenuSideEffect.RequestGoogleSignIn -> TODO()
             }
         }
     }
 
     MenuContent(
         onEvent = viewModel::onEvent,
-        state = state,
-        onGoogleClick = {
-          //  launcher.launch(googleClient.signInIntent)
-        }
+        state = state
     )
 }
 
 @Composable
 private fun MenuContent(
     onEvent: (MenuEvent) -> Unit,
-    state: MenuState,
-    onGoogleClick: () -> Unit,
+    state: MenuState
 ) {
     Box {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(LocalTBCColors.current.background)
-                .padding(vertical=40.dp,horizontal=24.dp)
+                .padding(vertical = 40.dp, horizontal = 24.dp)
         ) {
             Spacer(modifier = Modifier.weight(1f))
 
@@ -152,7 +117,6 @@ private fun MenuContent(
 
             Spacer(modifier = Modifier.weight(1f))
 
-  //          Spacer(modifier = Modifier.height(Spacer.spacing16))
 
             Row(
                 modifier = Modifier.fillMaxWidth()
@@ -183,7 +147,7 @@ private fun MenuContent(
             TBCAppGoogleButton(
                 text = stringResource(R.string.google_sign_up),
                 onClick = {
-                    onGoogleClick()
+                    onEvent(MenuEvent.OnGoogleClick)
                 },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -196,22 +160,10 @@ private fun MenuContent(
     }
 }
 
-/*@Composable
-fun rememberGoogleSignInClient(context: Context): GoogleSignInClient {
-    val gso = remember {
-        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(context.getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-    }
-    return remember { GoogleSignIn.getClient(context, gso) }
-}*/
-
-
 @Composable
 @Preview(showBackground = true)
 fun MenuScreenPreview() {
     TBCTheme {
-        MenuContent({ }, MenuState(), {})
+        MenuContent({ }, MenuState())
     }
 }

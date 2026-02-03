@@ -123,6 +123,9 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.core.presentation)
     implementation(projects.coreUi)
+    implementation(projects.feature.menu.presentation)
+    implementation(projects.feature.menu.domain)
+    implementation(projects.feature.menu.data)
 }
 protobuf {
     protoc {

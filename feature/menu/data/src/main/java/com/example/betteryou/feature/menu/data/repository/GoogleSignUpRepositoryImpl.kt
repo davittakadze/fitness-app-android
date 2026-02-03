@@ -1,8 +1,8 @@
-package com.example.betteryou.data.repository.register
+package com.example.betteryou.feature.menu.data.repository
 
 import com.example.betteryou.data.common.HandleFirebase
 import com.example.betteryou.domain.common.Resource
-import com.example.betteryou.domain.repository.register.GoogleSignUpRepository
+import com.example.betteryou.feature.menu.domain.repository.GoogleSignUpRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.flow.Flow
