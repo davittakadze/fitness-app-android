@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+
     implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -61,7 +62,8 @@ dependencies {
 
     implementation(projects.core.domain)
     implementation(projects.core.presentation)
+    implementation(projects.feature.splash.domain)
     implementation(projects.coreRes)
     implementation(projects.coreUi)
-    implementation(projects.feature.logIn.domain)
+    implementation(projects.feature.splash.domain)
 }

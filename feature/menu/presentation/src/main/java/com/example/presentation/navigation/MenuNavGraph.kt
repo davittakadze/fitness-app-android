@@ -7,14 +7,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.example.betteryou.presentation.navigation.LogInRoute
+import com.example.betteryou.presentation.navigation.MainRoute
+import com.example.betteryou.presentation.navigation.MenuRoute
+import com.example.betteryou.presentation.navigation.RegisterRoute
 import com.example.presentation.MenuScreen
 import com.example.presentation.MenuSideEffect
 import com.example.presentation.MenuViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import kotlinx.serialization.Serializable
-
-@Serializable
-data object MenuRoute
 
 fun NavGraphBuilder.menuNavGraph(
     navController: NavController,
@@ -31,9 +32,9 @@ fun NavGraphBuilder.menuNavGraph(
                         googleLauncher.launch(googleClient.signInIntent)
                     }
                     MenuSideEffect.NavigateToHome -> {
-                       /* navController.navigate(MainRoute) {
+                        navController.navigate(MainRoute) {
                             popUpTo(MenuRoute) { inclusive = true }
-                        }*/
+                        }
                     }
                     else -> Unit
                 }
@@ -46,13 +47,13 @@ fun NavGraphBuilder.menuNavGraph(
 
         MenuScreen(
             onLoginClick = {
-            //    navController.navigate(LogInRoute)
+                navController.navigate(LogInRoute)
             },
             onRegisterClick = {
-            //    navController.navigate(RegisterRoute)
+                navController.navigate(RegisterRoute)
             },
             onGoogleSignInClick = {
-            //    navController.navigate(MainRoute)
+                navController.navigate(MainRoute)
             }
         )
     }

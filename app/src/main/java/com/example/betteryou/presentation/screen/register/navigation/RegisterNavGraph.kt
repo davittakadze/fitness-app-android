@@ -3,12 +3,9 @@ package com.example.betteryou.presentation.screen.register.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.example.betteryou.presentation.navigation.LogInRoute
+import com.example.betteryou.presentation.navigation.RegisterRoute
 import com.example.betteryou.presentation.screen.register.RegisterScreen
-import com.example.presentation.login.navigation.LogInRoute
-import kotlinx.serialization.Serializable
-
-@Serializable
-data object RegisterRoute
 
 fun NavGraphBuilder.registerNavGraph(
     navController: NavController
