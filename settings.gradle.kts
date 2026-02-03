@@ -28,3 +28,5 @@ include(":core:domain")
 include(":core:presentation")
 include(":core_ui")
 include(":core_res")
+include(":feature")
+

@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/core/presentation" />
             <option value="$PROJECT_DIR$/core_res" />
             <option value="$PROJECT_DIR$/core_ui" />
+            <option value="$PROJECT_DIR$/feature" />
           </set>
         </option>
       </GradleProjectSettings>
