@@ -1,4 +1,4 @@
-package com.example.betteryou.presentation.screen.menu
+package com.example.presentation
 
 data class MenuState (
     val isLoading:Boolean=false
