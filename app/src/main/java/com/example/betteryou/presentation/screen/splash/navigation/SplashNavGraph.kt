@@ -3,7 +3,7 @@ package com.example.betteryou.presentation.screen.splash.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.example.betteryou.navigation.MainRoute
+import com.example.betteryou.presentation.navigation.MainRoute
 import com.example.betteryou.presentation.screen.splash.SplashScreen
 import com.example.presentation.navigation.MenuRoute
 import kotlinx.serialization.Serializable

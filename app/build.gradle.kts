@@ -126,6 +126,9 @@ dependencies {
     implementation(projects.feature.menu.presentation)
     implementation(projects.feature.menu.domain)
     implementation(projects.feature.menu.data)
+    implementation(projects.feature.logIn.presentation)
+    implementation(projects.feature.logIn.domain)
+    implementation(projects.feature.logIn.data)
 }
 protobuf {
     protoc {
