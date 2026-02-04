@@ -16,3 +16,6 @@ data object RegisterRoute
 
 @Serializable
 data object MenuRoute
+
+@Serializable
+data object ProfileRoute

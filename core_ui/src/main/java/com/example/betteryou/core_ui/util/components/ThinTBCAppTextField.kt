@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -59,7 +60,7 @@ fun ThinTBCAppTextField(
         ),
         modifier = modifier
             .fillMaxWidth()
-            .height(36.dp)
+            .height(48.dp)
             .onFocusChanged { isFocused = it.isFocused },
         decorationBox = { innerTextField ->
             Row(
@@ -75,7 +76,10 @@ fun ThinTBCAppTextField(
                         color = borderColor,
                         shape = Radius.radius12
                     )
-                    .padding(horizontal = 12.dp)
+                    .padding(
+                    horizontal = 12.dp,
+                    vertical = 6.dp
+                )
             ) {
 
                 Box(Modifier.weight(1f)) {
