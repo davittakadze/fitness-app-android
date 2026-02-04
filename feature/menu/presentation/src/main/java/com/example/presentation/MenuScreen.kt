@@ -1,6 +1,5 @@
 package com.example.presentation
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -35,6 +34,9 @@ import com.example.betteryou.core_ui.util.components.TBCAppButton
 import com.example.betteryou.core_ui.util.components.TBCAppCircularProgress
 import com.example.betteryou.core_ui.util.components.TBCAppGoogleButton
 import com.example.betteryou.presentation.extensions.CollectSideEffects
+import com.example.betteryou.presentation.snackbar.SnackBarController
+import com.example.betteryou.presentation.snackbar.SnackbarEvent
+
 @Composable
 fun MenuScreen(
     onLoginClick: () -> Unit,
@@ -48,8 +50,7 @@ fun MenuScreen(
 
     viewModel.sideEffect.CollectSideEffects { effect ->
         when (effect) {
-            MenuSideEffect.NavigateToLogInPage ->
-                onLoginClick()
+            MenuSideEffect.NavigateToLogInPage -> onLoginClick()
 
             MenuSideEffect.NavigateToRegisterPage ->
                 onRegisterClick()
@@ -60,12 +61,11 @@ fun MenuScreen(
             MenuSideEffect.RequestGoogleSignIn ->
                 onRequestGoogleSignIn()
 
-            is MenuSideEffect.ShowError ->
-                Toast.makeText(
-                    context,
-                    effect.error,
-                    Toast.LENGTH_SHORT
-                ).show()
+            is MenuSideEffect.ShowError -> {
+                SnackBarController.sendEvent(
+                    SnackbarEvent(effect.error)
+                )
+            }
         }
     }
 

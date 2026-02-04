@@ -14,12 +14,12 @@ class LogInViewModel @Inject constructor(
 ) : BaseViewModel<LogInState, LogInEvent, LogInSideEffect>(LogInState()) {
     override fun onEvent(event: LogInEvent) {
         when (event) {
-            is LogInEvent.OnEmailChange -> updateState { LogInState(email = event.email) }
+            is LogInEvent.OnEmailChange -> updateState { copy(email = event.email) }
             is LogInEvent.OnPasswordChange ->
-                updateState { LogInState(password = event.password) }
+                updateState { copy(password = event.password) }
             is LogInEvent.OnLogInButtonClick -> logIn(event.email, event.password)
             is LogInEvent.OnBackButtonClick -> emitSideEffect(LogInSideEffect.NavigateBack)
-            is LogInEvent.PasswordVisibilityChange -> updateState { LogInState(isPasswordVisible = event.isVisible) }
+            is LogInEvent.PasswordVisibilityChange -> updateState { copy(isPasswordVisible = event.isVisible) }
         }
     }
 
@@ -32,13 +32,13 @@ class LogInViewModel @Inject constructor(
 
                     is Resource.Loader -> {
                         updateState {
-                            LogInState(isLoading = resource.isLoading)
+                            copy(isLoading = resource.isLoading)
                         }
                     }
 
                     is Resource.Success -> {
                         updateState {
-                            LogInState(isLoading = false)
+                            copy(isLoading = false)
                         }
 
                         emitSideEffect(LogInSideEffect.NavigateHome)
@@ -46,7 +46,7 @@ class LogInViewModel @Inject constructor(
 
                     is Resource.Error -> {
                         updateState {
-                            LogInState(isLoading = false)
+                            copy(isLoading = false)
                         }
                         emitSideEffect(
                             LogInSideEffect.ShowError(
