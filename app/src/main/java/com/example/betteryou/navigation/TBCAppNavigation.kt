@@ -1,9 +1,6 @@
 package com.example.betteryou.navigation
 
 import android.annotation.SuppressLint
-import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,7 +21,6 @@ import com.example.presentation.navigation.menuNavGraph
 import com.example.presentation.splash.navigation.splashNavGraph
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -44,26 +40,6 @@ fun TBCAppTheme() {
                 .build()
         )
     }
-
-    val googleLauncher =
-        rememberLauncherForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            val data = result.data ?: return@rememberLauncherForActivityResult
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-
-            try {
-                task.getResult(ApiException::class.java)
-            } catch (e: ApiException) {
-                Toast.makeText(
-                    context,
-                    context.getString(
-                        com.example.betteryou.core_res.R.string.google_sign_in_failed
-                    ),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
 
 
     val showBottomBar = navBackStackEntry
@@ -85,7 +61,7 @@ fun TBCAppTheme() {
             startDestination = SplashRoute
         ) {
             splashNavGraph(navController)
-            menuNavGraph(navController, googleLauncher, googleClient)
+            menuNavGraph(navController, googleClient)
             logInNavGraph(navController)
             registerNavGraph(navController)
             navigation<MainRoute>(
