@@ -26,6 +26,10 @@
             <option value="$PROJECT_DIR$/feature/menu/data" />
             <option value="$PROJECT_DIR$/feature/menu/domain" />
             <option value="$PROJECT_DIR$/feature/menu/presentation" />
+            <option value="$PROJECT_DIR$/feature/register" />
+            <option value="$PROJECT_DIR$/feature/register/data" />
+            <option value="$PROJECT_DIR$/feature/register/domain" />
+            <option value="$PROJECT_DIR$/feature/register/presentation" />
             <option value="$PROJECT_DIR$/feature/splash" />
             <option value="$PROJECT_DIR$/feature/splash/data" />
             <option value="$PROJECT_DIR$/feature/splash/domain" />
