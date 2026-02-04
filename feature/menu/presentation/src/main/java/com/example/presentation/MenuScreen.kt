@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -26,7 +25,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.betteryou.core_res.R
 import com.example.betteryou.core_ui.TBCTheme
 import com.example.betteryou.core_ui.local_theme.LocalTBCColors
@@ -36,41 +34,38 @@ import com.example.betteryou.core_ui.util.components.AppButtonType
 import com.example.betteryou.core_ui.util.components.TBCAppButton
 import com.example.betteryou.core_ui.util.components.TBCAppCircularProgress
 import com.example.betteryou.core_ui.util.components.TBCAppGoogleButton
-import kotlinx.coroutines.flow.collectLatest
-
+import com.example.betteryou.presentation.extensions.CollectSideEffects
 @Composable
 fun MenuScreen(
     onLoginClick: () -> Unit,
     onRegisterClick: () -> Unit,
     onNavigateHome: () -> Unit,
     onRequestGoogleSignIn: () -> Unit,
-    viewModel: MenuViewModel
+    viewModel: MenuViewModel,
 ) {
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
 
-    LaunchedEffect(viewModel) {
-        viewModel.sideEffect.collectLatest { effect ->
-            when (effect) {
-                MenuSideEffect.NavigateToLogInPage ->
-                    onLoginClick()
+    viewModel.sideEffect.CollectSideEffects { effect ->
+        when (effect) {
+            MenuSideEffect.NavigateToLogInPage ->
+                onLoginClick()
 
-                MenuSideEffect.NavigateToRegisterPage ->
-                    onRegisterClick()
+            MenuSideEffect.NavigateToRegisterPage ->
+                onRegisterClick()
 
-                MenuSideEffect.NavigateToHome ->
-                    onNavigateHome()
+            MenuSideEffect.NavigateToHome ->
+                onNavigateHome()
 
-                MenuSideEffect.RequestGoogleSignIn ->
-                    onRequestGoogleSignIn()
+            MenuSideEffect.RequestGoogleSignIn ->
+                onRequestGoogleSignIn()
 
-                is MenuSideEffect.ShowError ->
-                    Toast.makeText(
-                        context,
-                        effect.error,
-                        Toast.LENGTH_SHORT
-                    ).show()
-            }
+            is MenuSideEffect.ShowError ->
+                Toast.makeText(
+                    context,
+                    effect.error,
+                    Toast.LENGTH_SHORT
+                ).show()
         }
     }
 
@@ -83,7 +78,7 @@ fun MenuScreen(
 @Composable
 private fun MenuContent(
     onEvent: (MenuEvent) -> Unit,
-    state: MenuState
+    state: MenuState,
 ) {
     Box {
         Column(
