@@ -20,7 +20,6 @@ import com.example.betteryou.presentation.screen.profile.navigation.ProfileRoute
 import com.example.betteryou.presentation.screen.profile.navigation.profileNavGraph
 import com.example.betteryou.presentation.screen.register.navigation.registerNavGraph
 import com.example.presentation.login.navigation.logInNavGraph
-import com.example.presentation.navigation.GoogleTokenHolder
 import com.example.presentation.navigation.menuNavGraph
 import com.example.presentation.splash.navigation.splashNavGraph
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -47,25 +46,25 @@ fun TBCAppTheme() {
     }
 
     val googleLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
             val data = result.data ?: return@rememberLauncherForActivityResult
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
 
             try {
-                val account = task.getResult(ApiException::class.java)
-                val idToken = account.idToken
-
-                if (!idToken.isNullOrEmpty()) {
-                    GoogleTokenHolder.onToken?.invoke(idToken)
-                }
+                task.getResult(ApiException::class.java)
             } catch (e: ApiException) {
                 Toast.makeText(
                     context,
-                    context.getString(com.example.betteryou.core_res.R.string.google_sign_in_failed),
+                    context.getString(
+                        com.example.betteryou.core_res.R.string.google_sign_in_failed
+                    ),
                     Toast.LENGTH_SHORT
                 ).show()
             }
         }
+
 
     val showBottomBar = navBackStackEntry
         ?.destination

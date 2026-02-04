@@ -5,6 +5,7 @@ import com.example.betteryou.domain.common.Resource
 import com.example.betteryou.feature.menu.domain.usecase.GoogleSignUpUseCase
 import com.example.betteryou.presentation.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,7 +24,7 @@ class MenuViewModel @Inject constructor(
     fun onGoogleTokenReceived(idToken: String) {
         viewModelScope.launch {
             googleSignUpUseCase(idToken)
-                .collect { result ->
+                .collectLatest { result ->
                     when (result) {
                         is Resource.Error ->
                             emitSideEffect(MenuSideEffect.ShowError(result.errorMessage))
@@ -39,5 +40,4 @@ class MenuViewModel @Inject constructor(
                 }
         }
     }
-
 }

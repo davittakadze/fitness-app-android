@@ -1,9 +1,13 @@
 package com.example.presentation.navigation
 
 import android.content.Intent
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
-import androidx.compose.runtime.LaunchedEffect
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -14,8 +18,9 @@ import com.example.betteryou.presentation.navigation.RegisterRoute
 import com.example.presentation.MenuScreen
 import com.example.presentation.MenuSideEffect
 import com.example.presentation.MenuViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import kotlinx.serialization.Serializable
+import com.google.android.gms.common.api.ApiException
 
 fun NavGraphBuilder.menuNavGraph(
     navController: NavController,
@@ -24,41 +29,53 @@ fun NavGraphBuilder.menuNavGraph(
 ) {
     composable<MenuRoute> {
         val viewModel: MenuViewModel = hiltViewModel()
+        val context = LocalContext.current
 
-        LaunchedEffect(Unit) {
-            viewModel.sideEffect.collect { effect ->
-                when (effect) {
-                    MenuSideEffect.RequestGoogleSignIn -> {
-                        googleLauncher.launch(googleClient.signInIntent)
+        val googleLauncher =
+            rememberLauncherForActivityResult(
+                ActivityResultContracts.StartActivityForResult()
+            ) { result ->
+                val data = result.data ?: return@rememberLauncherForActivityResult
+                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
+                try {
+                    val account = task.getResult(ApiException::class.java)
+                    val idToken = account.idToken
+
+                    if (!idToken.isNullOrEmpty()) {
+                        viewModel.onGoogleTokenReceived(idToken)
                     }
-                    MenuSideEffect.NavigateToHome -> {
-                        navController.navigate(MainRoute) {
-                            popUpTo(MenuRoute) { inclusive = true }
-                        }
-                    }
-                    else -> Unit
+                } catch (e: ApiException) {
+                    Toast.makeText(
+                        context,
+                        context.getString(
+                            com.example.betteryou.core_res.R.string.google_sign_in_failed
+                        ),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
-        }
-
-        GoogleTokenHolder.onToken = { token ->
-            viewModel.onGoogleTokenReceived(token)
-        }
 
         MenuScreen(
+            viewModel = viewModel,
+
             onLoginClick = {
                 navController.navigate(LogInRoute)
             },
+
             onRegisterClick = {
                 navController.navigate(RegisterRoute)
             },
-            onGoogleSignInClick = {
-                navController.navigate(MainRoute)
+
+            onNavigateHome = {
+                navController.navigate(MainRoute) {
+                    popUpTo(MenuRoute) { inclusive = true }
+                }
+            },
+
+            onRequestGoogleSignIn = {
+                googleLauncher.launch(googleClient.signInIntent)
             }
         )
     }
-}
-
-object GoogleTokenHolder {
-    var onToken: ((String) -> Unit)? = null
 }

@@ -36,30 +36,33 @@ import com.example.betteryou.core_ui.util.components.AppButtonType
 import com.example.betteryou.core_ui.util.components.TBCAppButton
 import com.example.betteryou.core_ui.util.components.TBCAppCircularProgress
 import com.example.betteryou.core_ui.util.components.TBCAppGoogleButton
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun MenuScreen(
     onLoginClick: () -> Unit,
     onRegisterClick: () -> Unit,
-    onGoogleSignInClick: () -> Unit,
-    viewModel: MenuViewModel = hiltViewModel(),
+    onNavigateHome: () -> Unit,
+    onRequestGoogleSignIn: () -> Unit,
+    viewModel: MenuViewModel
 ) {
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
 
-    LaunchedEffect(Unit) {
-        viewModel.sideEffect.collect { effect ->
+    LaunchedEffect(viewModel) {
+        viewModel.sideEffect.collectLatest { effect ->
             when (effect) {
-
-                is MenuSideEffect.NavigateToLogInPage -> {
+                MenuSideEffect.NavigateToLogInPage ->
                     onLoginClick()
-                }
 
-                is MenuSideEffect.NavigateToRegisterPage -> {
+                MenuSideEffect.NavigateToRegisterPage ->
                     onRegisterClick()
-                }
 
-                is MenuSideEffect.NavigateToHome -> onGoogleSignInClick()
+                MenuSideEffect.NavigateToHome ->
+                    onNavigateHome()
+
+                MenuSideEffect.RequestGoogleSignIn ->
+                    onRequestGoogleSignIn()
 
                 is MenuSideEffect.ShowError ->
                     Toast.makeText(
@@ -67,8 +70,6 @@ fun MenuScreen(
                         effect.error,
                         Toast.LENGTH_SHORT
                     ).show()
-
-                else -> Unit
             }
         }
     }
