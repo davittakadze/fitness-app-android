@@ -32,7 +32,6 @@ import com.example.betteryou.core_ui.util.components.AppButtonType
 import com.example.betteryou.core_ui.util.components.TBCAppButton
 import com.example.betteryou.core_ui.util.components.TBCAppPasswordField
 import com.example.betteryou.core_ui.util.components.TBCAppTextField
-import com.example.presentation.R
 
 @Composable
 fun LogInScreen(
