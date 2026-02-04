@@ -1,6 +1,5 @@
 package com.example.presentation.login
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,6 +31,8 @@ import com.example.betteryou.core_ui.util.components.AppButtonType
 import com.example.betteryou.core_ui.util.components.TBCAppButton
 import com.example.betteryou.core_ui.util.components.TBCAppPasswordField
 import com.example.betteryou.core_ui.util.components.TBCAppTextField
+import com.example.betteryou.presentation.snackbar.SnackBarController
+import com.example.betteryou.presentation.snackbar.SnackbarEvent
 
 @Composable
 fun LogInScreen(
@@ -56,11 +57,11 @@ fun LogInScreen(
                 }
 
                 is LogInSideEffect.ShowError -> {
-                    Toast.makeText(
-                        context,
-                        effect.error,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    SnackBarController.sendEvent(
+                        SnackbarEvent(
+                            message = effect.error
+                        )
+                    )
                 }
             }
         }

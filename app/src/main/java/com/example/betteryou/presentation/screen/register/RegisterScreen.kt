@@ -1,6 +1,5 @@
 package com.example.betteryou.presentation.screen.register
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,6 +31,8 @@ import com.example.betteryou.core_ui.util.Spacer
 import com.example.betteryou.core_ui.util.components.TBCAppButton
 import com.example.betteryou.core_ui.util.components.TBCAppPasswordField
 import com.example.betteryou.core_ui.util.components.TBCAppTextField
+import com.example.betteryou.presentation.snackbar.SnackBarController
+import com.example.betteryou.presentation.snackbar.SnackbarEvent
 
 @Composable
 fun RegisterScreen(
@@ -53,11 +54,11 @@ fun RegisterScreen(
                 }
 
                 is RegisterSideEffect.ShowError -> {
-                    Toast.makeText(
-                        context,
-                        effect.error,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    SnackBarController.sendEvent(
+                        SnackbarEvent(
+                            message = effect.error
+                        )
+                    )
                 }
             }
         }
