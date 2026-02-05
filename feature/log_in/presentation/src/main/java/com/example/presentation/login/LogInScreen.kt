@@ -59,7 +59,7 @@ fun LogInScreen(
                 is LogInSideEffect.ShowError -> {
                     SnackBarController.sendEvent(
                         SnackbarEvent(
-                            message = effect.error
+                            message = effect.error.asString(context)
                         )
                     )
                 }
