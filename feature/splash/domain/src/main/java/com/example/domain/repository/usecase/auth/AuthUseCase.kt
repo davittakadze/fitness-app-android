@@ -4,7 +4,7 @@ import com.example.domain.repository.auth.AuthRepository
 import javax.inject.Inject
 
 class AuthUseCase @Inject constructor(
-    private val repo: AuthRepository
+    private val repository: AuthRepository
 ) {
-    suspend operator fun invoke(): Boolean = repo.isLoggedIn()
+    suspend operator fun invoke(): Boolean = repository.isLoggedIn()
 }

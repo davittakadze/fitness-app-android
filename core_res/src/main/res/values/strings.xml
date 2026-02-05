@@ -28,4 +28,7 @@
     <string name="date_format">DD / MM / YYYY</string>
     <string name="height_placeholder">170cm</string>
     <string name="weight_placeholder">60kg</string>
+    <string name="empty_fields">"Fields cannot be empty"</string>
+    <string name="invalid_email">"Invalid email format"</string>
+    <string name="invalid_password">"Password must contain at least 6 characters"</string>
 </resources>

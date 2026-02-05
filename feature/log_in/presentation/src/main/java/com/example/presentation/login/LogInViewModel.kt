@@ -1,22 +1,30 @@
 package com.example.presentation.login
 
 import androidx.lifecycle.viewModelScope
-import com.example.betteryou.domain.common.Resource
 import com.example.betteryou.presentation.common.BaseViewModel
-import com.example.domain.repository.usecase.login.LogInUseCase
+import com.example.betteryou.presentation.common.UiText
+import com.example.domain.usecase.login.LogInUseCase
+import com.example.domain.usecase.validator.EmailValidatorUseCase
+import com.example.domain.usecase.validator.EmptyFieldsValidatorUseCase
+import com.example.domain.usecase.validator.PasswordValidatorUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
 class LogInViewModel @Inject constructor(
-    private val useCase: LogInUseCase
+    private val logInUseCase: LogInUseCase,
+    private val emailValidatorUseCase: EmailValidatorUseCase,
+    private val passwordValidatorUseCase: PasswordValidatorUseCase,
+    private val emptyFieldsValidatorUseCase: EmptyFieldsValidatorUseCase,
 ) : BaseViewModel<LogInState, LogInEvent, LogInSideEffect>(LogInState()) {
     override fun onEvent(event: LogInEvent) {
         when (event) {
             is LogInEvent.OnEmailChange -> updateState { copy(email = event.email) }
             is LogInEvent.OnPasswordChange ->
                 updateState { copy(password = event.password) }
+
             is LogInEvent.OnLogInButtonClick -> logIn(event.email, event.password)
             is LogInEvent.OnBackButtonClick -> emitSideEffect(LogInSideEffect.NavigateBack)
             is LogInEvent.PasswordVisibilityChange -> updateState { copy(isPasswordVisible = event.isVisible) }
@@ -24,38 +32,69 @@ class LogInViewModel @Inject constructor(
     }
 
     private fun logIn(email: String, password: String) {
-        viewModelScope.launch {
+        val emptyFieldsError = emptyFieldsValidatorUseCase.invoke(email, password)
+        val emailError = emailValidatorUseCase.invoke(email)
+        val passwordError = passwordValidatorUseCase.invoke(password)
 
-            useCase(email, password).collect { resource ->
-
-                when (resource) {
-
-                    is Resource.Loader -> {
-                        updateState {
-                            copy(isLoading = resource.isLoading)
-                        }
-                    }
-
-                    is Resource.Success -> {
-                        updateState {
-                            copy(isLoading = false)
-                        }
-
-                        emitSideEffect(LogInSideEffect.NavigateHome)
-                    }
-
-                    is Resource.Error -> {
-                        updateState {
-                            copy(isLoading = false)
-                        }
-                        emitSideEffect(
-                            LogInSideEffect.ShowError(
-                                resource.errorMessage
-                            )
+        when {
+            emptyFieldsError -> {
+                emitSideEffect(
+                    LogInSideEffect.ShowError(
+                        UiText.StringResource(
+                            com.example.betteryou.core_res.R.string.empty_fields
                         )
+                    )
+                )
+                return
+            }
+            !emailError -> {
+                emitSideEffect(
+                    LogInSideEffect.ShowError(
+                        UiText.StringResource(
+                            com.example.betteryou.core_res.R.string.invalid_email
+                        )
+                    )
+                )
+                return
+            }
+            passwordError -> {
+                emitSideEffect(
+                    LogInSideEffect.ShowError(
+                        UiText.StringResource(
+                            com.example.betteryou.core_res.R.string.invalid_password
+                        )
+                    )
+                )
+                return
+            }
+        }
+
+        viewModelScope.launch {
+            handleResponse(
+                apiCall = { logInUseCase.invoke(email = email, password = password) },
+                onSuccess = {
+                    updateState {
+                        copy(isLoading = false)
+                    }
+                    emitSideEffect(LogInSideEffect.NavigateHome)
+                },
+                onError = { resource ->
+                    updateState {
+                        copy(isLoading = false)
+                    }
+
+                    emitSideEffect(
+                        LogInSideEffect.ShowError(
+                            UiText.DynamicString(resource)
+                        )
+                    )
+                },
+                onLoading = { loader ->
+                    updateState {
+                        copy(isLoading = loader.isLoading)
                     }
                 }
-            }
+            )
         }
     }
 }

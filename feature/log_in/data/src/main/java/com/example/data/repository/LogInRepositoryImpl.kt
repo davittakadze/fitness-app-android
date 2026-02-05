@@ -1,10 +1,10 @@
-package com.example.data.repository.login
+package com.example.data.repository
 
 import com.example.betteryou.data.common.HandleFirebase
 import com.example.betteryou.domain.common.Resource
-import com.example.domain.repository.login.LogInRepository
+import com.example.betteryou.data.exception.EmailNotVerifiedException
+import com.example.domain.repository.LogInRepository
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -18,16 +18,18 @@ class LogInRepositoryImpl @Inject constructor(
         password: String,
     ): Flow<Resource<Unit>> {
         return handleFirebase.safeCall {
-            firebaseAuth.signInWithEmailAndPassword(email, password).await()
-            val user = firebaseAuth.currentUser
+            val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
+            val user = result.user
+
             user?.reload()?.await()
-            if (user?.isEmailVerified != true) {
+
+            if (user != null && !user.isEmailVerified) {
                 firebaseAuth.signOut()
-                throw FirebaseAuthException(
-                    "EMAIL_NOT_VERIFIED",
-                    "you have to verify the email!"
-                ) as Throwable
+
+                throw EmailNotVerifiedException()
             }
+
+            Unit
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.domain.repository.login
+package com.example.domain.repository
 
 import com.example.betteryou.domain.common.Resource
 import kotlinx.coroutines.flow.Flow
