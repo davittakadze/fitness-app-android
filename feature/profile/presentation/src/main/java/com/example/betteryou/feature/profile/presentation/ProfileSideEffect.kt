@@ -1,8 +1,10 @@
 package com.example.betteryou.feature.profile.presentation
 
+import com.example.betteryou.presentation.common.UiText
+
 sealed interface ProfileSideEffect {
 
-    data class ShowError(val message:String): ProfileSideEffect
+    data class ShowError(val message: UiText): ProfileSideEffect
 
     //camera side effects
     data object OpenGallery : ProfileSideEffect

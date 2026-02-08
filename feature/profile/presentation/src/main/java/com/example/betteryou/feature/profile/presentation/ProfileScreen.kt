@@ -3,7 +3,6 @@ package com.example.betteryou.feature.profile.presentation
 import android.Manifest
 import android.content.Context
 import android.net.Uri
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -23,9 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -70,6 +67,8 @@ import com.example.betteryou.core_ui.util.components.calendar.YearPickerDialog
 import java.time.LocalDate
 import com.example.betteryou.feature.profile.presentation.model.Sex
 import com.example.betteryou.feature.profile.presentation.model.UserUi
+import com.example.betteryou.presentation.snackbar.SnackBarController
+import com.example.betteryou.presentation.snackbar.SnackbarEvent
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -126,7 +125,11 @@ fun ProfileScreen(
                 }
 
                 is ProfileSideEffect.ShowError -> {
-                 Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                    SnackBarController.sendEvent(
+                        SnackbarEvent(
+                            message = effect.message.asString(context)
+                        )
+                    )
                 }
             }
         }
@@ -366,7 +369,7 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                 }
             )
         }
-        if(state.isLoading) {
+        if (state.isLoading) {
             TBCAppCircularProgress(Modifier.align(Alignment.Center))
         }
     }

@@ -9,17 +9,19 @@ import com.example.betteryou.feature.profile.presentation.mapper.toDomain
 import com.example.betteryou.feature.profile.presentation.mapper.toPresentation
 import com.example.betteryou.feature.profile.presentation.model.UserUi
 import com.example.betteryou.presentation.common.BaseViewModel
+import com.example.betteryou.presentation.common.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 import java.time.YearMonth
+import com.example.betteryou.core_res.R
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val uploadUseCase: UploadUserInfoUseCase,
-    private val getUserInfoUseCase: GetUserInfoUseCase
+    private val getUserInfoUseCase: GetUserInfoUseCase,
 ) :
     BaseViewModel<ProfileState, ProfileEvent, ProfileSideEffect>(ProfileState()) {
     private var pendingCameraUri: Uri? = null
@@ -30,7 +32,7 @@ class ProfileViewModel @Inject constructor(
                 when (result) {
                     is Resource.Success -> {
                         result.data?.let { user ->
-                            val userUi=user.toPresentation()
+                            val userUi = user.toPresentation()
                             updateState {
                                 copy(
                                     firstName = userUi.firstName.orEmpty(),
@@ -45,9 +47,15 @@ class ProfileViewModel @Inject constructor(
                             }
                         }
                     }
+
                     is Resource.Error -> {
-                        emitSideEffect(ProfileSideEffect.ShowError(result.errorMessage))
+                        emitSideEffect(
+                            ProfileSideEffect.ShowError(
+                                UiText.DynamicString(result.errorMessage)
+                            )
+                        )
                     }
+
                     is Resource.Loader -> {
                         updateState { copy(isLoading = result.isLoading) }
                     }
@@ -191,19 +199,30 @@ class ProfileViewModel @Inject constructor(
                     when (result) {
                         is Resource.Error -> {
                             updateState { copy(isLoading = false) }
-                            emitSideEffect(ProfileSideEffect.ShowError(result.errorMessage))
+                            emitSideEffect(
+                                ProfileSideEffect.ShowError(
+                                    UiText.DynamicString(result.errorMessage)
+                                )
+                            )
                         }
+
                         is Resource.Loader -> {
                             updateState { copy(isLoading = result.isLoading) }
                         }
+
                         is Resource.Success -> {
                             updateState { copy(isLoading = false) }
-                            emitSideEffect(ProfileSideEffect.ShowError("Profile updated successfully"))
+                            emitSideEffect(
+                                ProfileSideEffect.ShowError(
+                                    UiText.StringResource(R.string.profile_updated)
+                                )
+                            )
                         }
                     }
                 }
         }
     }
+
     fun getBirthDateFromAge(age: Int?): LocalDate {
         return LocalDate.now().minusYears(age!!.toLong())
     }

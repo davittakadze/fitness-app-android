@@ -21,9 +21,6 @@ import com.betteryou.feature.register.presentation.register.navigation.registerN
 import com.example.betteryou.presentation.navigation.MainRoute
 import com.example.betteryou.presentation.navigation.ProfileRoute
 import com.example.betteryou.presentation.navigation.SplashRoute
-import com.example.betteryou.presentation.screen.register.navigation.registerNavGraph
-import com.example.betteryou.presentation.screen.profile.navigation.ProfileRoute
-import com.example.betteryou.presentation.screen.profile.navigation.profileNavGraph
 import com.example.betteryou.presentation.snackbar.ObserveAsEvents
 import com.example.betteryou.presentation.snackbar.SnackBarController
 import com.example.presentation.login.navigation.logInNavGraph
