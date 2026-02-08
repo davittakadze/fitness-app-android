@@ -16,10 +16,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.example.betteryou.feature.profile.presentation.navigation.profileNavGraph
 import com.betteryou.feature.register.presentation.register.navigation.registerNavGraph
+import com.example.betteryou.feature.profile.presentation.navigation.profileNavGraph
+import com.example.betteryou.feature.settings.presentation.navigation.settingsNavGraph
 import com.example.betteryou.presentation.navigation.MainRoute
-import com.example.betteryou.presentation.navigation.ProfileRoute
+import com.example.betteryou.presentation.navigation.SettingsRoute
 import com.example.betteryou.presentation.navigation.SplashRoute
 import com.example.betteryou.presentation.snackbar.ObserveAsEvents
 import com.example.betteryou.presentation.snackbar.SnackBarController
@@ -58,7 +59,7 @@ fun TBCAppTheme() {
     val showBottomBar = navBackStackEntry
         ?.destination
         ?.hierarchy
-        ?.any { it.route == ProfileRoute::class.qualifiedName } == true
+        ?.any { it.route == SettingsRoute::class.qualifiedName } == true
 
 
     ObserveAsEvents(
@@ -102,8 +103,9 @@ fun TBCAppTheme() {
             logInNavGraph(navController)
             registerNavGraph(navController)
             navigation<MainRoute>(
-                startDestination = ProfileRoute
+                startDestination = SettingsRoute
             ) {
+                settingsNavGraph(navController)
                 profileNavGraph(navController)
             }
         }

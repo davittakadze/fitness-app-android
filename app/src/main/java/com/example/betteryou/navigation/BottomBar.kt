@@ -19,6 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.betteryou.core_res.R
 import com.example.betteryou.core_ui.local_theme.LocalTBCColors
 import com.example.betteryou.presentation.navigation.ProfileRoute
+import com.example.betteryou.presentation.navigation.SettingsRoute
 
 @Composable
 fun BottomBar(
@@ -29,8 +30,8 @@ fun BottomBar(
 
     val tabs = listOf(
         BottomTab(
-           ProfileRoute::class.simpleName!!,
-           R.drawable.profile_svgrepo_com_2
+            SettingsRoute::class.simpleName!!,
+           R.drawable.settings_svgrepo_com
         )
     )
     Box(
