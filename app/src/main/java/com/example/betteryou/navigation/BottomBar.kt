@@ -18,7 +18,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.betteryou.core_res.R
 import com.example.betteryou.core_ui.local_theme.LocalTBCColors
-import com.example.betteryou.presentation.screen.profile.navigation.ProfileRoute
+import com.example.betteryou.presentation.navigation.ProfileRoute
 
 @Composable
 fun BottomBar(

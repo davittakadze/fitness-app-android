@@ -16,9 +16,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.example.betteryou.feature.profile.presentation.navigation.profileNavGraph
 import com.betteryou.feature.register.presentation.register.navigation.registerNavGraph
 import com.example.betteryou.presentation.navigation.MainRoute
+import com.example.betteryou.presentation.navigation.ProfileRoute
 import com.example.betteryou.presentation.navigation.SplashRoute
+import com.example.betteryou.presentation.screen.register.navigation.registerNavGraph
 import com.example.betteryou.presentation.screen.profile.navigation.ProfileRoute
 import com.example.betteryou.presentation.screen.profile.navigation.profileNavGraph
 import com.example.betteryou.presentation.snackbar.ObserveAsEvents

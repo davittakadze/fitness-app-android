@@ -13,7 +13,6 @@ android {
 
     defaultConfig {
         minSdk = 28
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -58,8 +57,10 @@ dependencies {
     implementation(libs.androidx.datastore.core)
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
-    implementation(platform("com.google.firebase:firebase-bom:34.7.0"))
-    implementation("com.google.firebase:firebase-auth")
+    annotationProcessor(libs.androidx.room.compiler)
+    implementation("com.google.firebase:firebase-auth:22.1.1")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.8.1")
+    implementation("com.google.firebase:firebase-storage-ktx:20.2.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

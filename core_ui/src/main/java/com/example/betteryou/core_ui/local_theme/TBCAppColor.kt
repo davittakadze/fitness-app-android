@@ -13,7 +13,8 @@ data class TBCAppColors(
     val textSecondary: Color,
     val border: Color,
     val accent: Color,
-    val avatarBorder:Color
+    val avatarBorder:Color,
+    val transparentBack:Color = Color.Transparent
 )
 
 val LightAppColors = TBCAppColors(
