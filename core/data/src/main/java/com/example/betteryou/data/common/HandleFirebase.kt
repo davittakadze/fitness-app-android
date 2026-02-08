@@ -1,5 +1,6 @@
 package com.example.betteryou.data.common
 
+import com.example.betteryou.data.exception.EmailNotVerifiedException
 import com.example.betteryou.domain.common.Resource
 import com.google.firebase.auth.FirebaseAuthException
 import kotlinx.coroutines.flow.flow
@@ -22,6 +23,8 @@ class HandleFirebase @Inject constructor() {
 
                 is FirebaseAuthException ->
                     e.message ?: "firebase authentication error"
+
+                is EmailNotVerifiedException -> "email not verified"
 
                 else ->
                     e.message ?: "unknown exception"

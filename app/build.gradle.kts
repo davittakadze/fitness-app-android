@@ -135,6 +135,9 @@ dependencies {
     implementation(projects.feature.profile.presentation)
     implementation(projects.feature.profile.data)
     implementation(projects.feature.profile.domain)
+    implementation(projects.feature.register.presentation)
+    implementation(projects.feature.register.data)
+    implementation(projects.feature.register.domain)
 }
 protobuf {
     protoc {
