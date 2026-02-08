@@ -12,7 +12,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 28
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -42,7 +42,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -64,7 +63,9 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(projects.core.presentation)
     implementation(projects.core.domain)
-    implementation(projects.feature.menu.domain)
+    implementation(projects.feature.profile.domain)
     implementation(projects.coreRes)
     implementation(projects.coreUi)
+    implementation(projects.feature.profile.data)
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
 }

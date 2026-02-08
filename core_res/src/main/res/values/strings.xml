@@ -26,6 +26,13 @@
     <string name="log_out">Log out</string>
     <string name="delete_account">Delete account</string>
     <string name="date_format">DD / MM / YYYY</string>
-    <string name="height_placeholder">170cm</string>
-    <string name="weight_placeholder">60kg</string>
+    <string name="height_placeholder">170</string>
+    <string name="weight_placeholder">60</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="select_month">Select month</string>
+    <string name="next_month">Next month</string>
+    <string name="previous_month">Previous month</string>
+    <string name="take_photo">Take a photo</string>
+    <string name="choose_from_gallery">Choose from gallery</string>
+    <string name="cancel">Cancel</string>
 </resources>

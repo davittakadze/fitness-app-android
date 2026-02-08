@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -34,12 +33,12 @@ fun ThinTBCAppTextField(
     onValueChange: (String) -> Unit,
     placeholder: String,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true
+    enabled: Boolean = true,
 ) {
     var isFocused by remember { mutableStateOf(false) }
 
     val backgroundColor =
-        if (!isFocused && value.isEmpty())
+        if (!isFocused)
             LocalTBCColors.current.surface.copy(alpha = 0.6f)
         else
             LocalTBCColors.current.surface
@@ -49,6 +48,7 @@ fun ThinTBCAppTextField(
             LocalTBCColors.current.accent
         else
             LocalTBCColors.current.avatarBorder
+
 
     BasicTextField(
         value = value,
@@ -77,9 +77,9 @@ fun ThinTBCAppTextField(
                         shape = Radius.radius12
                     )
                     .padding(
-                    horizontal = 12.dp,
-                    vertical = 6.dp
-                )
+                        horizontal = 12.dp,
+                        vertical = 6.dp
+                    )
             ) {
 
                 Box(Modifier.weight(1f)) {
@@ -93,7 +93,7 @@ fun ThinTBCAppTextField(
                     innerTextField()
                 }
 
-                if (!isFocused && value.isEmpty()) {
+                if (!isFocused) {
                     Icon(
                         painter = painterResource(R.drawable.pencil_edit_button_svgrepo_com),
                         contentDescription = null,
@@ -105,3 +105,4 @@ fun ThinTBCAppTextField(
         }
     )
 }
+

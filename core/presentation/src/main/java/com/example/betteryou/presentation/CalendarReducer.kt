@@ -1,12 +1,12 @@
 package com.example.betteryou.presentation
 
-fun reduceCalendarState(
-    state: CalendarUiState,
+import java.time.YearMonth
+
+fun reduceMonth(
+    currentMonth: YearMonth,
     action: CalendarAction
-): CalendarUiState =
+): YearMonth =
     when (action) {
-        CalendarAction.PreviousMonth ->
-            state.copy(currentMonth = state.currentMonth.minusMonths(1))
-        CalendarAction.NextMonth ->
-            state.copy(currentMonth = state.currentMonth.plusMonths(1))
+        CalendarAction.PreviousMonth -> currentMonth.minusMonths(1)
+        CalendarAction.NextMonth -> currentMonth.plusMonths(1)
     }
