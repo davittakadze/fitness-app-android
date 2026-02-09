@@ -23,8 +23,4 @@ class GoogleSignUpRepositoryImpl @Inject constructor(
                 .await()
         }
     }
-
-    override fun signOut() {
-        //...
-    }
 }

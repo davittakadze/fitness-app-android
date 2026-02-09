@@ -63,4 +63,7 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.coreRes)
     implementation(projects.coreUi)
+    implementation("androidx.datastore:datastore-preferences:1.1.0")
+    implementation(projects.feature.settings.domain)
+    implementation(projects.feature.settings.data)
 }

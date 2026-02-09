@@ -45,4 +45,5 @@ sealed interface ProfileEvent {
     //upload events
     data class SaveChanges(val user: UserUi): ProfileEvent
 
+    data object OnBackClick:ProfileEvent
 }

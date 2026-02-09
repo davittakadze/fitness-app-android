@@ -189,6 +189,7 @@ class ProfileViewModel @Inject constructor(
             }
 
             is ProfileEvent.SaveChanges -> uploadUserProfile(event.user)
+            ProfileEvent.OnBackClick -> emitSideEffect(ProfileSideEffect.OnBackClick)
         }
     }
 

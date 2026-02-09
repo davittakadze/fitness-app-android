@@ -8,7 +8,11 @@ import com.example.betteryou.presentation.navigation.ProfileRoute
 
 fun NavGraphBuilder.profileNavGraph(navController: NavController){
     composable<ProfileRoute> {
-        ProfileScreen()
+        ProfileScreen(
+            onBackClick = {
+                navController.popBackStack()
+            }
+        )
     }
 }
 

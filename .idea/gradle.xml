@@ -35,6 +35,8 @@
             <option value="$PROJECT_DIR$/feature/register/domain" />
             <option value="$PROJECT_DIR$/feature/register/presentation" />
             <option value="$PROJECT_DIR$/feature/settings" />
+            <option value="$PROJECT_DIR$/feature/settings/data" />
+            <option value="$PROJECT_DIR$/feature/settings/domain" />
             <option value="$PROJECT_DIR$/feature/settings/presentation" />
             <option value="$PROJECT_DIR$/feature/splash" />
             <option value="$PROJECT_DIR$/feature/splash/data" />

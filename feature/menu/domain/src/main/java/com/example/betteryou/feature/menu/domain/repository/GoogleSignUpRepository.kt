@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface GoogleSignUpRepository {
     suspend fun signInWithGoogle(idToken: String): Flow<Resource<Unit>>
-    fun signOut()
+
 }

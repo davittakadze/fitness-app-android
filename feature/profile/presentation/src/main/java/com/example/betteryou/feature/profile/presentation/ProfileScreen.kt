@@ -26,6 +26,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
@@ -75,6 +77,7 @@ import kotlinx.datetime.toLocalDateTime
 
 @Composable
 fun ProfileScreen(
+    onBackClick:()->Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -131,6 +134,10 @@ fun ProfileScreen(
                         )
                     )
                 }
+
+                ProfileSideEffect.OnBackClick -> {
+                    onBackClick()
+                }
             }
         }
     }
@@ -148,10 +155,10 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                 .fillMaxSize()
                 .background(LocalTBCColors.current.background)
                 .padding(
-                    top = Spacer.spacing64,
+                    top = Spacer.spacing48,
                     start = Spacer.spacing24,
                     end = Spacer.spacing24,
-                    bottom = Spacer.spacing64
+                    bottom = Spacer.spacing48
                 )
                 .clickable(
                     indication = null,
@@ -160,7 +167,21 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                     focusManager.clearFocus()
                 }
         ) {
-            Spacer(modifier = Modifier.height(Spacer.spacing16))
+            IconButton(
+                onClick = {
+                    onEvent(OnBackClick)
+                },
+                Modifier.padding(4.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.left_arrow_svgrepo_com),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp),
+                    tint = LocalTBCColors.current.onBackground
+                )
+            }
+
+            Spacer(modifier = Modifier.height(Spacer.spacing12))
 
             Text(
                 text = stringResource(R.string.profile),
@@ -168,7 +189,7 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                 color = LocalTBCColors.current.onBackground
             )
 
-            Spacer(modifier = Modifier.height(Spacer.spacing48))
+            Spacer(modifier = Modifier.height(Spacer.spacing32))
 
             Box(
                 contentAlignment = Alignment.Center,
@@ -179,7 +200,7 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(560.dp),
+                        .height(530.dp),
 
                     shape = Radius.radius16,
 
@@ -335,7 +356,7 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                     fallback = painterResource(R.mipmap.user),
                     modifier = Modifier
                         .size(Spacer.spacing100)
-                        .offset(0.dp, (-270).dp)
+                        .offset(0.dp, (-255).dp)
                         .clip(CircleShape)
                         .border(
                             3.dp,

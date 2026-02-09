@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,32 +30,33 @@ import com.example.betteryou.core_ui.local_theme.LocalTBCTypography
 import com.example.betteryou.core_ui.util.Radius
 import com.example.betteryou.core_ui.util.Spacer
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Switch
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.betteryou.core_ui.util.components.TBCAppSwitch
 import com.example.betteryou.presentation.extensions.CollectSideEffects
 
 @Composable
 fun SettingsScreen(
-    onProfileClick:()-> Unit,
-    viewModel: SettingsViewModel=hiltViewModel()
+    onProfileClick: () -> Unit,
+    onNavigateToMenu: () -> Unit,
+    viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-    SettingsContent(viewModel::onEvent,state)
-    viewModel.sideEffect.CollectSideEffects { effect->
-        when(effect){
+    SettingsContent(viewModel::onEvent, state)
+    viewModel.sideEffect.CollectSideEffects { effect ->
+        when (effect) {
             is SettingSideEffects.NavigateToProfile -> {
                 onProfileClick()
             }
+
             is SettingSideEffects.ShowError -> {
 
+            }
+
+            SettingSideEffects.NavigateToMenu -> {
+                onNavigateToMenu()
             }
         }
     }
@@ -64,7 +65,7 @@ fun SettingsScreen(
 @Composable
 fun SettingsContent(
     onEvent: (SettingsEvent) -> Unit,
-    state: SettingsState
+    state: SettingsState,
 ) {
     Column(
         Modifier
@@ -85,7 +86,7 @@ fun SettingsContent(
                 title = stringResource(R.string.profile),
                 textColor = LocalTBCColors.current.onBackground,
                 leadingIcon = painterResource(R.drawable.profile_svgrepo_com_3),
-                onClick = {onEvent(SettingsEvent.OnProfileClick)}
+                onClick = { onEvent(SettingsEvent.OnProfileClick) }
             )
         }
 
@@ -97,7 +98,7 @@ fun SettingsContent(
                 textColor = LocalTBCColors.current.onBackground,
                 leadingIcon = painterResource(R.drawable.crescent_moon_svgrepo_com),
                 trailingContent = {
-                    NotificationSwitch(
+                    TBCAppSwitch(
                         checked = state.isDarkThemeEnabled,
                         onCheckedChange = {
                             onEvent(SettingsEvent.OnDarkThemeChanged(it))
@@ -114,18 +115,13 @@ fun SettingsContent(
                 title = stringResource(R.string.log_out),
                 textColor = LocalTBCColors.current.destructiveColor,
                 showArrow = false,
-                onClick = {}
+                onClick = { onEvent(SettingsEvent.OnLogOutClick) }
             )
             SettingsItem(
                 title = stringResource(R.string.delete_account),
                 textColor = LocalTBCColors.current.destructiveColor,
                 showArrow = false,
-                onClick = {}
-            )
-            SettingsItem(
-                title = stringResource(R.string.change_password),
-                textColor = LocalTBCColors.current.destructiveColor,
-                onClick = {}
+                onClick = { onEvent(SettingsEvent.OnDeleteAccountClick) }
             )
         }
 
@@ -141,7 +137,7 @@ fun SettingsItem(
     leadingIcon: Painter? = null,
     trailingIcon: Painter? = null,
     trailingContent: @Composable (() -> Unit)? = null,
-    onClick: () -> Unit?={},
+    onClick: () -> Unit? = {},
 ) {
 
     Column {
@@ -195,9 +191,9 @@ fun SettingsItem(
         }
 
         if (showDivider) {
-            Divider(
-                thickness = 0.5.dp,
-                color = LocalTBCColors.current.primary.copy(alpha = 0.08f)
+            HorizontalDivider(
+                Modifier, 0.5.dp,
+                LocalTBCColors.current.primary.copy(alpha = 0.08f)
             )
         }
     }
@@ -225,24 +221,11 @@ fun SettingsSection(
     }
 }
 
-@Composable
-fun NotificationSwitch(
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
-) {
-    Switch(
-        checked = checked,
-        onCheckedChange = onCheckedChange,
-        modifier = Modifier.scale(0.9f)
-    )
-}
-
-
 
 @Preview(showBackground = true)
 @Composable
 fun SettingsScreenPreview() {
     TBCTheme {
-        SettingsContent({},SettingsState())
+        SettingsContent({}, SettingsState())
     }
 }
