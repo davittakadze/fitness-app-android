@@ -42,6 +42,7 @@
             <option value="$PROJECT_DIR$/feature/splash/data" />
             <option value="$PROJECT_DIR$/feature/splash/domain" />
             <option value="$PROJECT_DIR$/feature/splash/presentation" />
+            <option value="$PROJECT_DIR$/util" />
           </set>
         </option>
       </GradleProjectSettings>

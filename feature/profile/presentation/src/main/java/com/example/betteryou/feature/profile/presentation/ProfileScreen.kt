@@ -28,7 +28,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,19 +60,18 @@ import com.example.betteryou.core_res.R
 import com.example.betteryou.core_ui.util.Radius
 import com.example.betteryou.core_ui.util.components.AppButtonType
 import com.example.betteryou.core_ui.util.components.DatePickerRow
+import com.example.betteryou.core_ui.util.components.ImagePickerBottomSheet
 import com.example.betteryou.core_ui.util.components.TBCAppButton
 import com.example.betteryou.core_ui.util.components.TBCAppCircularProgress
 import com.example.betteryou.core_ui.util.components.ThinTBCAppTextField
 import com.example.betteryou.core_ui.util.components.calendar.MonthPicker
 import com.example.betteryou.core_ui.util.components.calendar.YearPickerDialog
-import java.time.LocalDate
 import com.example.betteryou.feature.profile.presentation.model.Sex
 import com.example.betteryou.feature.profile.presentation.model.UserUi
 import com.example.betteryou.presentation.snackbar.SnackBarController
 import com.example.betteryou.presentation.snackbar.SnackbarEvent
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import com.example.betteryou.util.calculateAge
+import com.example.betteryou.util.formatToString
 
 @Composable
 fun ProfileScreen(
@@ -534,44 +532,6 @@ fun CalendarBottomSheet(
     }
 }
 
-
-@Preview
-@Composable
-fun ProfileScreenPreview() {
-    TBCTheme {
-        ProfileContent(ProfileState()) {}
-    }
-}
-
-
-//util module-shi gasatani!
-fun LocalDate.formatToString(): String {
-    val day = this.dayOfMonth.toString().padStart(2, '0')
-    val month = this.month.ordinal + 1
-    val monthStr = month.toString().padStart(2, '0')
-    val year = this.year.toString()
-
-    return "$day/$monthStr/$year"
-}
-
-fun calculateAge(birthDate: LocalDate): Int {
-    val today = Clock.System.now()
-        .toLocalDateTime(TimeZone.currentSystemDefault())
-        .date
-
-    var age = today.year - birthDate.year
-
-    if (
-        today.month < birthDate.month ||
-        (today.month == birthDate.month &&
-                today.dayOfMonth < birthDate.dayOfMonth)
-    ) {
-        age--
-    }
-
-    return age
-}
-
 fun createImageUri(context: Context): Uri {
     val file = File(
         context.cacheDir,
@@ -584,58 +544,10 @@ fun createImageUri(context: Context): Uri {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@Preview
 @Composable
-fun ImagePickerBottomSheet(
-    onGalleryClick: () -> Unit,
-    onCameraClick: () -> Unit,
-    onDismiss: () -> Unit,
-) {
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        containerColor = LocalTBCColors.current.background
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = Spacer.spacing16)
-        ) {
-
-            BottomSheetItem(
-                text = stringResource(R.string.choose_from_gallery),
-                onClick = onGalleryClick
-            )
-
-            BottomSheetItem(
-                text = stringResource(R.string.take_photo),
-                onClick = onCameraClick
-            )
-
-            BottomSheetItem(
-                text = stringResource(R.string.cancel),
-                onClick = onDismiss
-            )
-
-            Spacer(modifier = Modifier.height(Spacer.spacing8))
-        }
+fun ProfileScreenPreview() {
+    TBCTheme {
+        ProfileContent(ProfileState()) {}
     }
-}
-
-@Composable
-fun BottomSheetItem(
-    text: String,
-    onClick: () -> Unit,
-) {
-    Text(
-        text = text,
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(
-                vertical = Spacer.spacing16,
-                horizontal = Spacer.spacing24
-            ),
-        style = MaterialTheme.typography.bodyLarge,
-        color = LocalTBCColors.current.onBackground
-    )
 }
