@@ -63,9 +63,9 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(projects.core.presentation)
     implementation(projects.core.domain)
-    implementation(projects.feature.profile.domain)
     implementation(projects.coreRes)
     implementation(projects.coreUi)
     implementation(projects.feature.profile.data)
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
+    implementation(projects.feature.profile.domain)
 }

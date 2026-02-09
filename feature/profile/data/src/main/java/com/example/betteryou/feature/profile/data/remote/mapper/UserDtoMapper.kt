@@ -2,7 +2,6 @@ package com.example.betteryou.feature.profile.data.remote.mapper
 
 import com.example.betteryou.data.local.room.entity.UserEntity
 import com.example.betteryou.feature.profile.data.remote.model.UserDto
-import androidx.core.net.toUri
 
 fun UserDto.toEntity(): UserEntity{
     return UserEntity(
@@ -13,7 +12,7 @@ fun UserDto.toEntity(): UserEntity{
         this.gender,
         this.height,
         this.weight,
-        profilePhotoUrl = this.photoUrl?.toString()
+        profilePhotoUrl = this.photoUrl
     )
 }
 
@@ -25,7 +24,7 @@ fun UserEntity.toDto(): UserDto = UserDto(
     gender = this.gender,
     height = this.height,
     weight = this.weight,
-    photoUrl = this.profilePhotoUrl?.toUri()
+    photoUrl = this.profilePhotoUrl
 )
 
 

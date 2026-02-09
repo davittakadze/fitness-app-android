@@ -3,8 +3,6 @@ package com.example.betteryou.feature.profile.data.repository
 import com.example.betteryou.data.common.HandleFirebase
 import com.example.betteryou.data.local.room.dao.UserDao
 import com.example.betteryou.domain.common.Resource
-import com.example.betteryou.feature.domain.model.User
-import com.example.betteryou.feature.domain.repository.UserProfileRepository
 import com.example.betteryou.feature.profile.data.remote.mapper.toDto
 import com.example.betteryou.feature.profile.data.remote.mapper.toEntity
 import com.google.firebase.auth.FirebaseAuth
@@ -16,6 +14,8 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import androidx.core.net.toUri
+import com.example.betteryou.feature.profile.domain.model.User
+import com.example.betteryou.feature.profile.domain.repository.UserProfileRepository
 
 class UserRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
@@ -32,7 +32,8 @@ class UserRepositoryImpl @Inject constructor(
         var entity = user.toDto().copy(id = userId).toEntity()
 
         var photoUrl: String? = null
-        user.photoUrl?.let { uri ->
+        user.photoUrl?.let { uriString ->
+            val uri = uriString.toUri()
             val ref = storage.reference.child("profile_photos/$userId.jpg")
             ref.putFile(uri).await()
             photoUrl = ref.downloadUrl.await().toString()
@@ -80,7 +81,7 @@ class UserRepositoryImpl @Inject constructor(
             gender = doc.getString("sex"),
             height = doc.getDouble("height")?.toFloat(),
             weight = doc.getDouble("weight")?.toFloat(),
-            photoUrl = doc.getString("profilePhotoUrl")?.toUri()
+            photoUrl = doc.getString("profilePhotoUrl")
         )
     }
 

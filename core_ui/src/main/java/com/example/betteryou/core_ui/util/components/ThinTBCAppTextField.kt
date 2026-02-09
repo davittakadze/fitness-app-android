@@ -34,6 +34,7 @@ fun ThinTBCAppTextField(
     placeholder: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    numbersOnly: Boolean = false
 ) {
     var isFocused by remember { mutableStateOf(false) }
 
@@ -52,7 +53,10 @@ fun ThinTBCAppTextField(
 
     BasicTextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { input ->
+            val filtered = if (numbersOnly) input.filter { it.isDigit() } else input
+            onValueChange(filtered)
+        },
         enabled = enabled,
         singleLine = true,
         textStyle = LocalTBCTypography.current.bodyLarge.copy(

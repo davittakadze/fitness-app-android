@@ -1,7 +1,7 @@
 package com.example.betteryou.feature.profile.data.remote.mapper
 
-import com.example.betteryou.feature.domain.model.User
 import com.example.betteryou.feature.profile.data.remote.model.UserDto
+import com.example.betteryou.feature.profile.domain.model.User
 
 fun User.toDto(): UserDto{
     return UserDto(

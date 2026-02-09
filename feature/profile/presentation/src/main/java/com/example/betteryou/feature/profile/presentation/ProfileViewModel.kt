@@ -3,8 +3,6 @@ package com.example.betteryou.feature.profile.presentation
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.example.betteryou.domain.common.Resource
-import com.example.betteryou.feature.domain.usecase.GetUserInfoUseCase
-import com.example.betteryou.feature.domain.usecase.UploadUserInfoUseCase
 import com.example.betteryou.feature.profile.presentation.mapper.toDomain
 import com.example.betteryou.feature.profile.presentation.mapper.toPresentation
 import com.example.betteryou.feature.profile.presentation.model.UserUi
@@ -17,11 +15,15 @@ import java.time.LocalDate
 import javax.inject.Inject
 import java.time.YearMonth
 import com.example.betteryou.core_res.R
+import com.example.betteryou.feature.profile.domain.usecase.usecase.GetUserInfoUseCase
+import com.example.betteryou.feature.profile.domain.usecase.usecase.UploadUserInfoUseCase
+import com.example.betteryou.feature.profile.domain.usecase.validator.AgeValidatorUseCase
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val uploadUseCase: UploadUserInfoUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,
+    private val validator: AgeValidatorUseCase,
 ) :
     BaseViewModel<ProfileState, ProfileEvent, ProfileSideEffect>(ProfileState()) {
     private var pendingCameraUri: Uri? = null
@@ -195,34 +197,45 @@ class ProfileViewModel @Inject constructor(
 
     private fun uploadUserProfile(user: UserUi) {
         viewModelScope.launch {
-            uploadUseCase(user.toDomain())
-                .collectLatest { result ->
-                    when (result) {
-                        is Resource.Error -> {
-                            updateState { copy(isLoading = false) }
-                            emitSideEffect(
-                                ProfileSideEffect.ShowError(
-                                    UiText.DynamicString(result.errorMessage)
+            if ( state.value.selectedDate==null||validator(user.age!!)) {
+                uploadUseCase(user.toDomain())
+                    .collectLatest { result ->
+                        when (result) {
+                            is Resource.Error -> {
+                                updateState { copy(isLoading = false) }
+                                emitSideEffect(
+                                    ProfileSideEffect.ShowError(
+                                        UiText.DynamicString(
+                                            result.errorMessage
+                                        )
+                                    )
                                 )
-                            )
-                        }
+                            }
 
-                        is Resource.Loader -> {
-                            updateState { copy(isLoading = result.isLoading) }
-                        }
+                            is Resource.Loader -> {
+                                updateState { copy(isLoading = result.isLoading) }
+                            }
 
-                        is Resource.Success -> {
-                            updateState { copy(isLoading = false) }
-                            emitSideEffect(
-                                ProfileSideEffect.ShowError(
-                                    UiText.StringResource(R.string.profile_updated)
+                            is Resource.Success -> {
+                                updateState { copy(isLoading = false) }
+                                emitSideEffect(
+                                    ProfileSideEffect.ShowError(
+                                        UiText.StringResource(R.string.profile_updated)
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
-                }
+            } else {
+                emitSideEffect(
+                    ProfileSideEffect.ShowError(
+                        UiText.StringResource(R.string.invalid_age)
+                    )
+                )
+            }
         }
     }
+
 
     fun getBirthDateFromAge(age: Int?): LocalDate {
         return LocalDate.now().minusYears(age!!.toLong())

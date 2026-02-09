@@ -1,6 +1,7 @@
 package com.example.betteryou.feature.profile.presentation.mapper
 
-import com.example.betteryou.feature.domain.model.User
+import androidx.core.net.toUri
+import com.example.betteryou.feature.profile.domain.model.User
 import com.example.betteryou.feature.profile.presentation.model.Sex
 import com.example.betteryou.feature.profile.presentation.model.UserUi
 
@@ -12,7 +13,7 @@ fun UserUi.toDomain(): User {
         gender = gender.toString().lowercase(),
         height = height,
         weight = weight,
-        photoUrl = photoUrl
+        photoUrl = photoUrl?.toString()
     )
 }
 
@@ -28,6 +29,6 @@ fun User.toPresentation(): UserUi {
         },
         this.height,
         this.weight,
-        this.photoUrl
+        this.photoUrl?.toUri()
     )
 }

@@ -321,7 +321,8 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                                     value = state.height,
                                     onValueChange = { onEvent(OnHeightChanged(it)) },
                                     placeholder = stringResource(R.string.height_placeholder),
-                                    modifier = Modifier.fillMaxWidth()
+                                    modifier = Modifier.fillMaxWidth(),
+                                    numbersOnly = true
                                 )
                             }
 
@@ -339,7 +340,8 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                                     value = state.weight,
                                     onValueChange = { onEvent(OnWeightChanged(it)) },
                                     placeholder = stringResource(R.string.weight_placeholder),
-                                    modifier = Modifier.fillMaxWidth()
+                                    modifier = Modifier.fillMaxWidth(),
+                                    numbersOnly = true
                                 )
                             }
                         }
@@ -381,8 +383,8 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                                 state.lastName,
                                 age = state.selectedDate?.let { calculateAge(it) } ?: 0,
                                 state.selectedSex,
-                                state.height.toFloat(),
-                                state.weight.toFloat(),
+                                state.height.toFloatOrNull(),
+                                state.weight.toFloatOrNull(),
                                 photoUrl = state.profilePhoto
                             )
                         )

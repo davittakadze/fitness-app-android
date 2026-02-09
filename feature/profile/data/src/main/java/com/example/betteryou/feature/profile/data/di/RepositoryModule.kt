@@ -1,7 +1,7 @@
 package com.example.betteryou.feature.profile.data.di
 
-import com.example.betteryou.feature.domain.repository.UserProfileRepository
 import com.example.betteryou.feature.profile.data.repository.UserRepositoryImpl
+import com.example.betteryou.feature.profile.domain.repository.UserProfileRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,6 +1,5 @@
-package com.example.betteryou.feature.domain.model
+package com.example.betteryou.feature.profile.domain.model
 
-import android.net.Uri
 
 data class User (
     val firstName: String?=null,
@@ -9,5 +8,5 @@ data class User (
     val gender: String?=null,
     val height: Float? = null,
     val weight: Float? = null,
-    val photoUrl: Uri? = null
+    val photoUrl: String? = null
 )

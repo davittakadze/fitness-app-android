@@ -1,7 +1,7 @@
-package com.example.betteryou.feature.domain.repository
+package com.example.betteryou.feature.profile.domain.repository
 
 import com.example.betteryou.domain.common.Resource
-import com.example.betteryou.feature.domain.model.User
+import com.example.betteryou.feature.profile.domain.model.User
 import kotlinx.coroutines.flow.Flow
 
 interface UserProfileRepository {
