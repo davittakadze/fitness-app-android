@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.betteryou.core_ui.TBCTheme
 import com.example.betteryou.navigation.TBCAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,7 +15,8 @@ class TBCActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TBCTheme {
+            val appViewModel: TBCAppViewModel = viewModel()
+            TBCTheme(darkTheme = appViewModel.isDarkTheme) {
                 TBCAppTheme()
             }
         }

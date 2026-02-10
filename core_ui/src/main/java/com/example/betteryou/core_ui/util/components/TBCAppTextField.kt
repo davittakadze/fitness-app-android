@@ -32,6 +32,7 @@ fun TBCAppTextField(
     keyboardType: KeyboardType = KeyboardType.Text,
     singleLine: Boolean = true,
     readOnly: Boolean = false,
+    numbersOnly: Boolean = false
 ) {
     val colors = LocalTBCColors.current
     val typography = LocalTBCTypography.current
@@ -47,7 +48,10 @@ fun TBCAppTextField(
 
     BasicTextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { input ->
+            val filtered = if (numbersOnly) input.filter { it.isDigit() } else input
+            onValueChange(filtered)
+        },
         singleLine = singleLine,
         readOnly = readOnly,
         textStyle = typography.bodyLarge.copy(

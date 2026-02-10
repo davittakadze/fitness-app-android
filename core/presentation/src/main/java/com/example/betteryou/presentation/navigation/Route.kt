@@ -16,3 +16,12 @@ data object LogInRoute
 
 @Serializable
 data object MenuRoute
+
+@Serializable
+data object ProfileRoute
+
+@Serializable
+data object SettingsRoute
+
+@Serializable
+data object DailyRoute

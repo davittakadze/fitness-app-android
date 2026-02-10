@@ -18,6 +18,8 @@
             <option value="$PROJECT_DIR$/core_res" />
             <option value="$PROJECT_DIR$/core_ui" />
             <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/daily" />
+            <option value="$PROJECT_DIR$/feature/daily/presentation" />
             <option value="$PROJECT_DIR$/feature/log_in" />
             <option value="$PROJECT_DIR$/feature/log_in/data" />
             <option value="$PROJECT_DIR$/feature/log_in/domain" />
@@ -26,14 +28,23 @@
             <option value="$PROJECT_DIR$/feature/menu/data" />
             <option value="$PROJECT_DIR$/feature/menu/domain" />
             <option value="$PROJECT_DIR$/feature/menu/presentation" />
+            <option value="$PROJECT_DIR$/feature/profile" />
+            <option value="$PROJECT_DIR$/feature/profile/data" />
+            <option value="$PROJECT_DIR$/feature/profile/domain" />
+            <option value="$PROJECT_DIR$/feature/profile/presentation" />
             <option value="$PROJECT_DIR$/feature/register" />
             <option value="$PROJECT_DIR$/feature/register/data" />
             <option value="$PROJECT_DIR$/feature/register/domain" />
             <option value="$PROJECT_DIR$/feature/register/presentation" />
+            <option value="$PROJECT_DIR$/feature/settings" />
+            <option value="$PROJECT_DIR$/feature/settings/data" />
+            <option value="$PROJECT_DIR$/feature/settings/domain" />
+            <option value="$PROJECT_DIR$/feature/settings/presentation" />
             <option value="$PROJECT_DIR$/feature/splash" />
             <option value="$PROJECT_DIR$/feature/splash/data" />
             <option value="$PROJECT_DIR$/feature/splash/domain" />
             <option value="$PROJECT_DIR$/feature/splash/presentation" />
+            <option value="$PROJECT_DIR$/util" />
           </set>
         </option>
       </GradleProjectSettings>

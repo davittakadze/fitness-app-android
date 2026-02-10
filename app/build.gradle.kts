@@ -132,9 +132,15 @@ dependencies {
     implementation(projects.feature.splash.data)
     implementation(projects.feature.splash.domain)
     implementation(projects.feature.splash.presentation)
+    implementation(projects.feature.profile.presentation)
+    implementation(projects.feature.profile.data)
     implementation(projects.feature.register.presentation)
     implementation(projects.feature.register.data)
     implementation(projects.feature.register.domain)
+    implementation(projects.feature.settings.presentation)
+    implementation(projects.core.domain)
+    implementation(projects.feature.profile.domain)
+    implementation(projects.feature.daily.presentation)
 }
 protobuf {
     protoc {

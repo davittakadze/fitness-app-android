@@ -3,9 +3,6 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="11">
       <module name="BetterYou.feature.login" target="21" />
-      <module name="BetterYou.feature.profile.data" target="21" />
-      <module name="BetterYou.feature.profile.domain" target="21" />
-      <module name="BetterYou.feature.profile.presentation" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -29,16 +29,18 @@
     <string name="weight_placeholder">60kg</string>
 
     <!-- Validations -->
-    <string name="age_validation">"Invalid age"</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="select_month">Select month</string>
+    <string name="next_month">Next month</string>
+    <string name="previous_month">Previous month</string>
+    <string name="take_photo">Take a photo</string>
+    <string name="choose_from_gallery">Choose from gallery</string>
+    <string name="cancel">Cancel</string>
     <string name="invalid_email">"Invalid email format"</string>
     <string name="password_mismatch">"Passwords do not match"</string>
     <string name="empty_fields">"Fields cannot be empty"</string>
     <string name="invalid_password">"Password must contain at least 6 characters"</string>
     <string name="gender_validation">"Please select a gender"</string>
-
-    <!-- Register flow -->
-    <string name="Next">Next</string>
-
 
     <!-- Activity levels -->
     <string name="low">Low</string>
@@ -49,29 +51,36 @@
     <string name="activity_screen_description">This will help us calculate your calories accurately</string>
 
     <!-- Basic Info Screen  -->
-    <string name="basic_screen_title">"Tell us about yourself"</string>
-    <string name="basic_screen_description">"Please enter your details to continue"</string>
-    <string name="your_name">"Your Name"</string>
+    <string name="basic_screen_title">Tell us about yourself</string>
+    <string name="basic_screen_description">Please enter your details to continue</string>
+    <string name="your_name">Your Name</string>
 
     <!-- Body Metrics Screen  -->
-    <string name="body_screen_title">"Let’s get your measurements"</string>
-    <string name="body_screen_description">"We need these details to calculate your Body Mass Index (BMI) and daily energy expenditure"</string>
+    <string name="body_screen_title">Let’s get your measurements</string>
+    <string name="body_screen_description">We need these details to calculate your Body Mass Index (BMI) and daily energy expenditure</string>
     <string name="weight">Weight (kg)</string>
     <string name="height">Height (cm)</string>
 
     <!-- Goal Setting Screen  -->
-    <string name="goal_screen_title">"What is your main goal?"</string>
-    <string name="goal_screen_description">"Select the option that best describes your objective"</string>
+    <string name="goal_screen_title">What is your main goal?</string>
+    <string name="goal_screen_description">Select the option that best describes your objective</string>
     <string name="lose_weight">Lose weight</string>
     <string name="keep_fit">Keep fit</string>
     <string name="gain_weight">Gain weight</string>
 
     <!-- Account Creation Screen   -->
-    <string name="account_creation_title">"Create your account"</string>
-    <string name="account_creation_description">"Secure your data and start your fitness journey"</string>
+    <string name="account_creation_title">Create your account</string>
+    <string name="account_creation_description">Secure your data and start your fitness journey</string>
 
 
 
 
 
+    <string name="profile_updated">Profile updated successfully</string>
+    <string name="account_deleted">Account deleted successfully</string>
+    <string name="settings">Settings</string>
+    <string name="dark_theme">Dark theme</string>
+    <string name="light_theme">Light theme</string>
+    <string name="change_password">Change password</string>
+    <string name="invalid_age">Invalid age!</string>
 </resources>
