@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.betteryou.core_ui.local_theme.LocalTBCColors
@@ -30,6 +31,7 @@ fun TBCAppTextField(
     placeholder: String,
     keyboardType: KeyboardType = KeyboardType.Text,
     singleLine: Boolean = true,
+    readOnly: Boolean = false,
     numbersOnly: Boolean = false
 ) {
     val colors = LocalTBCColors.current
@@ -51,19 +53,21 @@ fun TBCAppTextField(
             onValueChange(filtered)
         },
         singleLine = singleLine,
+        readOnly = readOnly,
         textStyle = typography.bodyLarge.copy(
             color = colors.textPrimary
         ),
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         interactionSource = interactionSource,
+        cursorBrush = SolidColor(colors.onBackground),
         modifier = modifier
             .fillMaxWidth()
             .height(52.dp)
             .background(colors.background, Radius.radius16)
             .border(
-                width = if(isFocused){
+                width = if (isFocused) {
                     2.dp
-                }else{
+                } else {
                     1.dp
                 },
                 color = borderColor,

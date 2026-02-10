@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import com.example.betteryou.presentation.navigation.LogInRoute
 import com.example.betteryou.presentation.navigation.MainRoute
 import com.example.betteryou.presentation.navigation.MenuRoute
-import com.example.betteryou.presentation.navigation.RegisterRoute
+import com.example.betteryou.presentation.navigation.RegistrationRoute
 import com.example.betteryou.presentation.snackbar.SnackBarController
 import com.example.betteryou.presentation.snackbar.SnackbarEvent
 import com.example.presentation.MenuScreen
@@ -65,7 +65,7 @@ fun NavGraphBuilder.menuNavGraph(
             },
 
             onRegisterClick = {
-                navController.navigate(RegisterRoute)
+                navController.navigate(RegistrationRoute.Graph)
             },
 
             onNavigateHome = {

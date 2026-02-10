@@ -36,38 +36,24 @@ class LogInViewModel @Inject constructor(
         val emailError = emailValidatorUseCase.invoke(email)
         val passwordError = passwordValidatorUseCase.invoke(password)
 
-        when {
-            emptyFieldsError -> {
-                emitSideEffect(
-                    LogInSideEffect.ShowError(
-                        UiText.StringResource(
-                            com.example.betteryou.core_res.R.string.empty_fields
-                        )
-                    )
-                )
-                return
-            }
-            !emailError -> {
-                emitSideEffect(
-                    LogInSideEffect.ShowError(
-                        UiText.StringResource(
-                            com.example.betteryou.core_res.R.string.invalid_email
-                        )
-                    )
-                )
-                return
-            }
-            passwordError -> {
-                emitSideEffect(
-                    LogInSideEffect.ShowError(
-                        UiText.StringResource(
-                            com.example.betteryou.core_res.R.string.invalid_password
-                        )
-                    )
-                )
-                return
-            }
+        val validationErrorResId = when {
+            emptyFieldsError -> com.example.betteryou.core_res.R.string.empty_fields
+            !emailError -> com.example.betteryou.core_res.R.string.invalid_email
+            passwordError -> com.example.betteryou.core_res.R.string.invalid_password
+            else -> null
         }
+
+        validationErrorResId?.let {
+            emitSideEffect(
+                LogInSideEffect.ShowError(
+                    UiText.StringResource(
+                        it
+                    )
+                )
+            )
+            return
+        }
+
 
         viewModelScope.launch {
             handleResponse(

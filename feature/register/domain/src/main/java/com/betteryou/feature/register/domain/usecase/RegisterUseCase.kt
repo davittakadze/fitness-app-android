@@ -1,5 +1,6 @@
 package com.betteryou.feature.register.domain.usecase
 
+import com.betteryou.feature.register.domain.model.RegisterUserInfo
 import com.betteryou.feature.register.domain.repository.RegisterRepository
 import com.example.betteryou.domain.common.Resource
 import kotlinx.coroutines.flow.Flow
@@ -10,51 +11,10 @@ class RegisterUseCase @Inject constructor(
     private val repository: RegisterRepository,
 ) {
     suspend operator fun invoke(
+        user: RegisterUserInfo,
         email: String,
         password: String,
-        password2: String,
     ): Flow<Resource<Unit>> {
-        if (email.isBlank() || password.isBlank()) {
-            return flow {
-                emit(
-                    Resource.Error(
-                        errorMessage = "Fill all of the fields!"
-                    )
-                )
-            }
-        }
-        val emailRegex =
-            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
-
-        if (!email.matches(emailRegex)) {
-            return flow {
-                emit(
-                    Resource.Error(
-                        errorMessage = "Invalid email!"
-                    )
-                )
-            }
-        }
-
-        if (password != password2) {
-            return flow {
-                emit(
-                    Resource.Error(
-                        errorMessage = "Passwords does not match!"
-                    )
-                )
-            }
-        }
-
-        if (password.length < 6) {
-            return flow {
-                emit(
-                    Resource.Error(
-                        errorMessage = "Password must be at least 6 characters!"
-                    )
-                )
-            }
-        }
-        return repository.registerUser(email, password)
+        return repository.registerUser(user = user, email = email, password = password)
     }
 }
