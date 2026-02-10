@@ -23,12 +23,6 @@ class LogInRepositoryImpl @Inject constructor(
 
             user?.reload()?.await()
 
-            if (user != null && !user.isEmailVerified) {
-                firebaseAuth.signOut()
-
-                throw EmailNotVerifiedException()
-            }
-
             Unit
         }
     }

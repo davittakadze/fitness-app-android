@@ -17,7 +17,7 @@ data class TBCAppColors(
     val surfaceVariant: Color,
     val primaryContainer: Color,
     val onPrimaryContainer: Color,
-    val outline: Color // ჩარჩოს ფერი
+    val outline: Color,
     val transparentBack:Color = Color.Transparent,
     val destructiveColor: Color=Color(0xFFD32F2F)
 )
