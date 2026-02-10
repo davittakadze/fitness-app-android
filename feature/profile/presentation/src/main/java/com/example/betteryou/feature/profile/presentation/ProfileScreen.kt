@@ -153,10 +153,10 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                 .fillMaxSize()
                 .background(LocalTBCColors.current.background)
                 .padding(
-                    top = Spacer.spacing48,
+                    top = Spacer.spacing32,
                     start = Spacer.spacing24,
                     end = Spacer.spacing24,
-                    bottom = Spacer.spacing48
+                    bottom = Spacer.spacing24
                 )
                 .clickable(
                     indication = null,
@@ -198,7 +198,7 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(530.dp),
+                        .height(500.dp),
 
                     shape = Radius.radius16,
 
@@ -214,7 +214,7 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(vertical = 64.dp, horizontal = 24.dp)
+                            .padding(top=64.dp, start = 24.dp, end = 24.dp,bottom=24.dp)
                     ) {
                         Row(
                             modifier = Modifier
@@ -356,7 +356,7 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                     fallback = painterResource(R.mipmap.user),
                     modifier = Modifier
                         .size(Spacer.spacing100)
-                        .offset(0.dp, (-255).dp)
+                        .offset(0.dp, (-240).dp)
                         .clip(CircleShape)
                         .border(
                             3.dp,
@@ -366,7 +366,7 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                 )
             }
 
-            Spacer(modifier = Modifier.height(Spacer.spacing24))
+            Spacer(modifier = Modifier.height(Spacer.spacing12))
 
 
             TBCAppButton(
