@@ -18,6 +18,8 @@
             <option value="$PROJECT_DIR$/core_res" />
             <option value="$PROJECT_DIR$/core_ui" />
             <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/daily" />
+            <option value="$PROJECT_DIR$/feature/daily/presentation" />
             <option value="$PROJECT_DIR$/feature/log_in" />
             <option value="$PROJECT_DIR$/feature/log_in/data" />
             <option value="$PROJECT_DIR$/feature/log_in/domain" />

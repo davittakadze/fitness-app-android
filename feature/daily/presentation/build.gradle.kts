@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.betteryou.feature.profile.presentation"
+    namespace = "com.example.betteryou.feature.daily.presentation"
     compileSdk = 36
 
     defaultConfig {
-        minSdk = 28
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -27,11 +27,6 @@ android {
             )
         }
     }
-
-    buildFeatures {
-        compose = true
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -43,6 +38,8 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material.v1130)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -65,10 +62,5 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.coreRes)
     implementation(projects.coreUi)
-    implementation(projects.feature.profile.data)
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
-    implementation(projects.feature.profile.domain)
     implementation(projects.util)
-    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
-    implementation("androidx.compose.foundation:foundation")
 }

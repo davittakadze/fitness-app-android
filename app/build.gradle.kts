@@ -140,6 +140,7 @@ dependencies {
     implementation(projects.feature.settings.presentation)
     implementation(projects.core.domain)
     implementation(projects.feature.profile.domain)
+    implementation(projects.feature.daily.presentation)
 }
 protobuf {
     protoc {

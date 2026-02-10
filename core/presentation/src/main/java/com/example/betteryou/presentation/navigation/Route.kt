@@ -22,3 +22,6 @@ data object ProfileRoute
 
 @Serializable
 data object SettingsRoute
+
+@Serializable
+data object DailyRoute
