@@ -17,5 +17,5 @@ dependencies {
     implementation("com.google.dagger:dagger:2.51")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
-    implementation(project(":core:domain"))
+    implementation(projects.core.domain)
 }

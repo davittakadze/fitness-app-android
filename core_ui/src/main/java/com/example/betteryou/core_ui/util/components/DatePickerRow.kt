@@ -30,10 +30,10 @@ import com.example.betteryou.core_ui.util.Spacer
 
 @Composable
 fun DatePickerRow(
+    modifier: Modifier = Modifier,
     label: String,
     valueText: String?,
     placeholder: String = "DD/MM/YYYY",
-    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     var isPressed by remember { mutableStateOf(false) }

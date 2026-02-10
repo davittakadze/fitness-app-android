@@ -1,7 +1,6 @@
 [versions]
 agp = "8.11.1"
 coil = "2.6.0"
-converterGson = "2.11.0"
 datastorePreferences = "1.1.7"
 kotlin = "2.0.21"
 coreKtx = "1.17.0"
@@ -29,7 +28,6 @@ datastoreCore = "1.2.0"
 dataStore="1.1.1"
 protobuf="3.23.4"
 viewpager2 = "1.1.0"
-firebaseStorageKtx = "22.0.1"
 activityCompose = "1.12.2"
 composeBom = "2024.09.00"
 navigationCompose = "2.9.6"
@@ -44,7 +42,6 @@ coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 androidx-core-splashscreen={group="androidx.core",name="core-splashscreen",version.ref="splashscreen"}
 androidx-lifecycle-runtime-ktx={group="androidx.lifecycle",name="lifecycle-runtime-ktx",version.ref="lifecycle"}
 androidx-lifecycle-viewmodel-ktx={group="androidx.lifecycle",name="lifecycle-viewmodel-ktx",version.ref="lifecycle"}
-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 androidx-navigation-fragment-ktx={group="androidx.navigation",name="navigation-fragment-ktx",version.ref="navigationVersion"}
@@ -68,7 +65,6 @@ androidx-paging-runtime-ktx = { group = "androidx.paging", name = "paging-runtim
 androidx-datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastoreCore" }
 androidx-dataStore = { module = "androidx.datastore:datastore", version.ref = "dataStore" }
 google-protobuf-kotlin-lite = { module = "com.google.protobuf:protobuf-kotlin-lite", version.ref = "protobuf" }
-firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }

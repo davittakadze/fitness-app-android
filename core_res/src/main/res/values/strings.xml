@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">homework3</string>
+    <string name="app_name">BetterYou</string>
     <string name="application_name">Guardian</string>
     <string name="login">Log In</string>
     <string name="register">Register</string>
@@ -7,14 +7,13 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
-    <string name="weight">Weight (kg)</string>
-    <string name="height">Height (cm)</string>
     <string name="age">Age</string>
     <string name="sleep_time">Sleep time</string>
     <string name="wake_up_time">Wake up time</string>
     <string name="sex">Sex</string>
     <string name="female">Female</string>
     <string name="male">Male</string>
+    <string name="unspecified">Gender</string>
     <string name="repeat_password">Repeat password</string>
     <string name="google_sign_up">Sign up with Google</string>
     <string name="google_sign_in_failed">Google sign in failed</string>
@@ -28,7 +27,51 @@
     <string name="date_format">DD / MM / YYYY</string>
     <string name="height_placeholder">170cm</string>
     <string name="weight_placeholder">60kg</string>
-    <string name="empty_fields">"Fields cannot be empty"</string>
+
+    <!-- Validations -->
+    <string name="age_validation">"Invalid age"</string>
     <string name="invalid_email">"Invalid email format"</string>
+    <string name="password_mismatch">"Passwords do not match"</string>
+    <string name="empty_fields">"Fields cannot be empty"</string>
     <string name="invalid_password">"Password must contain at least 6 characters"</string>
+    <string name="gender_validation">"Please select a gender"</string>
+
+    <!-- Register flow -->
+    <string name="Next">Next</string>
+
+
+    <!-- Activity levels -->
+    <string name="low">Low</string>
+    <string name="medium">Medium</string>
+    <string name="high">High</string>
+    <string name="very_high">Very High</string>
+    <string name="activity_screen_title">what is your baseline activity level?</string>
+    <string name="activity_screen_description">This will help us calculate your calories accurately</string>
+
+    <!-- Basic Info Screen  -->
+    <string name="basic_screen_title">"Tell us about yourself"</string>
+    <string name="basic_screen_description">"Please enter your details to continue"</string>
+    <string name="your_name">"Your Name"</string>
+
+    <!-- Body Metrics Screen  -->
+    <string name="body_screen_title">"Let’s get your measurements"</string>
+    <string name="body_screen_description">"We need these details to calculate your Body Mass Index (BMI) and daily energy expenditure"</string>
+    <string name="weight">Weight (kg)</string>
+    <string name="height">Height (cm)</string>
+
+    <!-- Goal Setting Screen  -->
+    <string name="goal_screen_title">"What is your main goal?"</string>
+    <string name="goal_screen_description">"Select the option that best describes your objective"</string>
+    <string name="lose_weight">Lose weight</string>
+    <string name="keep_fit">Keep fit</string>
+    <string name="gain_weight">Gain weight</string>
+
+    <!-- Account Creation Screen   -->
+    <string name="account_creation_title">"Create your account"</string>
+    <string name="account_creation_description">"Secure your data and start your fitness journey"</string>
+
+
+
+
+
 </resources>
