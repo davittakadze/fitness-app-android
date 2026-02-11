@@ -95,7 +95,7 @@ fun LogInContent(
             Modifier.padding(4.dp)
         ) {
             Icon(
-                painter = painterResource(com.example.betteryou.core_res.R.drawable.left_arrow_svgrepo_com),
+                painter = painterResource(R.drawable.left_arrow_svgrepo_com),
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
                 tint = LocalTBCColors.current.onBackground
@@ -106,7 +106,7 @@ fun LogInContent(
         Spacer(modifier = Modifier.height(Spacer.spacing24))
 
         Text(
-            text = stringResource(com.example.betteryou.core_res.R.string.login),
+            text = stringResource(R.string.login),
             style = LocalTBCTypography.current.headlineLarge,
             color=LocalTBCColors.current.onBackground
         )
@@ -118,7 +118,7 @@ fun LogInContent(
             onValueChange = { email ->
                 onEvent(LogInEvent.OnEmailChange(email))
             },
-            placeholder = stringResource(com.example.betteryou.core_res.R.string.email),
+            placeholder = stringResource(R.string.email),
             keyboardType = KeyboardType.Email
         )
 
@@ -133,7 +133,7 @@ fun LogInContent(
             onIconClick = {
                 onEvent(LogInEvent.PasswordVisibilityChange(!state.isPasswordVisible))
             },
-            placeholder = stringResource(com.example.betteryou.core_res.R.string.password),
+            placeholder = stringResource(R.string.password),
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -150,7 +150,7 @@ fun LogInContent(
                 )
             } else {
                 TBCAppButton(
-                    text = stringResource(com.example.betteryou.core_res.R.string.login).uppercase(),
+                    text = stringResource(R.string.login).uppercase(),
                     onClick = { onEvent(LogInEvent.OnLogInButtonClick(state.email, state.password)) },
                     type = AppButtonType.Primary,
                     modifier = Modifier.fillMaxWidth()
