@@ -5,4 +5,5 @@ data class NutritionResults (
     val carbs: Int,
     val fats: Int,
     val protein: Int,
+    val waterLiters:Double
 )

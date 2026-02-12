@@ -94,7 +94,8 @@ private fun BasicInfoContent(
                 onEvent(RegisterEvent.OnAgeChange(it))
             },
             placeholder = stringResource(R.string.age),
-            keyboardType = KeyboardType.Number
+            keyboardType = KeyboardType.Number,
+            numbersOnly = true
         )
 
         // Gender

@@ -5,12 +5,12 @@ import com.example.betteryou.feature.profile.domain.model.User
 
 fun User.toDto(): UserDto{
     return UserDto(
-        firstName = this.firstName,
+        name = this.firstName,
         lastName = this.lastName,
         age=this.age,
         gender=this.gender,
         height=this.height,
         weight=this.weight,
-        photoUrl = this.photoUrl
+        profilePhotoUrl = this.photoUrl
     )
 }

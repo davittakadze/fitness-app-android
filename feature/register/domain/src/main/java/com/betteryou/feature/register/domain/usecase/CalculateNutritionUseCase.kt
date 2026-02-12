@@ -29,12 +29,15 @@ class CalculateNutritionUseCase @Inject constructor() {
             else -> tdee
         }
 
+        val water = bodyData.weight * 35
+
         // 4. Macros (30% protein, 40% carbs, 30% fat)
         return NutritionResults(
             calories = targetCalories,
             protein = (targetCalories * 0.3 / 4).toInt(),
             carbs = (targetCalories * 0.4 / 4).toInt(),
-            fats = (targetCalories * 0.3 / 9).toInt()
+            fats = (targetCalories * 0.3 / 9).toInt(),
+            waterLiters = (water / 1000.0)
         )
     }
 }

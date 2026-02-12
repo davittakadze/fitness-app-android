@@ -8,7 +8,7 @@ data class UserUi(
     val lastName: String?=null,
     val age: Int? = null,
     val gender: Sex?=null,
-    val height: Float? = null,
-    val weight: Float? = null,
+    val height: Double? = null,
+    val weight: Double? = null,
     val photoUrl: Uri? = null
 )

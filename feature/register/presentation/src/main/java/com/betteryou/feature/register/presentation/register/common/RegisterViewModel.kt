@@ -119,6 +119,7 @@ class RegisterViewModel @Inject constructor(
             protein = nutritionResults.protein,
             carbs = nutritionResults.carbs,
             fats = nutritionResults.fats,
+            water = nutritionResults.waterLiters
         )
 
         handleResponse(

@@ -12,7 +12,7 @@ data class UserEntity(
     val lastName: String?,
     val age: Int?,
     val gender: String?,
-    val height: Float?,
-    val weight: Float?,
+    val height: Double?,
+    val weight: Double?,
     val profilePhotoUrl: String?
 )
