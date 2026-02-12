@@ -1,11 +1,11 @@
-package com.example.betteryou.data.local.room.dao
+package com.example.betteryou.data.local.room.dao.user
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.example.betteryou.data.local.room.entity.UserEntity
+import com.example.betteryou.data.local.room.entity.user.UserEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -15,7 +15,7 @@ interface UserDao {
     fun getUser(userId: String): Flow<UserEntity?>
 
     //for new users
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     suspend fun insertUser(user: UserEntity)
 
     //for existing users

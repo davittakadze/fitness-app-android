@@ -15,7 +15,9 @@ import java.time.LocalDate
 import javax.inject.Inject
 import java.time.YearMonth
 import com.example.betteryou.core_res.R
+import com.example.betteryou.domain.usecase.GetUserIdUseCase
 import com.example.betteryou.feature.profile.domain.usecase.usecase.GetUserInfoUseCase
+import com.example.betteryou.feature.profile.domain.usecase.usecase.SyncUserUseCase
 import com.example.betteryou.feature.profile.domain.usecase.usecase.UploadUserInfoUseCase
 import com.example.betteryou.feature.profile.domain.usecase.validator.AgeValidatorUseCase
 
@@ -24,6 +26,8 @@ class ProfileViewModel @Inject constructor(
     private val uploadUseCase: UploadUserInfoUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val validator: AgeValidatorUseCase,
+    private val syncUserUseCase: SyncUserUseCase,
+    private val getUserIdUseCase: GetUserIdUseCase
 ) :
     BaseViewModel<ProfileState, ProfileEvent, ProfileSideEffect>(ProfileState()) {
     private var pendingCameraUri: Uri? = null
@@ -63,6 +67,9 @@ class ProfileViewModel @Inject constructor(
                     }
                 }
             }
+        }
+        viewModelScope.launch {
+            syncUserUseCase()
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.betteryou.data.local.room.entity
+package com.example.betteryou.data.local.room.entity.intake
 
 import androidx.room.Entity
 

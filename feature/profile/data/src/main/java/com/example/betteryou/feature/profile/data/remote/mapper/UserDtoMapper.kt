@@ -1,6 +1,6 @@
 package com.example.betteryou.feature.profile.data.remote.mapper
 
-import com.example.betteryou.data.local.room.entity.UserEntity
+import com.example.betteryou.data.local.room.entity.user.UserEntity
 import com.example.betteryou.feature.profile.data.remote.model.UserDto
 import com.example.betteryou.feature.profile.domain.model.User
 
@@ -26,18 +26,6 @@ fun UserEntity.toDomain(): User =User(
     this.weight,
     this.profilePhotoUrl
 )
-
-fun UserEntity.toDto(): UserDto = UserDto(
-    userId = this.id,
-    name = this.firstName,
-    lastName = this.lastName,
-    age = this.age,
-    gender = this.gender,
-    height = this.height,
-    weight = this.weight,
-    profilePhotoUrl = this.profilePhotoUrl
-)
-
 fun UserDto.toDomain(): User{
     return User(
         this.name,

@@ -2,8 +2,9 @@ package com.example.betteryou.data.di.room
 
 import android.content.Context
 import androidx.room.Room
-import com.example.betteryou.data.local.room.dao.UserDao
-import com.example.betteryou.data.local.room.dao.UserNutritionDao
+import com.example.betteryou.data.local.room.dao.intake.DailyIntakeDao
+import com.example.betteryou.data.local.room.dao.user.UserDao
+import com.example.betteryou.data.local.room.dao.nutrition.NutritionDao
 import com.example.betteryou.data.local.room.database.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -24,13 +25,15 @@ object DatabaseModule {
             context,
             AppDatabase::class.java,
             "better_you_db"
-        ).fallbackToDestructiveMigration()
-            .build()
+        ).build()
     }
 
     @Provides
     fun provideUserDao(db: AppDatabase): UserDao = db.userDao()
 
     @Provides
-    fun provideUserNutritionDao(db: AppDatabase): UserNutritionDao = db.userNutritionDao()
+    fun provideUserNutritionDao(db: AppDatabase): NutritionDao = db.userNutritionDao()
+
+    @Provides
+    fun provideIntakeDao(db: AppDatabase): DailyIntakeDao = db.dailyIntakeDao()
 }

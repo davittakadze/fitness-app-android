@@ -1,9 +1,7 @@
-package com.example.betteryou.data.local.room.entity
+package com.example.betteryou.data.local.room.entity.user
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
-//for feature 'profile'
 
 @Entity(tableName = "user_profile")
 data class UserEntity(

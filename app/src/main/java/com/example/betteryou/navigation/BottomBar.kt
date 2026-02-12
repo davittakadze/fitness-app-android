@@ -64,7 +64,7 @@ fun BottomBar(
                         navController.navigate(tab.route) {
                             launchSingleTop = true
                             restoreState = true
-                            popUpTo(navController.graph.findStartDestination().id) {
+                            popUpTo(DailyRoute::class.qualifiedName ?: "") {
                                 saveState = true
                             }
                         }

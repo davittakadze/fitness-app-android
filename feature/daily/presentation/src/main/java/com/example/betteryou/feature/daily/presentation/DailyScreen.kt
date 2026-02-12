@@ -9,6 +9,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -26,6 +27,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -35,6 +37,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,11 +59,11 @@ import com.example.betteryou.core_res.R
 import com.example.betteryou.core_ui.TBCTheme
 import com.example.betteryou.core_ui.local_theme.LocalTBCColors
 import com.example.betteryou.core_ui.local_theme.LocalTBCTypography
+import com.example.betteryou.core_ui.local_theme.TBCTypography
 import com.example.betteryou.core_ui.util.Radius
 import com.example.betteryou.core_ui.util.Spacer
 import kotlin.math.absoluteValue
 import kotlin.math.sin
-
 
 //gasatania stringebi
 
@@ -66,42 +72,53 @@ fun DailyScreen(
     viewModel: DailyViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-    LaunchedEffect(Unit) {
-    //    viewModel.onEvent(DailyEvent.LoadUserNutrition)
-    }
     DailyScreenContent(state, viewModel::onEvent)
 }
 
+
 @Composable
 fun DailyScreenContent(
-    state: DailyState,
+    state: DailyState, // ვიყენებთ ამ სტეიტს
     onEvent: (DailyEvent) -> Unit,
 ) {
-    val pagerState = rememberPagerState(pageCount = { 2 })
+    // 1. გამოიყენე rememberPagerState სწორად
+    val pagerState = rememberPagerState(
+        initialPage = state.currentPage,
+        pageCount = { 2 }
+    )
+
+    LaunchedEffect(pagerState.currentPage) {
+        onEvent(DailyEvent.ChangePage(pagerState.currentPage))
+    }
+
+    LaunchedEffect(state.currentPage) {
+        if (pagerState.currentPage != state.currentPage) {
+            pagerState.scrollToPage(state.currentPage)
+        }
+    }
+
     Column(
         Modifier
             .fillMaxSize()
             .background(LocalTBCColors.current.background)
-            .padding(
-                vertical = 48.dp
-            )
+            .padding(vertical = 48.dp)
     ) {
-        Spacer(Modifier.height(32.dp))
         Text(
-            text =
-                "Daily intake",
-            style = LocalTBCTypography.current.headlineLarge,
-            color = LocalTBCColors.current.onBackground,
+            text = "Daily intake",
+            style = TBCTheme.typography.headlineLarge,
+            color = TBCTheme.colors.onBackground,
             modifier = Modifier.padding(horizontal = 24.dp)
         )
-        Spacer(Modifier.height(32.dp))
+        Spacer(Modifier.height(Spacer.spacing32))
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxWidth(),
+            key = { it },
             contentPadding = PaddingValues(horizontal = 32.dp),
-            pageSpacing = 16.dp
-        )
-        { page ->
+            pageSpacing = 16.dp,
+            beyondViewportPageCount = 1 // ინარჩუნებს გვერდებს მეხსიერებაში
+        ) { page ->
+            // 2. გამოთვალე ოფსეტი
             val pageOffset = (pagerState.currentPage - page + pagerState.currentPageOffsetFraction)
                 .coerceIn(-1f, 1f)
 
@@ -123,13 +140,13 @@ fun DailyScreenContent(
                     GlassWaterTracker3D(
                         currentWater = state.currentWater,
                         waterGoal = state.waterGoal,
-                        onWaterChange = { newWater -> onEvent(DailyEvent.ChangeWater(newWater)) }
+                        onWaterChange = { newWater ->
+                            onEvent(DailyEvent.ChangeWater(newWater))
+                        }
                     )
-
                 }
             }
         }
-        Spacer(Modifier.height(Spacer.spacing32))
     }
 }
 
@@ -177,7 +194,6 @@ fun MacroCircleChart(
     totalCarbsGoal: Int,
     totalCaloriesGoal: Int,
 ) {
-    // --- Safe fractions ---
     val fillFraction = (consumedCalories.toFloat() / totalCaloriesGoal.coerceAtLeast(1).toFloat())
         .coerceIn(0f, 1f)
 
@@ -194,7 +210,6 @@ fun MacroCircleChart(
     val fatFraction = fatCalories / macroCaloriesSum
     val carbsFraction = carbsCalories / macroCaloriesSum
 
-    // --- Animate angles as Float ---
     val proteinAngle by animateFloatAsState(targetValue = totalSweep * proteinFraction)
     val fatAngle by animateFloatAsState(targetValue = totalSweep * fatFraction)
     val carbsAngle by animateFloatAsState(targetValue = totalSweep * carbsFraction)
@@ -355,21 +370,30 @@ private fun InfoItem(
 @Composable
 fun GlassWaterTracker3D(
     currentWater: Float,
-    waterGoal: Float = 3f,
+    waterGoal: Double,
     onWaterChange: (Float) -> Unit,
 ) {
-    val fillFraction = (currentWater / waterGoal).coerceIn(0f, 1f)
-    val animatedFill by animateFloatAsState(
-        targetValue = fillFraction,
-        animationSpec = tween(durationMillis = 600)
-    )
+    var initialWater by rememberSaveable { mutableStateOf(currentWater) }
+    val safeWaterGoal = if (waterGoal > 0) waterGoal.toFloat() else 1f
+    val targetFill = (currentWater / safeWaterGoal).coerceIn(0f, 1f)
 
-    val percentage = (fillFraction * 100).toInt()
+// 1. რეალური პროცენტი (ანიმაციის გარეშე), ლოგიკური შეტყობინებებისთვის
+    val percentage = (targetFill * 100).toInt()
+
+// 2. ანიმაციური პროცენტი ციფრების ლამაზად გაზრდისთვის
     val animatedPercentage by animateIntAsState(
         targetValue = percentage,
-        animationSpec = tween(600)
+        animationSpec = tween(1000),
+        label = "waterPercent"
     )
 
+// 3. ანიმაციური შევსება Canvas-ისთვის
+    val animatedFill by animateFloatAsState(
+        targetValue = if (waterGoal > 0) (currentWater / waterGoal.toFloat()) else 0f,
+        animationSpec = tween(1000)
+    )
+
+// შეტყობინება იყენებს 'percentage'-ს, რომ მესიჯი ეგრევე შეიცვალოს
     val hydrationMessage = when {
         percentage == 0 -> "Start drinking 💧"
         percentage < 40 -> "Keep going!"
@@ -445,15 +469,23 @@ fun GlassWaterTracker3D(
                         val waveFrequency = 2f
 
                         val waterPath = Path().apply {
-                            val currentTopLeftX = topLeftX + (bottomLeftX - topLeftX) * (1 - animatedFill)
-                            val currentTopRightX = topRightX - (topRightX - bottomRightX) * (1 - animatedFill)
+                            val currentTopLeftX =
+                                topLeftX + (bottomLeftX - topLeftX) * (1 - animatedFill)
+                            val currentTopRightX =
+                                topRightX - (topRightX - bottomRightX) * (1 - animatedFill)
                             moveTo(currentTopLeftX, h - waterHeight)
                             for (i in 0..steps) {
                                 val fraction = i / steps.toFloat()
-                                val x = currentTopLeftX + (currentTopRightX - currentTopLeftX) * fraction
-                                val surfaceWave = (sin(fraction * waveFrequency * 2 * Math.PI + wavePhase) * maxAmplitude).toFloat()
-                                val sideOffset = (sin(fraction * Math.PI + wavePhase) * horizontalShift * 0.5f).toFloat()
-                                val y = (h - waterHeight + surfaceWave).coerceIn(h - waterHeight - maxAmplitude, h)
+                                val x =
+                                    currentTopLeftX + (currentTopRightX - currentTopLeftX) * fraction
+                                val surfaceWave =
+                                    (sin(fraction * waveFrequency * 2 * Math.PI + wavePhase) * maxAmplitude).toFloat()
+                                val sideOffset =
+                                    (sin(fraction * Math.PI + wavePhase) * horizontalShift * 0.5f).toFloat()
+                                val y = (h - waterHeight + surfaceWave).coerceIn(
+                                    h - waterHeight - maxAmplitude,
+                                    h
+                                )
                                 lineTo(x + sideOffset, y)
                             }
                             lineTo(bottomRightX, h)
@@ -482,7 +514,7 @@ fun GlassWaterTracker3D(
                 }
             }
 
-            IconButton(onClick = { onWaterChange((currentWater + 0.5f).coerceAtMost(waterGoal)) }) {
+            IconButton(onClick = { onWaterChange((currentWater + 0.5f).coerceAtMost(waterGoal.toFloat())) }) {
                 Icon(
                     painterResource(R.drawable.plus_svgrepo_com_2),
                     contentDescription = null,
@@ -518,5 +550,7 @@ fun GlassWaterTracker3D(
 @Preview
 @Composable
 fun DailyScreenPreview() {
-    TBCTheme { DailyScreenContent(DailyState()) {} }
+    TBCTheme {
+        DailyScreenContent(DailyState(), {})
+    }
 }
