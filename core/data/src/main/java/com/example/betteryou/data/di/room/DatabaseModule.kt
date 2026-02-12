@@ -3,6 +3,7 @@ package com.example.betteryou.data.di.room
 import android.content.Context
 import androidx.room.Room
 import com.example.betteryou.data.local.room.dao.UserDao
+import com.example.betteryou.data.local.room.dao.UserNutritionDao
 import com.example.betteryou.data.local.room.database.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -29,4 +30,7 @@ object DatabaseModule {
 
     @Provides
     fun provideUserDao(db: AppDatabase): UserDao = db.userDao()
+
+    @Provides
+    fun provideUserNutritionDao(db: AppDatabase): UserNutritionDao = db.userNutritionDao()
 }

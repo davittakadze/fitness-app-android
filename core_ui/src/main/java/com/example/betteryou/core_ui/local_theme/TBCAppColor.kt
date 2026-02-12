@@ -15,7 +15,10 @@ data class TBCAppColors(
     val accent: Color,
     val avatarBorder:Color,
     val transparentBack:Color = Color.Transparent,
-    val destructiveColor: Color=Color(0xFFD32F2F)
+    val destructiveColor: Color=Color(0xFFD32F2F),
+    val protein:Color=Color(0xFFFF7043),
+    val fat:Color=Color(0xFFFFD54F),
+    val carbs:Color=Color(0xFF81D4FA)
 )
 
 val LightAppColors = TBCAppColors(

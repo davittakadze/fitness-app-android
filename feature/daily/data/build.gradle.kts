@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.betteryou.feature.profile.data"
+    namespace = "com.example.betteryou.feature.daily.data"
     compileSdk = 36
 
     defaultConfig {
@@ -35,6 +35,7 @@ android {
 }
 
 dependencies {
+
     implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -55,8 +56,7 @@ dependencies {
     annotationProcessor(libs.androidx.room.compiler)
 
 
-
     implementation(projects.core.data)
     implementation(projects.core.domain)
-    implementation(projects.feature.profile.domain)
+    implementation(projects.feature.daily.domain)
 }
