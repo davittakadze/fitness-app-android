@@ -4,7 +4,6 @@ import com.betteryou.feature.register.domain.model.RegisterUserInfo
 import com.betteryou.feature.register.domain.repository.RegisterRepository
 import com.example.betteryou.domain.common.Resource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class RegisterUseCase @Inject constructor(

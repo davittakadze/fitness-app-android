@@ -14,8 +14,11 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import androidx.core.net.toUri
+import com.example.betteryou.feature.profile.data.remote.mapper.toDomain
+import com.example.betteryou.feature.profile.data.remote.model.UserDto
 import com.example.betteryou.feature.profile.domain.model.User
 import com.example.betteryou.feature.profile.domain.repository.UserProfileRepository
+import kotlinx.coroutines.flow.map
 
 class UserRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
@@ -29,7 +32,7 @@ class UserRepositoryImpl @Inject constructor(
     override fun uploadUserProfile(user: User): Flow<Resource<Unit>> = handleFirebase.safeCall {
         val userId = auth.currentUser?.uid ?: throw Exception("User not authenticated")
 
-        var entity = user.toDto().copy(id = userId).toEntity()
+        var entity = user.toDto().copy(userId = userId).toEntity()
 
         var photoUrl: String? = null
         user.photoUrl?.let { uriString ->
@@ -67,22 +70,35 @@ class UserRepositoryImpl @Inject constructor(
     //get from firestore function
     override fun getUser(): Flow<Resource<User?>> = handleFirebase.safeCall {
         val userId = auth.currentUser?.uid ?: throw Exception("User not authenticated")
-        val doc = firestore.collection("users")
-            .document(userId)
-            .get()
-            .await()
 
-        if (!doc.exists()) return@safeCall null
+        val localUserFlow = userDao.getUser(userId)
 
-        User(
-            firstName = doc.getString("firstName"),
-            lastName = doc.getString("lastName"),
-            age = doc.getLong("age")?.toInt(),
-            gender = doc.getString("sex"),
-            height = doc.getDouble("height")?.toFloat(),
-            weight = doc.getDouble("weight")?.toFloat(),
-            photoUrl = doc.getString("profilePhotoUrl")
-        )
+        localUserFlow.map { entity ->
+            if (entity != null) {
+                entity.toDomain()
+            } else {
+                val doc = firestore.collection("users")
+                    .document(userId)
+                    .get()
+                    .await()
+
+                if (!doc.exists()) null
+                else {
+                    val remoteUser = UserDto(
+                        name = doc.getString("name"),
+                        lastName = doc.getString("lastName"),
+                        age = doc.getLong("age")?.toInt(),
+                        gender = doc.getString("sex"),
+                        height = doc.getDouble("height"),
+                        weight = doc.getDouble("weight"),
+                        profilePhotoUrl = doc.getString("profilePhotoUrl")
+                    )
+
+                    userDao.insertUser(remoteUser.toEntity())
+
+                    remoteUser.toDomain()
+                }
+            }
+        }.firstOrNull()
     }
-
 }

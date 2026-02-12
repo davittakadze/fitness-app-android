@@ -381,8 +381,8 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                                 state.lastName,
                                 age = state.selectedDate?.let { calculateAge(it) } ?: 0,
                                 state.selectedSex,
-                                state.height.toFloatOrNull(),
-                                state.weight.toFloatOrNull(),
+                                state.height.toDoubleOrNull(),
+                                state.weight.toDoubleOrNull(),
                                 photoUrl = state.profilePhoto
                             )
                         )
