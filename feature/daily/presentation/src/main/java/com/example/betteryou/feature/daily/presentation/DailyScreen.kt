@@ -67,7 +67,7 @@ fun DailyScreen(
 ) {
     val state by viewModel.state.collectAsState()
     LaunchedEffect(Unit) {
-        viewModel.onEvent(DailyEvent.LoadUserNutrition)
+    //    viewModel.onEvent(DailyEvent.LoadUserNutrition)
     }
     DailyScreenContent(state, viewModel::onEvent)
 }
