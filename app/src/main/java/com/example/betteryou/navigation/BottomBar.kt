@@ -22,7 +22,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.betteryou.core_res.R
 import com.example.betteryou.core_ui.local_theme.LocalTBCColors
 import com.example.betteryou.presentation.navigation.DailyRoute
-import com.example.betteryou.presentation.navigation.ProfileRoute
 import com.example.betteryou.presentation.navigation.SettingsRoute
 
 @Composable

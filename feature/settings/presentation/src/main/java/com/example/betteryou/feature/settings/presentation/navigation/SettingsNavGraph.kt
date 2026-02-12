@@ -1,6 +1,5 @@
 package com.example.betteryou.feature.settings.presentation.navigation
 
-import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable

@@ -22,7 +22,6 @@ import com.example.betteryou.feature.profile.presentation.navigation.profileNavG
 import com.example.betteryou.feature.settings.presentation.navigation.settingsNavGraph
 import com.example.betteryou.presentation.navigation.DailyRoute
 import com.example.betteryou.presentation.navigation.MainRoute
-import com.example.betteryou.presentation.navigation.SettingsRoute
 import com.example.betteryou.presentation.navigation.SplashRoute
 import com.example.betteryou.presentation.snackbar.ObserveAsEvents
 import com.example.betteryou.presentation.snackbar.SnackBarController
