@@ -2,6 +2,9 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="11">
+      <module name="BetterYou.build-logic.convention" target="21" />
+      <module name="BetterYou.build-logic.convention.main" target="21" />
+      <module name="BetterYou.build-logic.convention.test" target="21" />
       <module name="BetterYou.feature.login" target="21" />
     </bytecodeTargetLevel>
   </component>

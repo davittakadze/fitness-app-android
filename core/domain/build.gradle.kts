@@ -1,6 +1,7 @@
 plugins {
-    id("java-library")
-    alias(libs.plugins.kotlin.jvm)
+    id("org.jetbrains.kotlin.jvm")
+    id("betteryou.android.serialization")
+    id("betteryou.android.datastore")
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -12,7 +13,8 @@ kotlin {
     }
 }
 
-dependencies{
-    implementation(libs.androidx.datastore.preferences)
-    implementation("com.google.dagger:dagger:2.51")
+
+dependencies {
+    implementation(libs.dagger)
+    implementation(libs.kotlinx.coroutines.play.services)
 }

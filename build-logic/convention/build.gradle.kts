@@ -41,5 +41,15 @@ gradlePlugin {
             id = "betteryou.android.serialization"
             implementationClass = "com.betteryou.build_logic.AndroidSerializationConventionPlugin"
         }
+
+        register("androidRoom") {
+            id = "betteryou.android.room"
+            implementationClass = "com.betteryou.build_logic.AndroidRoomConventionPlugin"
+        }
+
+        register("androidDataStore") {
+            id = "betteryou.android.datastore"
+            implementationClass = "com.betteryou.build_logic.AndroidDataStoreConventionPlugin"
+        }
     }
 }

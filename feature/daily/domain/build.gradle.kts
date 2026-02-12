@@ -1,6 +1,6 @@
 plugins {
-    id("java-library")
-    alias(libs.plugins.kotlin.jvm)
+    id("org.jetbrains.kotlin.jvm")
+    alias(libs.plugins.kotlin.serialization)
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -12,8 +12,10 @@ kotlin {
     }
 }
 
+
 dependencies {
-    implementation("com.google.dagger:dagger:2.51")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+    implementation(libs.dagger)
+    implementation(libs.kotlinx.coroutines.play.services)
+
     implementation(projects.core.domain)
 }
