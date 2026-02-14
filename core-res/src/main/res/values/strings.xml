@@ -41,6 +41,7 @@
     <string name="empty_fields">"Fields cannot be empty"</string>
     <string name="invalid_password">"Password must contain at least 6 characters"</string>
     <string name="gender_validation">"Please select a gender"</string>
+    <string name="something_went_wrong">Something went wrong</string>
 
     <!-- Activity levels -->
     <string name="low">Low</string>

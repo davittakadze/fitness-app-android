@@ -17,6 +17,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.betteryou.feature.register.presentation.register.navigation.registerNavGraph
+import com.betteryou.workout.presentation.navgraph.workoutNavGraph
 import com.example.betteryou.feature.daily.presentation.navigation.dailyNavGraph
 import com.example.betteryou.feature.profile.presentation.navigation.profileNavGraph
 import com.example.betteryou.feature.settings.presentation.navigation.settingsNavGraph
@@ -62,6 +63,7 @@ fun TBCAppTheme() {
         ?.any { it.route == MainRoute::class.qualifiedName } == true
 
 
+    // Observe SnackBar events
     ObserveAsEvents(
         flow = SnackBarController.events,
         key = snackbarHostState
@@ -96,7 +98,7 @@ fun TBCAppTheme() {
     ) {
         NavHost(
             navController = navController,
-            startDestination = SplashRoute
+            startDestination = SplashRoute,
         ) {
             splashNavGraph(navController)
             menuNavGraph(navController, googleClient)
@@ -108,6 +110,7 @@ fun TBCAppTheme() {
                 settingsNavGraph(navController)
                 profileNavGraph(navController)
                 dailyNavGraph(navController)
+                workoutNavGraph(navController)
             }
         }
     }

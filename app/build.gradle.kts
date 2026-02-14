@@ -88,6 +88,9 @@ dependencies {
 
     implementation(projects.feature.settings.presentation)
     implementation(projects.feature.daily.presentation)
+
+    implementation(projects.feature.workout.presentation)
+    implementation(projects.feature.workout.data)
 }
 protobuf {
     protoc {
