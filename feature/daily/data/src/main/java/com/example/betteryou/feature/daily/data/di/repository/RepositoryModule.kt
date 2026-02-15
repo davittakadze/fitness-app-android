@@ -1,11 +1,13 @@
-package com.example.betteryou.feature.daily.data.di
+package com.example.betteryou.feature.daily.data.di.repository
 
-import com.example.betteryou.feature.daily.data.repository.GetDailyIntakeRepositoryImpl
-import com.example.betteryou.feature.daily.data.repository.GetNutrientsRepositoryImpl
-import com.example.betteryou.feature.daily.data.repository.UpdateDailyIntakeRepositoryImpl
-import com.example.betteryou.feature.daily.domain.repository.intake.GetDailyIntakeRepository
+import com.example.betteryou.feature.daily.data.repository.intake.GetDailyIntakeRepositoryImpl
+import com.example.betteryou.feature.daily.data.repository.intake.UpdateDailyIntakeRepositoryImpl
+import com.example.betteryou.feature.daily.data.repository.nutrient.GetNutrientsRepositoryImpl
+import com.example.betteryou.feature.daily.data.repository.product.ProductRepositoryImpl
 import com.example.betteryou.feature.daily.domain.repository.data.GetNutrientsRepository
+import com.example.betteryou.feature.daily.domain.repository.intake.GetDailyIntakeRepository
 import com.example.betteryou.feature.daily.domain.repository.intake.UpdateDailyIntakeRepository
+import com.example.betteryou.feature.daily.domain.repository.product.ProductRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -32,4 +34,10 @@ abstract class RepositoryModule {
     abstract fun bindUpdateDailyIntakeRepository(
         updateDailyIntakeRepositoryImpl: UpdateDailyIntakeRepositoryImpl,
     ): UpdateDailyIntakeRepository
+
+   @Binds
+    @Singleton
+    abstract fun bindProductRepository(
+        productRepositoryImpl: ProductRepositoryImpl,
+    ): ProductRepository
 }

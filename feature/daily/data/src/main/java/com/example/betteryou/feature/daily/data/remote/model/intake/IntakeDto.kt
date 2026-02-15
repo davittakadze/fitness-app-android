@@ -1,4 +1,4 @@
-package com.example.betteryou.feature.daily.data.remote.model
+package com.example.betteryou.feature.daily.data.remote.model.intake
 
 data class IntakeDto (
     val dailyCalories:Int,

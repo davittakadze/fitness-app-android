@@ -9,7 +9,6 @@ dependencies {
     compileOnly(libs.kotlin.gradlePlugin)
     implementation(libs.kotlin.serialization.gradle.plugin)
 }
-
 gradlePlugin {
     plugins {
         register("androidApplication") {
@@ -50,6 +49,21 @@ gradlePlugin {
         register("androidDataStore") {
             id = "betteryou.android.datastore"
             implementationClass = "com.betteryou.build_logic.AndroidDataStoreConventionPlugin"
+        }
+
+        register("androidNetwork") {
+            id = "betteryou.android.network"
+            implementationClass = "com.betteryou.build_logic.AndroidNetworkConventionPlugin"
+        }
+
+        register("androidRetrofit") {
+            id = "betteryou.android.retrofit"
+            implementationClass = "com.betteryou.build_logic.AndroidRetrofitConventionPlugin"
+        }
+
+        register("androidWorkManager") {
+            id = "betteryou.android.workmanager"
+            implementationClass = "com.betteryou.build_logic.AndroidWorkManagerConventionPlugin"
         }
     }
 }

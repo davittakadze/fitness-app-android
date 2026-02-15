@@ -1,7 +1,7 @@
 package com.example.betteryou.feature.daily.data.remote.mapper
 
 import com.example.betteryou.data.local.room.entity.nutrition.NutritionEntity
-import com.example.betteryou.feature.daily.data.remote.model.UserDto
+import com.example.betteryou.feature.daily.data.remote.model.user.UserDto
 import com.example.betteryou.feature.daily.domain.model.Nutrient
 
 fun UserDto.toEntity(): NutritionEntity {

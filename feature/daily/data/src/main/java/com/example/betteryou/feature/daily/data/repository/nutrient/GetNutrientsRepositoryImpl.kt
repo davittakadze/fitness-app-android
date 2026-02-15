@@ -1,11 +1,11 @@
-package com.example.betteryou.feature.daily.data.repository
+package com.example.betteryou.feature.daily.data.repository.nutrient
 
 import com.example.betteryou.data.common.HandleFirebase
 import com.example.betteryou.data.local.room.dao.nutrition.NutritionDao
 import com.example.betteryou.domain.common.Resource
 import com.example.betteryou.feature.daily.data.remote.mapper.toDomain
 import com.example.betteryou.feature.daily.data.remote.mapper.toEntity
-import com.example.betteryou.feature.daily.data.remote.model.UserDto
+import com.example.betteryou.feature.daily.data.remote.model.user.UserDto
 import com.example.betteryou.feature.daily.domain.model.Nutrient
 import com.example.betteryou.feature.daily.domain.repository.data.GetNutrientsRepository
 import com.google.firebase.auth.FirebaseAuth

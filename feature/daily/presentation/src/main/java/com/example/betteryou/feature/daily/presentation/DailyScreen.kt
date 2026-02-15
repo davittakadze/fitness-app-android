@@ -9,9 +9,9 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -22,15 +22,23 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -50,8 +58,11 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -59,9 +70,13 @@ import com.example.betteryou.core_res.R
 import com.example.betteryou.core_ui.TBCTheme
 import com.example.betteryou.core_ui.local_theme.LocalTBCColors
 import com.example.betteryou.core_ui.local_theme.LocalTBCTypography
-import com.example.betteryou.core_ui.local_theme.TBCTypography
 import com.example.betteryou.core_ui.util.Radius
 import com.example.betteryou.core_ui.util.Spacer
+import com.example.betteryou.core_ui.util.components.AppAsyncImage
+import com.example.betteryou.core_ui.util.components.AppButtonType
+import com.example.betteryou.core_ui.util.components.TBCAppButton
+import com.example.betteryou.core_ui.util.components.TBCAppTextField
+import com.example.betteryou.feature.daily.presentation.model.ProductUi
 import kotlin.math.absoluteValue
 import kotlin.math.sin
 
@@ -76,12 +91,14 @@ fun DailyScreen(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DailyScreenContent(
-    state: DailyState, // ვიყენებთ ამ სტეიტს
+    state: DailyState,
     onEvent: (DailyEvent) -> Unit,
 ) {
-    // 1. გამოიყენე rememberPagerState სწორად
+    val focusManager = LocalFocusManager.current
+
     val pagerState = rememberPagerState(
         initialPage = state.currentPage,
         pageCount = { 2 }
@@ -97,54 +114,90 @@ fun DailyScreenContent(
         }
     }
 
-    Column(
-        Modifier
-            .fillMaxSize()
-            .background(LocalTBCColors.current.background)
-            .padding(vertical = 48.dp)
-    ) {
-        Text(
-            text = "Daily intake",
-            style = TBCTheme.typography.headlineLarge,
-            color = TBCTheme.colors.onBackground,
-            modifier = Modifier.padding(horizontal = 24.dp)
-        )
-        Spacer(Modifier.height(Spacer.spacing32))
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.fillMaxWidth(),
-            key = { it },
-            contentPadding = PaddingValues(horizontal = 32.dp),
-            pageSpacing = 16.dp,
-            beyondViewportPageCount = 1 // ინარჩუნებს გვერდებს მეხსიერებაში
-        ) { page ->
-            // 2. გამოთვალე ოფსეტი
-            val pageOffset = (pagerState.currentPage - page + pagerState.currentPageOffsetFraction)
-                .coerceIn(-1f, 1f)
-
-            when (page) {
-                0 -> PageContent(pageOffset = pageOffset) {
-                    MacroCircleChart(
-                        consumedCalories = state.consumedCalories,
-                        protein = state.protein,
-                        fat = state.fat,
-                        carbs = state.carbs,
-                        totalCaloriesGoal = state.totalCaloriesGoal,
-                        totalProteinGoal = state.totalProteinGoal,
-                        totalFatGoal = state.totalFatGoal,
-                        totalCarbsGoal = state.totalCarbsGoal
-                    )
-                }
-
-                1 -> PageContent(pageOffset = pageOffset) {
-                    GlassWaterTracker3D(
-                        currentWater = state.currentWater,
-                        waterGoal = state.waterGoal,
-                        onWaterChange = { newWater ->
-                            onEvent(DailyEvent.ChangeWater(newWater))
+    Box(Modifier.fillMaxSize()) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .background(LocalTBCColors.current.background)
+                .padding(vertical = 64.dp)
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onTap = {
+                            focusManager.clearFocus()
                         }
                     )
                 }
+        ) {
+            Text(
+                text = "Daily intake",
+                style = TBCTheme.typography.headlineLarge,
+                color = TBCTheme.colors.onBackground,
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
+            Spacer(Modifier.height(Spacer.spacing16))
+            CustomDropdown(
+                state.products,
+                selectedItem = null,
+                onItemSelected = { product ->
+                    onEvent(DailyEvent.OpenBottomSheet(product))
+                }
+            )
+            Spacer(Modifier.height(Spacer.spacing16))
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxWidth(),
+                key = { it },
+                contentPadding = PaddingValues(horizontal = 32.dp),
+                pageSpacing = 16.dp,
+                beyondViewportPageCount = 1
+            ) { page ->
+                val pageOffset =
+                    (pagerState.currentPage - page + pagerState.currentPageOffsetFraction)
+                        .coerceIn(-1f, 1f)
+
+                when (page) {
+                    0 -> PageContent(pageOffset = pageOffset) {
+                        MacroCircleChart(
+                            consumedCalories = state.consumedCalories,
+                            protein = state.protein,
+                            fat = state.fat,
+                            carbs = state.carbs,
+                            totalCaloriesGoal = state.totalCaloriesGoal,
+                            totalProteinGoal = state.totalProteinGoal,
+                            totalFatGoal = state.totalFatGoal,
+                            totalCarbsGoal = state.totalCarbsGoal
+                        )
+                    }
+
+                    1 -> PageContent(pageOffset = pageOffset) {
+                        GlassWaterTracker3D(
+                            currentWater = state.currentWater,
+                            waterGoal = state.waterGoal,
+                            onWaterChange = { newWater ->
+                                onEvent(DailyEvent.ChangeWater(newWater))
+                            }
+                        )
+                    }
+                }
+            }
+            Spacer(Modifier.height(Spacer.spacing32))
+        }
+        if (state.isBottomSheetOpen && state.selectedProduct != null) {
+            ModalBottomSheet(
+                onDismissRequest = {
+                    onEvent(DailyEvent.CloseBottomSheet)
+                },
+                containerColor = TBCTheme.colors.background
+            ) {
+                BottomSheet(
+                    state.selectedProduct,
+                    onClose = {
+                        onEvent(DailyEvent.CloseBottomSheet)
+                    },
+                    addProductQuantity = { quantity, product ->
+                        onEvent(DailyEvent.AddProductQuantity(quantity=quantity, product=product))
+                    }
+                )
             }
         }
     }
@@ -197,8 +250,6 @@ fun MacroCircleChart(
     val fillFraction = (consumedCalories.toFloat() / totalCaloriesGoal.coerceAtLeast(1).toFloat())
         .coerceIn(0f, 1f)
 
-    val totalSweep = 360f * fillFraction
-
     val proteinCalories = protein.toFloat() * 4f
     val fatCalories = fat.toFloat() * 9f
     val carbsCalories = carbs.toFloat() * 4f
@@ -210,9 +261,15 @@ fun MacroCircleChart(
     val fatFraction = fatCalories / macroCaloriesSum
     val carbsFraction = carbsCalories / macroCaloriesSum
 
-    val proteinAngle by animateFloatAsState(targetValue = totalSweep * proteinFraction)
-    val fatAngle by animateFloatAsState(targetValue = totalSweep * fatFraction)
-    val carbsAngle by animateFloatAsState(targetValue = totalSweep * carbsFraction)
+    val animatedTotalSweep by animateFloatAsState(
+        targetValue = 360f * fillFraction,
+        animationSpec = tween(1000)
+    )
+
+    val proteinAngle by animateFloatAsState(targetValue = animatedTotalSweep * proteinFraction)
+    val fatAngle by animateFloatAsState(targetValue = animatedTotalSweep * fatFraction)
+    val carbsAngle by animateFloatAsState(targetValue = animatedTotalSweep * carbsFraction)
+
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
@@ -272,13 +329,13 @@ fun MacroCircleChart(
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = "${consumedCalories} kkal",
+                    text = "$consumedCalories kkal",
                     style = LocalTBCTypography.current.headlineLarge,
                     color = LocalTBCColors.current.onBackground
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "${totalCaloriesGoal} kkal",
+                    text = "$totalCaloriesGoal kkal",
                     style = LocalTBCTypography.current.bodyLargest,
                     color = LocalTBCColors.current.onBackground
                 )
@@ -373,27 +430,22 @@ fun GlassWaterTracker3D(
     waterGoal: Double,
     onWaterChange: (Float) -> Unit,
 ) {
-    var initialWater by rememberSaveable { mutableStateOf(currentWater) }
     val safeWaterGoal = if (waterGoal > 0) waterGoal.toFloat() else 1f
     val targetFill = (currentWater / safeWaterGoal).coerceIn(0f, 1f)
 
-// 1. რეალური პროცენტი (ანიმაციის გარეშე), ლოგიკური შეტყობინებებისთვის
     val percentage = (targetFill * 100).toInt()
 
-// 2. ანიმაციური პროცენტი ციფრების ლამაზად გაზრდისთვის
     val animatedPercentage by animateIntAsState(
         targetValue = percentage,
         animationSpec = tween(1000),
         label = "waterPercent"
     )
 
-// 3. ანიმაციური შევსება Canvas-ისთვის
     val animatedFill by animateFloatAsState(
         targetValue = if (waterGoal > 0) (currentWater / waterGoal.toFloat()) else 0f,
         animationSpec = tween(1000)
     )
 
-// შეტყობინება იყენებს 'percentage'-ს, რომ მესიჯი ეგრევე შეიცვალოს
     val hydrationMessage = when {
         percentage == 0 -> "Start drinking 💧"
         percentage < 40 -> "Keep going!"
@@ -547,10 +599,233 @@ fun GlassWaterTracker3D(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomDropdown(
+    items: List<ProductUi>,
+    selectedItem: ProductUi?,
+    onItemSelected: (ProductUi) -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+    var query by remember { mutableStateOf("") }
+
+    val filteredItems = remember(query, items) {
+        if (query.isEmpty()) items
+        else items.filter { it.name.contains(query, ignoreCase = true) }
+    }
+
+    val textFieldValue = query.ifEmpty {
+        selectedItem?.name.orEmpty()
+    }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(24.dp)
+            .clip(Radius.radius12)
+    ) {
+
+        TBCAppTextField(
+            value = textFieldValue,
+            onValueChange = {
+                query = it
+                expanded = true
+            },
+            placeholder = "Select product",
+            modifier = Modifier
+                .menuAnchor()
+                .fillMaxWidth()
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = {
+                expanded = false
+                query = ""
+            },
+            modifier = Modifier
+                .background(TBCTheme.colors.background, shape = Radius.radius12)
+                .clip(Radius.radius12)
+        ) {
+            filteredItems.forEach { item ->
+                DropdownMenuItem(
+                    text = { CustomDropdownItem(item) },
+                    onClick = {
+                        onItemSelected(item)
+                        query = ""
+                        expanded = false
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun CustomDropdownItem(item: ProductUi) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        AppAsyncImage(
+            model = item.photo,
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape),
+        )
+
+        Spacer(modifier = Modifier.width(Spacer.spacing12))
+
+        Text(
+            text = item.name,
+            style = MaterialTheme.typography.bodyMedium,
+            color = TBCTheme.colors.onBackground
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+        Icon(
+            painter = painterResource(R.drawable.right_arrow_svgrepo_com),
+            contentDescription = null,
+            modifier = Modifier.size(24.dp),
+            tint = TBCTheme.colors.onBackground
+        )
+    }
+}
+
+@Composable
+fun BottomSheet(
+    item: ProductUi,
+    onClose: () -> Unit,
+    addProductQuantity:(quantity:Int,product: ProductUi)->Unit
+) {
+    var quantity by rememberSaveable { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
+    Column(
+        Modifier
+            .fillMaxHeight(0.9f)
+            .verticalScroll(rememberScrollState())
+            .imePadding()
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    focusManager.clearFocus()
+                })
+            }) {
+        AppAsyncImage(
+            model = item.photo,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp)
+        )
+        Spacer(modifier = Modifier.height(Spacer.spacing12))
+        Column {
+            Text(
+                text = item.name,
+                style = TBCTheme.typography.headlineLarge,
+                color = TBCTheme.colors.onBackground,
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
+            Spacer(modifier = Modifier.height(Spacer.spacing16))
+            Text(
+                text = item.description,
+                style = TBCTheme.typography.bodyLarge,
+                color = TBCTheme.colors.onBackground,
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
+            Spacer(modifier = Modifier.height(Spacer.spacing32))
+            Text(
+                text = "Per 100g",
+                style = TBCTheme.typography.headlineLarge,
+                color = TBCTheme.colors.onBackground,
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
+            Spacer(modifier = Modifier.height(Spacer.spacing16))
+            Text(
+                text = "Calories:    ${item.calories}",
+                style = TBCTheme.typography.bodyLarge,
+                color = TBCTheme.colors.onBackground,
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
+            Spacer(modifier = Modifier.height(Spacer.spacing8))
+            Text(
+                text = "Protein:    ${item.protein}",
+                style = TBCTheme.typography.bodyLarge,
+                color = TBCTheme.colors.onBackground,
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
+            Spacer(modifier = Modifier.height(Spacer.spacing8))
+            Text(
+                text = "Fat:    ${item.fat}",
+                style = TBCTheme.typography.bodyLarge,
+                color = TBCTheme.colors.onBackground,
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
+            Spacer(modifier = Modifier.height(Spacer.spacing8))
+            Text(
+                text = "Carb:    ${item.carbs}",
+                style = TBCTheme.typography.bodyLarge,
+                color = TBCTheme.colors.onBackground,
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
+        }
+        Spacer(modifier = Modifier.height(Spacer.spacing16))
+        Row(Modifier.padding(horizontal = 24.dp)) {
+            Spacer(Modifier.weight(1f))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                TBCAppTextField(
+                    value = quantity,
+                    onValueChange = { input ->
+                        if (input.all { it.isDigit() }) {
+                            quantity = input
+                        }
+                    },
+                    placeholder = "100",
+                    keyboardType = KeyboardType.Number,
+                    numbersOnly = true,
+                    modifier = Modifier
+                        .size(width = 82.dp, height = 52.dp)
+                        .align(Alignment.CenterVertically)
+                )
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    text = "g.",
+                    style = TBCTheme.typography.bodyLarge,
+                    color = TBCTheme.colors.onBackground,
+                    modifier = Modifier.padding(end = 24.dp, top = 24.dp, bottom = 24.dp)
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(Spacer.spacing16))
+        TBCAppButton(
+            text = "Add",
+            onClick = {
+                val amount: Int = quantity.toIntOrNull() ?: 0
+                if (amount > 0) {
+                   addProductQuantity(amount,item)
+                }
+                onClose()
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .height(52.dp),
+            type = AppButtonType.Outlined
+        )
+        Spacer(modifier = Modifier.height(Spacer.spacing16))
+    }
+}
+
 @Preview
 @Composable
 fun DailyScreenPreview() {
     TBCTheme {
-        DailyScreenContent(DailyState(), {})
+        DailyScreenContent(DailyState()) {}
     }
 }

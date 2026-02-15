@@ -87,7 +87,12 @@ dependencies {
     implementation(projects.feature.register.domain)
 
     implementation(projects.feature.settings.presentation)
+    implementation(projects.feature.settings.data)
+    implementation(projects.feature.settings.domain)
+
     implementation(projects.feature.daily.presentation)
+    implementation(projects.feature.daily.data)
+    implementation(projects.feature.daily.domain)
 }
 protobuf {
     protoc {

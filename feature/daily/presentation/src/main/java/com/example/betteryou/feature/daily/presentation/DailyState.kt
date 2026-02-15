@@ -1,5 +1,7 @@
 package com.example.betteryou.feature.daily.presentation
 
+import com.example.betteryou.feature.daily.presentation.model.ProductUi
+
 data class DailyState(
     //calories
     val consumedCalories: Int=0,
@@ -22,5 +24,15 @@ data class DailyState(
     val waterGoal: Double=0.0,
 
     //pager
-    val currentPage: Int = 0
+    val currentPage: Int = 0,
+
+    //products
+    val products: List<ProductUi> = emptyList(),
+
+    //is loading?
+    val isLoading: Boolean = false,
+
+    //bottom sheet state
+    val selectedProduct:ProductUi?=null,
+    val isBottomSheetOpen:Boolean=false
 )

@@ -1,4 +1,4 @@
-package com.example.betteryou.feature.daily.data.repository
+package com.example.betteryou.feature.daily.data.repository.intake
 
 import com.example.betteryou.data.local.room.dao.intake.DailyIntakeDao
 import com.example.betteryou.feature.daily.domain.model.Intake
