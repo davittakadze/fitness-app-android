@@ -27,6 +27,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -76,7 +79,9 @@ import com.example.betteryou.core_ui.util.components.AppAsyncImage
 import com.example.betteryou.core_ui.util.components.AppButtonType
 import com.example.betteryou.core_ui.util.components.TBCAppButton
 import com.example.betteryou.core_ui.util.components.TBCAppTextField
+import com.example.betteryou.feature.daily.domain.model.UserDailyProduct
 import com.example.betteryou.feature.daily.presentation.model.ProductUi
+import com.example.betteryou.feature.daily.presentation.model.UserDailyProductUi
 import kotlin.math.absoluteValue
 import kotlin.math.sin
 
@@ -115,87 +120,106 @@ fun DailyScreenContent(
     }
 
     Box(Modifier.fillMaxSize()) {
-        Column(
-            Modifier
+        LazyColumn(
+            modifier = Modifier
                 .fillMaxSize()
                 .background(LocalTBCColors.current.background)
                 .padding(vertical = 64.dp)
                 .pointerInput(Unit) {
-                    detectTapGestures(
-                        onTap = {
-                            focusManager.clearFocus()
-                        }
-                    )
+                    detectTapGestures {
+                        focusManager.clearFocus()
+                    }
                 }
         ) {
-            Text(
-                text = "Daily intake",
-                style = TBCTheme.typography.headlineLarge,
-                color = TBCTheme.colors.onBackground,
-                modifier = Modifier.padding(horizontal = 24.dp)
-            )
-            Spacer(Modifier.height(Spacer.spacing16))
-            CustomDropdown(
-                state.products,
-                selectedItem = null,
-                onItemSelected = { product ->
-                    onEvent(DailyEvent.OpenBottomSheet(product))
-                }
-            )
-            Spacer(Modifier.height(Spacer.spacing16))
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier.fillMaxWidth(),
-                key = { it },
-                contentPadding = PaddingValues(horizontal = 32.dp),
-                pageSpacing = 16.dp,
-                beyondViewportPageCount = 1
-            ) { page ->
-                val pageOffset =
-                    (pagerState.currentPage - page + pagerState.currentPageOffsetFraction)
-                        .coerceIn(-1f, 1f)
+            item {
+                Text(
+                    text = "Daily intake",
+                    style = TBCTheme.typography.headlineLarge,
+                    color = TBCTheme.colors.onBackground,
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
+            }
 
-                when (page) {
-                    0 -> PageContent(pageOffset = pageOffset) {
-                        MacroCircleChart(
-                            consumedCalories = state.consumedCalories,
-                            protein = state.protein,
-                            fat = state.fat,
-                            carbs = state.carbs,
-                            totalCaloriesGoal = state.totalCaloriesGoal,
-                            totalProteinGoal = state.totalProteinGoal,
-                            totalFatGoal = state.totalFatGoal,
-                            totalCarbsGoal = state.totalCarbsGoal
-                        )
+            item { Spacer(Modifier.height(Spacer.spacing16)) }
+
+            item {
+                CustomDropdown(
+                    state.products,
+                    selectedItem = null,
+                    onItemSelected = { product ->
+                        onEvent(DailyEvent.OpenBottomSheet(product))
                     }
+                )
+            }
 
-                    1 -> PageContent(pageOffset = pageOffset) {
-                        GlassWaterTracker3D(
-                            currentWater = state.currentWater,
-                            waterGoal = state.waterGoal,
-                            onWaterChange = { newWater ->
-                                onEvent(DailyEvent.ChangeWater(newWater))
-                            }
-                        )
+            item { Spacer(Modifier.height(Spacer.spacing16)) }
+
+            item {
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(400.dp),
+                    key = { it },
+                    contentPadding = PaddingValues(horizontal = 32.dp),
+                    pageSpacing = 16.dp,
+                    beyondViewportPageCount = 1
+                ) { page ->
+                    val pageOffset =
+                        (pagerState.currentPage - page + pagerState.currentPageOffsetFraction)
+                            .coerceIn(-1f, 1f)
+
+                    when (page) {
+                        0 -> PageContent(pageOffset = pageOffset) {
+                            MacroCircleChart(
+                                consumedCalories = state.consumedCalories,
+                                protein = state.protein,
+                                fat = state.fat,
+                                carbs = state.carbs,
+                                totalCaloriesGoal = state.totalCaloriesGoal,
+                                totalProteinGoal = state.totalProteinGoal,
+                                totalFatGoal = state.totalFatGoal,
+                                totalCarbsGoal = state.totalCarbsGoal
+                            )
+                        }
+
+                        1 -> PageContent(pageOffset = pageOffset) {
+                            GlassWaterTracker3D(
+                                currentWater = state.currentWater,
+                                waterGoal = state.waterGoal,
+                                onWaterChange = { newWater ->
+                                    onEvent(DailyEvent.ChangeWater(newWater))
+                                }
+                            )
+                        }
                     }
                 }
             }
-            Spacer(Modifier.height(Spacer.spacing32))
+
+            item { Spacer(Modifier.height(Spacer.spacing32)) }
+
+            items(state.consumedProducts) { consumedProduct ->
+                ConsumedProductItem(consumedProduct)
+            }
+
+            item { Spacer(Modifier.height(Spacer.spacing32)) }
         }
+
         if (state.isBottomSheetOpen && state.selectedProduct != null) {
             ModalBottomSheet(
-                onDismissRequest = {
-                    onEvent(DailyEvent.CloseBottomSheet)
-                },
+                onDismissRequest = { onEvent(DailyEvent.CloseBottomSheet) },
                 containerColor = TBCTheme.colors.background
             ) {
                 BottomSheet(
                     state.selectedProduct,
-                    onClose = {
-                        onEvent(DailyEvent.CloseBottomSheet)
-                    },
+                    onClose = { onEvent(DailyEvent.CloseBottomSheet) },
                     addProductQuantity = { quantity, product ->
-                        onEvent(DailyEvent.AddProductQuantity(quantity=quantity, product=product))
+                        onEvent(
+                            DailyEvent.AddProductQuantity(
+                                quantity = quantity,
+                                product = product
+                            )
+                        )
                     }
                 )
             }
@@ -704,7 +728,7 @@ fun CustomDropdownItem(item: ProductUi) {
 fun BottomSheet(
     item: ProductUi,
     onClose: () -> Unit,
-    addProductQuantity:(quantity:Int,product: ProductUi)->Unit
+    addProductQuantity: (quantity: Int, product: ProductUi) -> Unit,
 ) {
     var quantity by rememberSaveable { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
@@ -808,7 +832,7 @@ fun BottomSheet(
             onClick = {
                 val amount: Int = quantity.toIntOrNull() ?: 0
                 if (amount > 0) {
-                   addProductQuantity(amount,item)
+                    addProductQuantity(amount, item)
                 }
                 onClose()
             },
@@ -826,6 +850,99 @@ fun BottomSheet(
 @Composable
 fun DailyScreenPreview() {
     TBCTheme {
-        DailyScreenContent(DailyState()) {}
+        //    DailyScreenContent(DailyState()) {}
+        ConsumedProductItem(
+            UserDailyProductUi(
+                userId = "denfienf",
+                productId = 34,
+                name = "Milk",
+                photo = "",
+                calories = 930,
+                protein = 10.0,
+                carbs = 10.0,
+                fat = 10.0,
+                description = "Milk",
+                quantity = 100,
+                date = 37484939
+            ),
+            {}
+        )
+    }
+}
+
+@Composable
+fun ConsumedProductItem(item: UserDailyProductUi,onRemove:(userId:String,productId:Int)->Unit) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp, vertical = 12.dp)
+            .height(210.dp)
+            .border(shape = Radius.radius12, width = 1.dp, color = TBCTheme.colors.border)
+            .clip(Radius.radius12)
+            .padding(24.dp)
+    ) {
+        Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+            AppAsyncImage(
+                modifier = Modifier
+                    .size(130.dp)
+                    .clip(CircleShape),
+                model = item.photo
+            )
+            Spacer(Modifier.width(Spacer.spacing16))
+            Column(Modifier
+                .wrapContentWidth()
+                .fillMaxHeight()) {
+                Text(
+                    text = item.name,
+                    style = TBCTheme.typography.bodyLargest,
+                    color = TBCTheme.colors.onBackground
+                )
+                Spacer(Modifier.height(Spacer.spacing16))
+                Text(
+                    text = "${item.quantity}g",
+                    style = TBCTheme.typography.bodyLarge,
+                    color = TBCTheme.colors.onBackground
+                )
+                Spacer(Modifier.height(Spacer.spacing8))
+                Text(
+                    text = "${item.calories} kkal",
+                    style = TBCTheme.typography.bodyLarge,
+                    color = TBCTheme.colors.onBackground
+                )
+                Spacer(Modifier.height(Spacer.spacing8))
+                Text(
+                    text = "protein: ${item.protein} g.",
+                    style = TBCTheme.typography.bodyLarge,
+                    color = TBCTheme.colors.onBackground
+                )
+                Spacer(Modifier.height(Spacer.spacing8))
+                Text(
+                    text = "fats: ${item.fat} g.",
+                    style = TBCTheme.typography.bodyLarge,
+                    color = TBCTheme.colors.onBackground
+                )
+                Spacer(Modifier.height(Spacer.spacing8))
+                Text(
+                    text = "carbs: ${item.carbs} g.",
+                    style = TBCTheme.typography.bodyLarge,
+                    color = TBCTheme.colors.onBackground
+                )
+            }
+            Spacer(Modifier.width(Spacer.spacing4))
+            IconButton(
+                onClick = {
+
+                },
+                modifier = Modifier
+                    .size(24.dp)
+                    .align(Alignment.Top)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.minus_svgrepo_com),
+                    contentDescription = null,
+                    tint = TBCTheme.colors.onBackground
+                )
+            }
+        }
     }
 }

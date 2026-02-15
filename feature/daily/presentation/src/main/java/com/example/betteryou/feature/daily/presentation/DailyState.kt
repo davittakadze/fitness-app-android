@@ -1,6 +1,7 @@
 package com.example.betteryou.feature.daily.presentation
 
 import com.example.betteryou.feature.daily.presentation.model.ProductUi
+import com.example.betteryou.feature.daily.presentation.model.UserDailyProductUi
 
 data class DailyState(
     //calories
@@ -28,6 +29,7 @@ data class DailyState(
 
     //products
     val products: List<ProductUi> = emptyList(),
+    val consumedProducts: List<UserDailyProductUi> = emptyList(),
 
     //is loading?
     val isLoading: Boolean = false,

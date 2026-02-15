@@ -1,5 +1,6 @@
 package com.example.betteryou.feature.daily.presentation
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.betteryou.domain.common.Resource
 import com.example.betteryou.domain.usecase.GetUserIdUseCase
@@ -8,9 +9,16 @@ import com.example.betteryou.feature.daily.domain.usecase.data.GetNutrientsUseCa
 import com.example.betteryou.feature.daily.domain.usecase.intake.GetDailyIntakeUseCase
 import com.example.betteryou.feature.daily.domain.usecase.intake.UpdateDailyIntakeUseCase
 import com.example.betteryou.feature.daily.domain.usecase.product.ProductUseCase
+import com.example.betteryou.feature.daily.domain.usecase.user_daily_product.AddUserDailyProductUseCase
+import com.example.betteryou.feature.daily.domain.usecase.user_daily_product.ClearOldUserDailyProductsUseCase
+import com.example.betteryou.feature.daily.domain.usecase.user_daily_product.GetTodayUserProductsUseCase
 import com.example.betteryou.feature.daily.presentation.DailyEvent.*
+import com.example.betteryou.feature.daily.presentation.mapper.toDomain
 import com.example.betteryou.feature.daily.presentation.mapper.toPresentation
+import com.example.betteryou.feature.daily.presentation.model.UserDailyProductUi
 import com.example.betteryou.presentation.common.BaseViewModel
+import com.example.betteryou.util.getStartOfDayMillis
+import com.example.betteryou.util.getTodayStartTimestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -18,16 +26,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DailyViewModel @Inject constructor(
+    //nutrients
     private val getDailyDataUseCase: GetNutrientsUseCase,
+    //intake
     private val updateDailyIntakeUseCase: UpdateDailyIntakeUseCase,
     private val getDailyIntakeUseCase: GetDailyIntakeUseCase,
+    //id
     private val getUserIdUseCase: GetUserIdUseCase,
+    //products
     private val getProductsUseCase: ProductUseCase,
+    private val getUserDailyProduct: GetTodayUserProductsUseCase,
+    private val addUserDailyProductUseCase: AddUserDailyProductUseCase,
+    private val clearOldProductsUseCase: ClearOldUserDailyProductsUseCase
 ) : BaseViewModel<DailyState, DailyEvent, DailySideEffect>(DailyState()) {
 
     init {
-        getProducts()
-        getDailyData()
+        getProducts()                 // პროდუქტი ყოველთვის პირველი
+        getDailyData()                // total goals
+        loadUserDailyProducts()       // consumed products
         loadInitialIntake()
     }
 
@@ -64,33 +80,59 @@ class DailyViewModel @Inject constructor(
                 val addedProtein = (event.product.protein * factor).toInt()
                 val addedFat = (event.product.fat * factor).toInt()
                 val addedCarbs = (event.product.carbs * factor).toInt()
-                updateState {
-                    copy(
-                        consumedCalories = state.value.consumedCalories + addedCalories,
+
+                viewModelScope.launch {
+                    val userId = getUserIdUseCase() ?: return@launch
+
+                    val newDailyProduct = UserDailyProductUi(
+                        userId = userId,
+                        productId = event.product.id,
+                        name = event.product.name,
+                        photo = event.product.photo,
+                        calories = addedCalories,
+                        protein = addedProtein.toDouble(),
+                        carbs = addedCarbs.toDouble(),
+                        fat = addedFat.toDouble(),
+                        description = event.product.description,
+                        quantity = event.quantity,
+                        date = getStartOfDayMillis()
+                    )
+
+                    addUserDailyProductUseCase(newDailyProduct.toDomain())
+
+                    updateState {
+                        copy(
+                            consumedCalories = state.value.consumedCalories + addedCalories,
+                            protein = state.value.protein + addedProtein,
+                            fat = state.value.fat + addedFat,
+                            carbs = state.value.carbs + addedCarbs,
+                            consumedProducts = state.value.consumedProducts + newDailyProduct
+                        )
+                    }
+
+                    updateData(
+                        calories = state.value.consumedCalories + addedCalories,
                         protein = state.value.protein + addedProtein,
                         fat = state.value.fat + addedFat,
                         carbs = state.value.carbs + addedCarbs
                     )
                 }
-                updateData(
-                    calories = state.value.consumedCalories + addedCalories,
-                    protein = state.value.protein + addedProtein,
-                    fat = state.value.fat + addedFat,
-                    carbs = state.value.carbs + addedCarbs
-                )
             }
         }
     }
 
     private fun getDailyData() {
         viewModelScope.launch {
+            Log.d("DailyViewModel", "getDailyData: start collecting nutrients")
             getDailyDataUseCase().collect { resource ->
                 when (resource) {
                     is Resource.Loader -> {
+                        Log.d("DailyViewModel", "getDailyData: loading")
                         updateState { copy(isLoading = true) }
                     }
 
                     is Resource.Success -> {
+                        Log.d("DailyViewModel", "getDailyData: success ${resource.data}")
                         updateState {
                             copy(
                                 totalCaloriesGoal = resource.data.dailyCalories,
@@ -104,38 +146,10 @@ class DailyViewModel @Inject constructor(
 
                     is Resource.Error -> {
                         //   emitSideEffect(DailySideEffect.ShowError(resource.errorMessage))
+                        Log.e("DailyViewModel", "getDailyData: error ${resource.errorMessage}")
                     }
                 }
-            }
-
-            val userId = getUserIdUseCase() ?: return@launch
-
-            val date = System.currentTimeMillis()
-
-            getDailyIntakeUseCase(userId, date).collect { resource ->
-                when (resource) {
-                    is Resource.Loader -> {
-                        updateState { copy(isLoading = true) }
-                    }
-
-                    is Resource.Success -> {
-                        resource.data.let { intake ->
-                            updateState {
-                                copy(
-                                    consumedCalories = intake.dailyCalories,
-                                    protein = intake.protein,
-                                    fat = intake.fats,
-                                    carbs = intake.carbs,
-                                    currentWater = intake.water.toFloat()
-                                )
-                            }
-                        }
-                    }
-
-                    is Resource.Error -> {
-                        //    emitSideEffect(DailySideEffect.ShowError(resource.errorMessage))
-                    }
-                }
+                Log.d("DailyViewModel", "getDailyData: finished collecting nutrients")
             }
         }
     }
@@ -235,21 +249,23 @@ class DailyViewModel @Inject constructor(
             }
         }
     }
-    private fun getStartOfDayMillis(): Long {
-        val now = java.util.Calendar.getInstance()
-        now.set(java.util.Calendar.HOUR_OF_DAY, 0)
-        now.set(java.util.Calendar.MINUTE, 0)
-        now.set(java.util.Calendar.SECOND, 0)
-        now.set(java.util.Calendar.MILLISECOND, 0)
-        return now.timeInMillis
-    }
-    private fun getTodayStartTimestamp(): Long {
-        return Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.timeInMillis
+    private fun loadUserDailyProducts() {
+        viewModelScope.launch {
+            val userId = getUserIdUseCase() ?: return@launch
+            getUserDailyProduct(userId).collect { resource ->
+                when (resource) {
+                    is Resource.Loader -> {
+                        updateState { copy(isLoading = true) }
+                    }
+                    is Resource.Success -> {
+                        updateState { copy(consumedProducts = resource.data.map { it.toPresentation() }) }
+                    }
+                    is Resource.Error -> {
+                        // emitSideEffect(DailySideEffect.ShowError(resource.errorMessage))
+                    }
+                }
+            }
+        }
     }
 }
 

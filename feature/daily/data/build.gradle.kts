@@ -15,4 +15,5 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.domain)
     implementation(projects.feature.daily.domain)
+    implementation(projects.util)
 }
