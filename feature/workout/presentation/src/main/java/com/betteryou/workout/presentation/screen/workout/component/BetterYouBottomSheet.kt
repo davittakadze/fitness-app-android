@@ -1,4 +1,4 @@
-package com.betteryou.workout.presentation.component
+package com.betteryou.workout.presentation.screen.workout.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -34,7 +34,7 @@ fun BetterYouBottomSheet(
         shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
         dragHandle = {
             BottomSheetDefaults.DragHandle(
-                color = Color.Gray.copy(alpha = 0.5f)
+                color = TBCTheme.colors.textSecondary
             )
         },
     ) {

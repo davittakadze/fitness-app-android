@@ -50,7 +50,7 @@ fun TBCAppSearchField(
         modifier = modifier
             .fillMaxWidth()
             .height(56.dp)
-            .background(colors.background , Radius.radius16)
+            .background(colors.surface , Radius.radius16)
             .border(
                 width = if (isFocused) 1.5.dp else 1.dp,
                 color = if (isFocused) colors.accent else colors.border,

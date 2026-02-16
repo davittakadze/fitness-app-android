@@ -19,10 +19,11 @@ data class TBCAppColors(
     val onPrimaryContainer: Color,
     val outline: Color,
     val transparentBack:Color = Color.Transparent,
+    val card:Color,
     val destructiveColor: Color=Color(0xFFD32F2F),
     val protein:Color=Color(0xFFFF7043),
     val fat:Color=Color(0xFFFFD54F),
-    val carbs:Color=Color(0xFF81D4FA)
+    val carbs:Color=Color(0xFF81D4FA),
 )
 
 val LightAppColors = TBCAppColors(
@@ -39,7 +40,8 @@ val LightAppColors = TBCAppColors(
     surfaceVariant = Color(0xFFF5F5F5),
     primaryContainer = Color(0xFFEADDFF),
     onPrimaryContainer = Color(0xFF21005D),
-    outline = Color(0xFF79747E)
+    outline = Color(0xFF79747E),
+    card = Color(0xFFF8F8F8),
 )
 
 val DarkAppColors = TBCAppColors(
@@ -51,12 +53,13 @@ val DarkAppColors = TBCAppColors(
     textPrimary = Color(0xFFF2F6F7),
     textSecondary = Color(0xFFB6C2C9),
     border = Color(0xFF3A4A52),
-    accent = Color(0xFF4FB3BF),
+    accent = Color(0xFF4CAF50),
     avatarBorder = Color(0xFF3A3A3A),
     surfaceVariant = Color(0xFF243238),
     primaryContainer = Color(0xFF4F378B),
     onPrimaryContainer = Color(0xFFEADDFF),
-    outline = Color(0xFF938F99)
+    outline = Color(0xFF938F99),
+    card = Color(0xFF243238),
 )
 
 val LocalTBCColors = staticCompositionLocalOf<TBCAppColors> {

@@ -52,21 +52,18 @@ fun TBCAppTheme() {
             context,
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(context.getString(com.example.betteryou.R.string.default_web_client_id))
-                .requestEmail()
-                .build()
+                .requestEmail().build()
         )
     }
 
-    val showBottomBar = navBackStackEntry
-        ?.destination
-        ?.hierarchy
-        ?.any { it.route == MainRoute::class.qualifiedName } == true
+    val showBottomBar = navBackStackEntry?.destination?.hierarchy?.any {
+        it.route == MainRoute::class.qualifiedName
+    } == true && navBackStackEntry?.destination?.route?.contains("WorkoutDetails") == false
 
 
     // Observe SnackBar events
     ObserveAsEvents(
-        flow = SnackBarController.events,
-        key = snackbarHostState
+        flow = SnackBarController.events, key = snackbarHostState
     ) { event ->
         scope.launch {
             snackbarHostState.currentSnackbarData?.dismiss()
@@ -84,18 +81,16 @@ fun TBCAppTheme() {
     }
 
 
-    Scaffold(
-        bottomBar = {
-            if (showBottomBar) {
-                BottomBar(navController)
-            }
-        },
-        snackbarHost = {
-            SnackbarHost(
-                hostState = snackbarHostState
-            )
+
+    Scaffold(bottomBar = {
+        if (showBottomBar) {
+            BottomBar(navController)
         }
-    ) {
+    }, snackbarHost = {
+        SnackbarHost(
+            hostState = snackbarHostState
+        )
+    }) {
         NavHost(
             navController = navController,
             startDestination = SplashRoute,

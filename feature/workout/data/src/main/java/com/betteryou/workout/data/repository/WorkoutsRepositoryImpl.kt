@@ -8,6 +8,7 @@ import com.bettetyou.core.model.GetExercise
 import com.bettetyou.core.model.Workout
 import com.example.betteryou.data.common.HandleResponse
 import com.example.betteryou.data.local.room.dao.workout.WorkoutDao
+import com.example.betteryou.data.local.room.entity.workout.ExerciseSetEntity
 import com.example.betteryou.data.local.room.entity.workout.WorkoutEntity
 import com.example.betteryou.data.local.room.entity.workout.WorkoutExerciseEntity
 import com.example.betteryou.data.mapper.asResource
@@ -30,36 +31,47 @@ class WorkoutsRepositoryImpl @Inject constructor(
         }.asResource { it.map(ExerciseDto::toDomain) }
     }
 
-
     override suspend fun saveWorkout(
         title: String,
         exercises: List<GetExercise>,
     ): String {
-        // 1. ვაგენერირებთ უნიკალურ ID-ს ვორქაუთისთვის
         val workoutId = UUID.randomUUID().toString()
         val currentTime = System.currentTimeMillis()
 
-        // 2. ვქმნით მთავარ ვორქაუთის ენთითის
         val workoutEntity = WorkoutEntity(
             id = workoutId,
             title = title,
             createdAt = currentTime
         )
 
-        // 3. GetExercise-ების სიას ვაქცევთ ბაზის ენთითებად
-        // თითოეულ სავარჯიშოს "ვაბამთ" ამ ვორქაუთის ID-ზე
-        val exerciseEntities = exercises.map { exercise ->
-            WorkoutExerciseEntity(
-                workoutId = workoutId, // Foreign Key
-                exerciseId = exercise.id,
-                name = exercise.name,
-                category = exercise.category,
-                imageUrl = exercise.imageUrl
+        val exerciseEntities = mutableListOf<WorkoutExerciseEntity>()
+        val initialSets = mutableListOf<ExerciseSetEntity>()
+
+        exercises.forEach { exercise ->
+            val exerciseIdInWorkout = UUID.randomUUID().toString()
+
+            exerciseEntities.add(
+                WorkoutExerciseEntity(
+                    id = exerciseIdInWorkout,
+                    workoutId = workoutId,
+                    exerciseId = exercise.id,
+                    name = exercise.name,
+                    category = exercise.category,
+                    imageUrl = exercise.imageUrl,
+                )
+            )
+
+            initialSets.add(
+                ExerciseSetEntity(
+                    workoutExerciseId = exerciseIdInWorkout,
+                    reps = "",
+                    weight = "",
+                    isCompleted = false
+                )
             )
         }
 
-        // 4. ვინახავთ ბაზაში (სასურველია DAO-ში გქონდეს @Transaction ფუნქცია ორივესთვის)
-        workoutDao.insertFullWorkout(workoutEntity, exerciseEntities)
+        workoutDao.insertFullWorkoutWithSets(workoutEntity, exerciseEntities, initialSets)
 
         return workoutId
     }
@@ -79,4 +91,7 @@ class WorkoutsRepositoryImpl @Inject constructor(
             list.map { it.toDomain() }
         }
     }
+
+
+
 }

@@ -1,4 +1,4 @@
-package com.betteryou.workout.presentation.screen.model
+package com.betteryou.workout.presentation.model
 
 data class ExerciseUI (
     val id: String,

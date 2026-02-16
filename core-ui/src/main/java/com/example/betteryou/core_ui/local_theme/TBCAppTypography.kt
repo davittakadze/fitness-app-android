@@ -21,7 +21,8 @@ data class TBCTypography(
     val bodyLarge: TextStyle,
     val bodyMedium: TextStyle,
     val labelLarge: TextStyle,
-    val bodyLargest: TextStyle
+    val bodyLargest: TextStyle,
+    val bodySmallest: TextStyle
 )
 
 
@@ -65,6 +66,12 @@ val TBCAppTypography = TBCTypography(
         fontWeight = FontWeight.Bold,
         lineHeight = 22.sp
     ),
+    bodySmallest = TextStyle(
+        fontFamily = main_font,
+        fontSize = 12.sp,
+        fontWeight = FontWeight.Bold,
+        lineHeight = 22.sp
+    )
 )
 
 val LocalTBCTypography = staticCompositionLocalOf<TBCTypography> {

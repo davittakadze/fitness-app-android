@@ -7,8 +7,10 @@ import com.example.betteryou.data.local.room.entity.UserEntity
 import com.example.betteryou.data.local.room.dao.UserNutritionDao
 import com.example.betteryou.data.local.room.dao.workout.WorkoutDao
 import com.example.betteryou.data.local.room.entity.UserNutritionEntity
+import com.example.betteryou.data.local.room.entity.workout.ExerciseSetEntity
 import com.example.betteryou.data.local.room.entity.workout.WorkoutEntity
 import com.example.betteryou.data.local.room.entity.workout.WorkoutExerciseEntity
+import com.example.betteryou.data.local.room.entity.workout.WorkoutHistoryEntity
 
 
 @Database(
@@ -16,9 +18,11 @@ import com.example.betteryou.data.local.room.entity.workout.WorkoutExerciseEntit
         UserEntity::class,
         UserNutritionEntity::class,
         WorkoutEntity::class,
-        WorkoutExerciseEntity::class
+        WorkoutExerciseEntity::class,
+        ExerciseSetEntity::class,
+        WorkoutHistoryEntity::class
     ],
-    version = 3,
+    version = 6,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
