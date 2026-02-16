@@ -10,8 +10,35 @@ plugins {
 
 android {
     namespace = "com.example.betteryou.data"
+
+    defaultConfig {
+        buildConfigField("String", "BASE_URL", "\"https://mocki.io/v1/\"")
+    }
+
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            buildConfigField("String", "BASE_URL", "\"https://mocki.io/v1/\"")
+        }
+        getByName("debug") {
+            buildConfigField("String", "BASE_URL", "\"https://mocki.io/v1/\"")
+        }
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
 }
 
 dependencies {
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.logging.interceptor)
+
     implementation(projects.core.domain)
+    implementation(projects.core.model)
 }

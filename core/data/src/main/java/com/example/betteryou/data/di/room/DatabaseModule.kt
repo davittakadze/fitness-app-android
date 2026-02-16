@@ -3,6 +3,9 @@ package com.example.betteryou.data.di.room
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
+import com.example.betteryou.data.local.room.dao.UserDao
+import com.example.betteryou.data.local.room.dao.UserNutritionDao
+import com.example.betteryou.data.local.room.dao.workout.WorkoutDao
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.betteryou.data.local.room.dao.intake.DailyIntakeDao
@@ -35,9 +38,18 @@ object DatabaseModule {
     }
 
     @Provides
+    @Singleton
     fun provideUserDao(db: AppDatabase): UserDao = db.userDao()
 
     @Provides
+    @Singleton
+    fun provideUserNutritionDao(db: AppDatabase): UserNutritionDao = db.userNutritionDao()
+
+    @Provides
+    @Singleton
+    fun provideWorkoutDao(appDatabase: AppDatabase): WorkoutDao {
+        return appDatabase.workoutDao()
+    }
     fun provideUserNutritionDao(db: AppDatabase): NutritionDao = db.userNutritionDao()
 
     @Provides

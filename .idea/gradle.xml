@@ -30,6 +30,7 @@
             <option value="$PROJECT_DIR$/core-ui" />
             <option value="$PROJECT_DIR$/core/data" />
             <option value="$PROJECT_DIR$/core/domain" />
+            <option value="$PROJECT_DIR$/core/model" />
             <option value="$PROJECT_DIR$/core/presentation" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/daily" />
@@ -60,6 +61,10 @@
             <option value="$PROJECT_DIR$/feature/splash/data" />
             <option value="$PROJECT_DIR$/feature/splash/domain" />
             <option value="$PROJECT_DIR$/feature/splash/presentation" />
+            <option value="$PROJECT_DIR$/feature/workout" />
+            <option value="$PROJECT_DIR$/feature/workout/data" />
+            <option value="$PROJECT_DIR$/feature/workout/domain" />
+            <option value="$PROJECT_DIR$/feature/workout/presentation" />
             <option value="$PROJECT_DIR$/util" />
           </set>
         </option>

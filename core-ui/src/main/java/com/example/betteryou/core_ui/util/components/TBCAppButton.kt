@@ -19,7 +19,8 @@ import com.example.betteryou.core_ui.local_theme.LocalTBCTypography
 enum class AppButtonType {
     Primary,
     Secondary,
-    Outlined
+    Outlined,
+    Accent
 }
 
 @Composable
@@ -37,6 +38,8 @@ fun TBCAppButton(
         AppButtonType.Primary -> colors.primary
         AppButtonType.Secondary,
         AppButtonType.Outlined -> colors.surface
+
+        AppButtonType.Accent -> colors.accent
     }
 
     val textColor = when (type) {

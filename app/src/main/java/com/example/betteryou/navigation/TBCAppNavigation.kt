@@ -17,6 +17,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.betteryou.feature.register.presentation.register.navigation.registerNavGraph
+import com.betteryou.workout.presentation.navgraph.workoutNavGraph
 import com.example.betteryou.feature.daily.presentation.navigation.dailyNavGraph
 import com.example.betteryou.feature.profile.presentation.navigation.profileNavGraph
 import com.example.betteryou.feature.settings.presentation.navigation.settingsNavGraph
@@ -51,20 +52,18 @@ fun TBCAppTheme() {
             context,
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(context.getString(com.example.betteryou.R.string.default_web_client_id))
-                .requestEmail()
-                .build()
+                .requestEmail().build()
         )
     }
 
-    val showBottomBar = navBackStackEntry
-        ?.destination
-        ?.hierarchy
-        ?.any { it.route == MainRoute::class.qualifiedName } == true
+    val showBottomBar = navBackStackEntry?.destination?.hierarchy?.any {
+        it.route == MainRoute::class.qualifiedName
+    } == true && navBackStackEntry?.destination?.route?.contains("WorkoutDetails") == false
 
 
+    // Observe SnackBar events
     ObserveAsEvents(
-        flow = SnackBarController.events,
-        key = snackbarHostState
+        flow = SnackBarController.events, key = snackbarHostState
     ) { event ->
         scope.launch {
             snackbarHostState.currentSnackbarData?.dismiss()
@@ -82,21 +81,19 @@ fun TBCAppTheme() {
     }
 
 
-    Scaffold(
-        bottomBar = {
-            if (showBottomBar) {
-                BottomBar(navController)
-            }
-        },
-        snackbarHost = {
-            SnackbarHost(
-                hostState = snackbarHostState
-            )
+
+    Scaffold(bottomBar = {
+        if (showBottomBar) {
+            BottomBar(navController)
         }
-    ) {
+    }, snackbarHost = {
+        SnackbarHost(
+            hostState = snackbarHostState
+        )
+    }) {
         NavHost(
             navController = navController,
-            startDestination = SplashRoute
+            startDestination = SplashRoute,
         ) {
             splashNavGraph(navController)
             menuNavGraph(navController, googleClient)
@@ -108,6 +105,7 @@ fun TBCAppTheme() {
                 settingsNavGraph(navController)
                 profileNavGraph(navController)
                 dailyNavGraph(navController)
+                workoutNavGraph(navController)
             }
         }
     }
