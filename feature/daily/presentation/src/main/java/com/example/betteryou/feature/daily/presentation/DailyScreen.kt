@@ -72,14 +72,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import com.example.betteryou.core_res.R
 import com.example.betteryou.core_ui.TBCTheme
 import com.example.betteryou.core_ui.local_theme.LocalTBCColors
 import com.example.betteryou.core_ui.local_theme.LocalTBCTypography
 import com.example.betteryou.core_ui.util.Radius
 import com.example.betteryou.core_ui.util.Spacer
-import com.example.betteryou.core_ui.util.components.AppAsyncImage
 import com.example.betteryou.core_ui.util.components.AppButtonType
+import com.example.betteryou.core_ui.util.components.TBCAppAsyncImage
 import com.example.betteryou.core_ui.util.components.TBCAppButton
 import com.example.betteryou.core_ui.util.components.TBCAppTextField
 import com.example.betteryou.feature.daily.presentation.model.ProductUi
@@ -126,8 +127,7 @@ fun DailyScreenContent(
                 }
             }) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
             item {
                 Text(
@@ -142,8 +142,7 @@ fun DailyScreenContent(
 
             item {
                 CustomDropdown(
-                    state.products,
-                    onItemSelected = { product ->
+                    state.products, onItemSelected = { product ->
                         onEvent(DailyEvent.OpenBottomSheet(product))
                     })
             }
@@ -164,8 +163,7 @@ fun DailyScreenContent(
                     ) { page ->
                         val pageOffset =
                             (pagerState.currentPage - page + pagerState.currentPageOffsetFraction).coerceIn(
-                                -1f,
-                                1f
+                                -1f, 1f
                             )
 
                         when (page) {
@@ -218,8 +216,7 @@ fun DailyScreenContent(
                                 quantity = quantity, product = product
                             )
                         )
-                    }
-                )
+                    })
             }
         }
     }
@@ -236,18 +233,17 @@ fun PageContent(
     val maxHeightDp = 400.dp
     val heightDp = maxHeightDp - (maxHeightDp - minHeightDp) * pageOffset.absoluteValue
 
-    Box(
-        modifier = Modifier
-            .height(heightDp)
-            .graphicsLayer {
-                shadowElevation = shadowElevationPx
-                shape = Radius.radius16
-                clip = true
-            }
-            .clip(Radius.radius16)
-            .background(LocalTBCColors.current.background)
-            .border(2.dp, LocalTBCColors.current.border, Radius.radius16)
-            .padding(16.dp)) {
+    Box(modifier = Modifier
+        .height(heightDp)
+        .graphicsLayer {
+            shadowElevation = shadowElevationPx
+            shape = Radius.radius16
+            clip = true
+        }
+        .clip(Radius.radius16)
+        .background(LocalTBCColors.current.background)
+        .border(2.dp, LocalTBCColors.current.border, Radius.radius16)
+        .padding(16.dp)) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -269,8 +265,7 @@ fun MacroCircleChart(
 ) {
     val fillFraction =
         (consumedCalories.toFloat() / totalCaloriesGoal.coerceAtLeast(1.0).toFloat()).coerceIn(
-            0f,
-            1f
+            0f, 1f
         )
 
     val proteinCalories = protein.toFloat() * 4f
@@ -658,13 +653,11 @@ fun CustomDropdown(
         ) {
             filteredItems.forEach { item ->
                 DropdownMenuItem(
-                    text = { CustomDropdownItem(item) },
-                    onClick = {
-                        onItemSelected(item)
-                        query = ""
-                        expanded = false
-                    },
-                    modifier = Modifier
+                    text = { CustomDropdownItem(item) }, onClick = {
+                    onItemSelected(item)
+                    query = ""
+                    expanded = false
+                }, modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 4.dp)
                 )
@@ -682,11 +675,12 @@ fun CustomDropdownItem(item: ProductUi) {
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        AppAsyncImage(
-            model = item.photo,
+        TBCAppAsyncImage(
+            img = item.photo,
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape),
+            placeholder = R.drawable.icon_workout_screen
         )
 
         Spacer(modifier = Modifier.width(Spacer.spacing12))
@@ -728,11 +722,12 @@ fun BottomSheet(
                 })
             }) {
 
-        AppAsyncImage(
-            model = item.photo, modifier = Modifier
+        TBCAppAsyncImage(
+            img = item.photo,
+            modifier = Modifier
                 .fillMaxWidth()
-                .height(250.dp)
-
+                .height(250.dp),
+            placeholder = R.drawable.icon_workout_screen
         )
 
         Spacer(modifier = Modifier.height(Spacer.spacing12))
@@ -857,10 +852,12 @@ fun ConsumedProductItem(item: UserDailyProductUi, onRemove: (UserDailyProductUi)
             .padding(12.dp),
     ) {
         Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
-            AppAsyncImage(
+            TBCAppAsyncImage(
                 modifier = Modifier
                     .size(130.dp)
-                    .clip(CircleShape), model = item.photo
+                    .clip(CircleShape),
+                img = item.photo,
+                placeholder = R.drawable.icon_workout_screen
             )
             Spacer(Modifier.width(Spacer.spacing16))
             Column(
