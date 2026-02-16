@@ -72,6 +72,7 @@
     <string name="account_creation_title">Create your account</string>
     <string name="account_creation_description">Secure your data and start your fitness journey</string>
 
+    <!-- Profile Screen   -->
     <string name="profile_updated">Profile updated successfully</string>
     <string name="account_deleted">Account deleted successfully</string>
     <string name="settings">Settings</string>
@@ -79,4 +80,31 @@
     <string name="light_theme">Light theme</string>
     <string name="change_password">Change password</string>
     <string name="invalid_age">Invalid age!</string>
+
+    <!-- Daily Screen  -->
+    <string name="daily_screen_title">Daily intake</string>
+    <string name="calories">%1$.0f kcal</string>
+    <string name="protein">Protein</string>
+    <string name="fat">Fats</string>
+    <string name="carb">Carbs</string>
+    <string name="intake">%1$.1f g</string>
+    <string name="start_drinking">Start drinking 💧</string>
+    <string name="keep_going">Keep going!</string>
+    <string name="good_progress">Good progress!</string>
+    <string name="almost_done">Almost done!</string>
+    <string name="so_close">So close!</string>
+    <string name="goal_reached">Goal reached! 🎉</string>
+    <string name="water_intake">Water intake</string>
+    <string name="water_progress">%1$.2f L / %2$.2f L</string>
+    <string name="hydration_message">%1$d%% hydrated</string>
+    <string name="select_product">Select product</string>
+    <string name="per_100g">Per 100 g</string>
+    <string name="calories_intake">Calories: %1$.0f kcal</string>
+    <string name="protein_intake">Protein: %1$.1f g</string>
+    <string name="carbs_intake">Carbs: %1$.1f g</string>
+    <string name="fats_intake">Fats: %1$.1f g</string>
+    <string name="add">Add</string>
+    <string name="calories_intake_string">Calories intake</string>
+    <string name="g">g.</string>
+
 </resources>

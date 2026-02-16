@@ -20,6 +20,7 @@ data class TBCAppColors(
     val outline: Color,
     val transparentBack:Color = Color.Transparent,
     val destructiveColor: Color=Color(0xFFD32F2F),
+    val macroCircleBackground:Color=Color.LightGray,
     val protein:Color=Color(0xFFFF7043),
     val fat:Color=Color(0xFFFFD54F),
     val carbs:Color=Color(0xFF81D4FA)

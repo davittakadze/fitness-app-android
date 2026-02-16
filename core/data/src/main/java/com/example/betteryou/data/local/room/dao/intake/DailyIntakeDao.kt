@@ -27,10 +27,10 @@ interface DailyIntakeDao {
     suspend fun updateDailyTotals(
         userId: String,
         date: Long,
-        calories: Int? = null,
-        protein: Int? = null,
-        fat: Int? = null,
-        carbs: Int? = null,
+        calories: Double? = null,
+        protein: Double? = null,
+        fat: Double? = null,
+        carbs: Double? = null,
         water: Double? = null,
     ): Int
 
@@ -41,10 +41,10 @@ interface DailyIntakeDao {
     suspend fun updateOrInsertDailyIntake(
         userId: String,
         date: Long,
-        calories: Int? = null,
-        protein: Int? = null,
-        fat: Int? = null,
-        carbs: Int? = null,
+        calories: Double? = null,
+        protein: Double? = null,
+        fat: Double? = null,
+        carbs: Double? = null,
         water: Double? = null,
     ) {
         val updatedRows = updateDailyTotals(
@@ -55,10 +55,10 @@ interface DailyIntakeDao {
                 DailyIntakeEntity(
                     userId = userId,
                     date = date,
-                    consumedCalories = calories ?: 0,
-                    protein = protein ?: 0,
-                    fat = fat ?: 0,
-                    carbs = carbs ?: 0,
+                    consumedCalories = calories ?: 0.0,
+                    protein = protein ?: 0.0,
+                    fat = fat ?: 0.0,
+                    carbs = carbs ?: 0.0,
                     water = water ?: 0.0
                 )
             )

@@ -24,14 +24,11 @@ interface UserProductDao {
     ): Flow<List<UserProductEntity>>
 
     @Query("""
-        DELETE FROM user_daily_products 
-        WHERE userId = :userId 
-        AND date < :dayStart
-    """)
-    suspend fun clearPreviousDays(
-        userId: String,
-        dayStart: Long
-    )
+    DELETE FROM user_daily_products
+    WHERE userId = :userId
+    AND date < :todayStart
+""")
+    suspend fun deleteBefore(userId: String, todayStart: Long)
 
     @Query("""
     DELETE FROM user_daily_products 
@@ -39,7 +36,7 @@ interface UserProductDao {
     AND userId = :userId
 """)
     suspend fun deleteProductById(
-        id: Int,
+        id: Long,
         userId: String
     )
 }

@@ -4,7 +4,7 @@ data class ProductUi (
     val id: Int,
     val name: String,
     val photo: String,
-    val calories: Int,
+    val calories: Double,
     val protein: Double,
     val carbs: Double,
     val fat: Double,

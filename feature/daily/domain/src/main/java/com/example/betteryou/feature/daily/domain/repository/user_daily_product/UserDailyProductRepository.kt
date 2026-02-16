@@ -12,5 +12,5 @@ interface UserDailyProductRepository {
 
     suspend fun clearOldProducts(userId: String)
 
-    suspend fun deleteProductById(userId: String,productId: Int)
+    suspend fun deleteProductById(userId: String, productId: Long)
 }

@@ -9,9 +9,9 @@ import androidx.room.Entity
 data class DailyIntakeEntity(
     val userId: String,
     val date: Long,
-    val consumedCalories: Int,
-    val protein: Int,
-    val fat: Int,
-    val carbs: Int,
+    val consumedCalories: Double,
+    val protein: Double,
+    val fat: Double,
+    val carbs: Double,
     val water:Double
 )

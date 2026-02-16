@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import java.util.Calendar
 import javax.inject.Inject
 
 class UserDailyProductRepositoryImpl @Inject constructor(
@@ -37,10 +38,17 @@ class UserDailyProductRepositoryImpl @Inject constructor(
     }
 
     override suspend fun clearOldProducts(userId: String) {
-        dao.clearPreviousDays(userId, getStartOfDayMillis())
+        val todayStart = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
+
+        dao.deleteBefore(userId, todayStart)
     }
 
-    override suspend fun deleteProductById(userId: String,id: Int) {
+    override suspend fun deleteProductById(userId: String, id: Long) {
         dao.deleteProductById(id,userId)
     }
 }

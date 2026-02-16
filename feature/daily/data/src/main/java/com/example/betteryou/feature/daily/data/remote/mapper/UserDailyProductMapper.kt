@@ -5,7 +5,7 @@ import com.example.betteryou.feature.daily.domain.model.UserDailyProduct
 
 fun UserDailyProduct.toEntity() = UserProductEntity(
     userId = userId,
-    id = productId,
+    id = id,
     name = name,
     photo = photo,
     calories = calories,
@@ -18,8 +18,8 @@ fun UserDailyProduct.toEntity() = UserProductEntity(
 )
 
 fun UserProductEntity.toDomain() = UserDailyProduct(
+    id = id,
     userId = userId,
-    productId =id,
     name = name,
     photo = photo,
     calories = calories,

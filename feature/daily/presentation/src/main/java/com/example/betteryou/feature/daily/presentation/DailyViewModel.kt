@@ -10,7 +10,6 @@ import com.example.betteryou.feature.daily.domain.usecase.intake.GetDailyIntakeU
 import com.example.betteryou.feature.daily.domain.usecase.intake.UpdateDailyIntakeUseCase
 import com.example.betteryou.feature.daily.domain.usecase.product.ProductUseCase
 import com.example.betteryou.feature.daily.domain.usecase.user_daily_product.AddUserDailyProductUseCase
-import com.example.betteryou.feature.daily.domain.usecase.user_daily_product.ClearOldUserDailyProductsUseCase
 import com.example.betteryou.feature.daily.domain.usecase.user_daily_product.DeleteProductByIdUseCase
 import com.example.betteryou.feature.daily.domain.usecase.user_daily_product.GetTodayUserProductsUseCase
 import com.example.betteryou.feature.daily.presentation.DailyEvent.*
@@ -22,7 +21,6 @@ import com.example.betteryou.util.getStartOfDayMillis
 import com.example.betteryou.util.getTodayStartTimestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,9 +40,9 @@ class DailyViewModel @Inject constructor(
 ) : BaseViewModel<DailyState, DailyEvent, DailySideEffect>(DailyState()) {
 
     init {
-        getProducts()                 // პროდუქტი ყოველთვის პირველი
-        getDailyData()                // total goals
-        loadUserDailyProducts()       // consumed products
+        getProducts()
+        getDailyData()
+        loadUserDailyProducts()
         loadInitialIntake()
     }
 
@@ -67,33 +65,32 @@ class DailyViewModel @Inject constructor(
             }
 
             //bottom sheet events
-            is OpenBottomSheet -> updateState{
-                copy(selectedProduct=event.product, isBottomSheetOpen =true)
+            is OpenBottomSheet -> updateState {
+                copy(selectedProduct = event.product, isBottomSheetOpen = true)
             }
 
-            CloseBottomSheet -> updateState{
+            CloseBottomSheet -> updateState {
                 copy(isBottomSheetOpen = false)
             }
 
             is AddProductQuantity -> {
                 val factor = event.quantity / 100.0
-                val addedCalories = (event.product.calories * factor).toInt()
-                val addedProtein = (event.product.protein * factor).toInt()
-                val addedFat = (event.product.fat * factor).toInt()
-                val addedCarbs = (event.product.carbs * factor).toInt()
+                val addedCalories = (event.product.calories * factor)
+                val addedProtein = (event.product.protein * factor)
+                val addedFat = (event.product.fat * factor)
+                val addedCarbs = (event.product.carbs * factor)
 
                 viewModelScope.launch {
                     val userId = getUserIdUseCase() ?: return@launch
 
                     val newDailyProduct = UserDailyProductUi(
                         userId = userId,
-                        productId = event.product.id,
                         name = event.product.name,
                         photo = event.product.photo,
                         calories = addedCalories,
-                        protein = addedProtein.toDouble(),
-                        carbs = addedCarbs.toDouble(),
-                        fat = addedFat.toDouble(),
+                        protein = addedProtein,
+                        carbs = addedCarbs,
+                        fat = addedFat,
                         description = event.product.description,
                         quantity = event.quantity,
                         date = getStartOfDayMillis()
@@ -122,29 +119,25 @@ class DailyViewModel @Inject constructor(
 
             is DeleteProduct -> {
                 viewModelScope.launch {
-                    val userId = getUserIdUseCase() ?: return@launch
+                    val productId = event.item.id
+                    deleteProductByIdUseCase(productId, getUserIdUseCase() ?: return@launch)
 
-                    try {
-                        deleteProductByIdUseCase(
-                            productId = event.product.productId,
-                            userId = userId
+                    updateState {
+                        copy(
+                            consumedProducts = state.value.consumedProducts
+                                .filterNot { it.id == productId },
+                            consumedCalories = state.value.consumedCalories - event.item.calories,
+                            protein = state.value.protein - event.item.protein,
+                            fat = state.value.fat - event.item.fat,
+                            carbs = state.value.carbs - event.item.carbs
                         )
-
-                        updateState {
-                            copy(
-                                consumedProducts = state.value.consumedProducts
-                                    .filterNot { it.productId == event.product.productId },
-
-                                consumedCalories = state.value.consumedCalories - event.product.calories,
-                                protein = state.value.protein - event.product.protein.toInt(),
-                                fat = state.value.fat - event.product.fat.toInt(),
-                                carbs = state.value.carbs - event.product.carbs.toInt()
-                            )
-                        }
-                    } catch (e: Exception) {
-                        Log.e("DailyViewModel", "Failed to delete product: ${e.message}")
-                        // აქ შეგიძლია emitSideEffect წააგდო რომ UI-ს აცნობო შეცდომა
                     }
+                    updateData(
+                        calories = state.value.consumedCalories - event.item.calories,
+                        protein = state.value.protein - event.item.protein,
+                        fat = state.value.fat - event.item.fat,
+                        carbs = state.value.carbs - event.item.carbs
+                    )
                 }
             }
         }
@@ -184,10 +177,10 @@ class DailyViewModel @Inject constructor(
     }
 
     private fun updateData(
-        calories: Int? = null,
-        protein: Int? = null,
-        fat: Int? = null,
-        carbs: Int? = null,
+        calories: Double? = null,
+        protein: Double? = null,
+        fat: Double? = null,
+        carbs: Double? = null,
         water: Double? = null,
     ) {
         viewModelScope.launch {
@@ -247,6 +240,7 @@ class DailyViewModel @Inject constructor(
             }
         }
     }
+
     private fun loadInitialIntake() {
         viewModelScope.launch {
             val userId = getUserIdUseCase() ?: return@launch
@@ -254,7 +248,7 @@ class DailyViewModel @Inject constructor(
             val today = getTodayStartTimestamp()
 
             getDailyIntakeUseCase(userId, today).collect { resource ->
-                when(resource) {
+                when (resource) {
                     is Resource.Success -> {
                         resource.data.let { intake ->
                             updateState {
@@ -268,16 +262,19 @@ class DailyViewModel @Inject constructor(
                             }
                         }
                     }
+
                     is Resource.Loader -> {
                         updateState { copy(isLoading = true) }
                     }
+
                     is Resource.Error -> {
-                    //...
+                        //...
                     }
                 }
             }
         }
     }
+
     private fun loadUserDailyProducts() {
         viewModelScope.launch {
             val userId = getUserIdUseCase() ?: return@launch
@@ -286,9 +283,11 @@ class DailyViewModel @Inject constructor(
                     is Resource.Loader -> {
                         updateState { copy(isLoading = true) }
                     }
+
                     is Resource.Success -> {
                         updateState { copy(consumedProducts = resource.data.map { it.toPresentation() }) }
                     }
+
                     is Resource.Error -> {
                         // emitSideEffect(DailySideEffect.ShowError(resource.errorMessage))
                     }

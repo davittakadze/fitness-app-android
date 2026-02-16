@@ -9,9 +9,9 @@ data class UserDto(
     val weight: Int = 0,
     val activityLevel: String = "",
     val goal: String = "",
-    val dailyCalories: Int = 0,
-    val protein: Int = 0,
-    val fats: Int = 0,
-    val carbs: Int = 0,
+    val dailyCalories: Double = 0.0,
+    val protein: Double = .0,
+    val fats: Double = 0.0,
+    val carbs: Double = 0.0,
     val water: Double = 0.0
 )

@@ -12,15 +12,15 @@ import androidx.room.PrimaryKey
 )
 data class UserProductEntity(
     @PrimaryKey
-    val id: Int,
-    val userId: String,
+    val id: Long,
+    val userId: String?,
     val name: String,
     val photo: String,
-    val calories: Int,
+    val calories: Double,
     val protein: Double,
     val carbs: Double,
     val fat: Double,
     val description: String,
-    val quantity: Int,
+    val quantity: Double,
     val date: Long,
 )

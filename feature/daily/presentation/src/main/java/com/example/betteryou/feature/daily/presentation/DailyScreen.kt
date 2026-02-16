@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -31,6 +32,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -62,11 +64,12 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.betteryou.core_res.R
@@ -79,38 +82,20 @@ import com.example.betteryou.core_ui.util.components.AppAsyncImage
 import com.example.betteryou.core_ui.util.components.AppButtonType
 import com.example.betteryou.core_ui.util.components.TBCAppButton
 import com.example.betteryou.core_ui.util.components.TBCAppTextField
-import com.example.betteryou.feature.daily.domain.model.UserDailyProduct
 import com.example.betteryou.feature.daily.presentation.model.ProductUi
 import com.example.betteryou.feature.daily.presentation.model.UserDailyProductUi
 import kotlin.math.absoluteValue
 import kotlin.math.sin
-
-//gasatania stringebi
 
 @Composable
 fun DailyScreen(
     viewModel: DailyViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-    DailyScreenContent(state, viewModel::onEvent)
-}
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DailyScreenContent(
-    state: DailyState,
-    onEvent: (DailyEvent) -> Unit,
-) {
-    val focusManager = LocalFocusManager.current
-
     val pagerState = rememberPagerState(
-        initialPage = state.currentPage,
-        pageCount = { 2 }
-    )
-
+        initialPage = state.currentPage, pageCount = { 2 })
     LaunchedEffect(pagerState.currentPage) {
-        onEvent(DailyEvent.ChangePage(pagerState.currentPage))
+        viewModel.onEvent(DailyEvent.ChangePage(pagerState.currentPage))
     }
 
     LaunchedEffect(state.currentPage) {
@@ -118,22 +103,35 @@ fun DailyScreenContent(
             pagerState.scrollToPage(state.currentPage)
         }
     }
+    DailyScreenContent(state, pagerState, viewModel::onEvent)
+}
 
-    Box(Modifier.fillMaxSize()) {
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DailyScreenContent(
+    state: DailyState,
+    pagerState: PagerState,
+    onEvent: (DailyEvent) -> Unit,
+) {
+    val focusManager = LocalFocusManager.current
+
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(LocalTBCColors.current.background)
+            .padding(vertical = 64.dp)
+            .pointerInput(Unit) {
+                detectTapGestures {
+                    focusManager.clearFocus()
+                }
+            }) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(LocalTBCColors.current.background)
-                .padding(vertical = 64.dp)
-                .pointerInput(Unit) {
-                    detectTapGestures {
-                        focusManager.clearFocus()
-                    }
-                }
         ) {
             item {
                 Text(
-                    text = "Daily intake",
+                    text = stringResource(R.string.daily_screen_title),
                     style = TBCTheme.typography.headlineLarge,
                     color = TBCTheme.colors.onBackground,
                     modifier = Modifier.padding(horizontal = 24.dp)
@@ -145,61 +143,62 @@ fun DailyScreenContent(
             item {
                 CustomDropdown(
                     state.products,
-                    selectedItem = null,
                     onItemSelected = { product ->
                         onEvent(DailyEvent.OpenBottomSheet(product))
-                    }
-                )
+                    })
             }
 
-            item { Spacer(Modifier.height(Spacer.spacing16)) }
-
             item {
-                HorizontalPager(
-                    state = pagerState,
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(400.dp),
-                    key = { it },
-                    contentPadding = PaddingValues(horizontal = 32.dp),
-                    pageSpacing = 16.dp,
-                    beyondViewportPageCount = 1
-                ) { page ->
-                    val pageOffset =
-                        (pagerState.currentPage - page + pagerState.currentPageOffsetFraction)
-                            .coerceIn(-1f, 1f)
-
-                    when (page) {
-                        0 -> PageContent(pageOffset = pageOffset) {
-                            MacroCircleChart(
-                                consumedCalories = state.consumedCalories,
-                                protein = state.protein,
-                                fat = state.fat,
-                                carbs = state.carbs,
-                                totalCaloriesGoal = state.totalCaloriesGoal,
-                                totalProteinGoal = state.totalProteinGoal,
-                                totalFatGoal = state.totalFatGoal,
-                                totalCarbsGoal = state.totalCarbsGoal
+                        .heightIn(min = 350.dp, max = 450.dp)
+                ) {
+                    HorizontalPager(
+                        state = pagerState,
+                        modifier = Modifier.fillMaxSize(),
+                        key = { it },
+                        contentPadding = PaddingValues(horizontal = 32.dp),
+                        pageSpacing = 16.dp,
+                        beyondViewportPageCount = 1
+                    ) { page ->
+                        val pageOffset =
+                            (pagerState.currentPage - page + pagerState.currentPageOffsetFraction).coerceIn(
+                                -1f,
+                                1f
                             )
-                        }
 
-                        1 -> PageContent(pageOffset = pageOffset) {
-                            GlassWaterTracker3D(
-                                currentWater = state.currentWater,
-                                waterGoal = state.waterGoal,
-                                onWaterChange = { newWater ->
-                                    onEvent(DailyEvent.ChangeWater(newWater))
-                                }
-                            )
+                        when (page) {
+                            0 -> PageContent(pageOffset = pageOffset) {
+                                MacroCircleChart(
+                                    consumedCalories = state.consumedCalories,
+                                    protein = state.protein,
+                                    fat = state.fat,
+                                    carbs = state.carbs,
+                                    totalCaloriesGoal = state.totalCaloriesGoal,
+                                    totalProteinGoal = state.totalProteinGoal,
+                                    totalFatGoal = state.totalFatGoal,
+                                    totalCarbsGoal = state.totalCarbsGoal
+                                )
+                            }
+
+                            1 -> PageContent(pageOffset = pageOffset) {
+                                GlassWaterTracker3D(
+                                    currentWater = state.currentWater,
+                                    waterGoal = state.waterGoal,
+                                    onWaterChange = { newWater ->
+                                        onEvent(DailyEvent.ChangeWater(newWater))
+                                    })
+                            }
                         }
                     }
                 }
             }
 
-            item { Spacer(Modifier.height(Spacer.spacing32)) }
-
-            items(state.consumedProducts) { consumedProduct ->
-                ConsumedProductItem(consumedProduct)
+            items(state.consumedProducts, key = { it.id }) { consumedProduct ->
+                ConsumedProductItem(consumedProduct) { item ->
+                    onEvent(DailyEvent.DeleteProduct(item))
+                }
             }
 
             item { Spacer(Modifier.height(Spacer.spacing32)) }
@@ -216,8 +215,7 @@ fun DailyScreenContent(
                     addProductQuantity = { quantity, product ->
                         onEvent(
                             DailyEvent.AddProductQuantity(
-                                quantity = quantity,
-                                product = product
+                                quantity = quantity, product = product
                             )
                         )
                     }
@@ -236,8 +234,7 @@ fun PageContent(
     val shadowElevationPx = with(LocalDensity.current) { shadowElevationDp.toPx() }
     val minHeightDp = 350.dp
     val maxHeightDp = 400.dp
-    val heightDp =
-        maxHeightDp - (maxHeightDp - minHeightDp) * pageOffset.absoluteValue
+    val heightDp = maxHeightDp - (maxHeightDp - minHeightDp) * pageOffset.absoluteValue
 
     Box(
         modifier = Modifier
@@ -250,8 +247,7 @@ fun PageContent(
             .clip(Radius.radius16)
             .background(LocalTBCColors.current.background)
             .border(2.dp, LocalTBCColors.current.border, Radius.radius16)
-            .padding(16.dp)
-    ) {
+            .padding(16.dp)) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -262,32 +258,33 @@ fun PageContent(
 
 @Composable
 fun MacroCircleChart(
-    consumedCalories: Int,
-    protein: Int,
-    fat: Int,
-    carbs: Int,
-    totalProteinGoal: Int,
-    totalFatGoal: Int,
-    totalCarbsGoal: Int,
-    totalCaloriesGoal: Int,
+    consumedCalories: Double,
+    protein: Double,
+    fat: Double,
+    carbs: Double,
+    totalProteinGoal: Double,
+    totalFatGoal: Double,
+    totalCarbsGoal: Double,
+    totalCaloriesGoal: Double,
 ) {
-    val fillFraction = (consumedCalories.toFloat() / totalCaloriesGoal.coerceAtLeast(1).toFloat())
-        .coerceIn(0f, 1f)
+    val fillFraction =
+        (consumedCalories.toFloat() / totalCaloriesGoal.coerceAtLeast(1.0).toFloat()).coerceIn(
+            0f,
+            1f
+        )
 
     val proteinCalories = protein.toFloat() * 4f
     val fatCalories = fat.toFloat() * 9f
     val carbsCalories = carbs.toFloat() * 4f
 
-    val macroCaloriesSum = (proteinCalories + fatCalories + carbsCalories)
-        .coerceAtLeast(1f)
+    val macroCaloriesSum = (proteinCalories + fatCalories + carbsCalories).coerceAtLeast(1f)
 
     val proteinFraction = proteinCalories / macroCaloriesSum
     val fatFraction = fatCalories / macroCaloriesSum
     val carbsFraction = carbsCalories / macroCaloriesSum
 
     val animatedTotalSweep by animateFloatAsState(
-        targetValue = 360f * fillFraction,
-        animationSpec = tween(1000)
+        targetValue = 360f * fillFraction, animationSpec = tween(1000)
     )
 
     val proteinAngle by animateFloatAsState(targetValue = animatedTotalSweep * proteinFraction)
@@ -297,7 +294,7 @@ fun MacroCircleChart(
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = "Calories intake",
+            text = stringResource(R.string.calories_intake_string),
             style = LocalTBCTypography.current.bodyLarge,
             color = LocalTBCColors.current.onBackground
         )
@@ -305,8 +302,7 @@ fun MacroCircleChart(
         Spacer(modifier = Modifier.height(Spacer.spacing16))
 
         Box(
-            modifier = Modifier.size(200.dp),
-            contentAlignment = Alignment.Center
+            modifier = Modifier.size(200.dp), contentAlignment = Alignment.Center
         ) {
             Canvas(modifier = Modifier.matchParentSize()) {
 
@@ -353,13 +349,13 @@ fun MacroCircleChart(
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = "$consumedCalories kkal",
+                    text = stringResource(R.string.calories, consumedCalories),
                     style = LocalTBCTypography.current.headlineLarge,
                     color = LocalTBCColors.current.onBackground
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "$totalCaloriesGoal kkal",
+                    text = stringResource(R.string.calories, totalCaloriesGoal),
                     style = LocalTBCTypography.current.bodyLargest,
                     color = LocalTBCColors.current.onBackground
                 )
@@ -375,7 +371,7 @@ fun MacroCircleChart(
         ) {
             InfoItem(
                 color = LocalTBCColors.current.protein,
-                text = "Protein",
+                text = stringResource(R.string.protein),
                 goal = totalProteinGoal,
                 current = protein,
             )
@@ -383,13 +379,12 @@ fun MacroCircleChart(
             VerticalDivider(
                 Modifier
                     .fillMaxHeight()
-                    .width(1.5.dp),
-                color = LocalTBCColors.current.border
+                    .width(1.5.dp), color = LocalTBCColors.current.border
             )
             Spacer(Modifier.width(Spacer.spacing16))
             InfoItem(
                 color = LocalTBCColors.current.fat,
-                text = "Fat",
+                text = stringResource(R.string.fat),
                 goal = totalFatGoal,
                 current = fat
             )
@@ -397,13 +392,12 @@ fun MacroCircleChart(
             VerticalDivider(
                 Modifier
                     .fillMaxHeight()
-                    .width(1.5.dp),
-                color = LocalTBCColors.current.border
+                    .width(1.5.dp), color = LocalTBCColors.current.border
             )
             Spacer(Modifier.width(Spacer.spacing16))
             InfoItem(
                 color = LocalTBCColors.current.carbs,
-                text = "Carbs",
+                text = stringResource(R.string.carb),
                 goal = totalCarbsGoal,
                 current = carbs
             )
@@ -411,12 +405,13 @@ fun MacroCircleChart(
     }
 }
 
+//micro chart element
 @Composable
 private fun InfoItem(
     color: Color,
     text: String,
-    goal: Int,
-    current: Int,
+    goal: Double,
+    current: Double,
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row {
@@ -435,13 +430,13 @@ private fun InfoItem(
         }
         Spacer(Modifier.height(Spacer.spacing8))
         Text(
-            text = "${current}g",
+            text = stringResource(R.string.intake, current),
             style = LocalTBCTypography.current.bodyLarge,
             color = LocalTBCColors.current.onBackground
         )
         Spacer(Modifier.height(Spacer.spacing8))
         Text(
-            text = "${goal}g",
+            text = stringResource(R.string.intake, goal),
             style = LocalTBCTypography.current.bodyMedium,
             color = LocalTBCColors.current.onBackground
         )
@@ -460,9 +455,7 @@ fun GlassWaterTracker3D(
     val percentage = (targetFill * 100).toInt()
 
     val animatedPercentage by animateIntAsState(
-        targetValue = percentage,
-        animationSpec = tween(1000),
-        label = "waterPercent"
+        targetValue = percentage, animationSpec = tween(1000), label = "waterPercent"
     )
 
     val animatedFill by animateFloatAsState(
@@ -471,17 +464,17 @@ fun GlassWaterTracker3D(
     )
 
     val hydrationMessage = when {
-        percentage == 0 -> "Start drinking 💧"
-        percentage < 40 -> "Keep going!"
-        percentage < 70 -> "Good progress!"
-        percentage < 90 -> "Almost done!"
-        percentage < 100 -> "So close!"
-        else -> "Goal reached! 🎉"
+        percentage == 0 -> stringResource(R.string.start_drinking)
+        percentage < 40 -> stringResource(R.string.keep_going)
+        percentage < 70 -> stringResource(R.string.good_progress)
+        percentage < 90 -> stringResource(R.string.almost_done)
+        percentage < 100 -> stringResource(R.string.so_close)
+        else -> stringResource(R.string.goal_reached)
     }
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = "Water intake",
+            text = stringResource(R.string.water_intake),
             style = LocalTBCTypography.current.bodyLarge,
             color = LocalTBCColors.current.onBackground
         )
@@ -498,21 +491,16 @@ fun GlassWaterTracker3D(
             }
 
             Box(
-                modifier = Modifier.size(150.dp, 180.dp),
-                contentAlignment = Alignment.BottomCenter
+                modifier = Modifier.size(150.dp, 180.dp), contentAlignment = Alignment.BottomCenter
             ) {
                 val infiniteTransition = rememberInfiniteTransition()
                 val wavePhase by infiniteTransition.animateFloat(
-                    0f,
-                    (2 * Math.PI).toFloat(),
-                    animationSpec = infiniteRepeatable(
+                    0f, (2 * Math.PI).toFloat(), animationSpec = infiniteRepeatable(
                         animation = tween(5000, easing = LinearEasing)
                     )
                 )
                 val horizontalShift by infiniteTransition.animateFloat(
-                    initialValue = -10f,
-                    targetValue = 10f,
-                    animationSpec = infiniteRepeatable(
+                    initialValue = -10f, targetValue = 10f, animationSpec = infiniteRepeatable(
                         animation = tween(8000, easing = LinearEasing),
                         repeatMode = RepeatMode.Reverse
                     )
@@ -559,8 +547,7 @@ fun GlassWaterTracker3D(
                                 val sideOffset =
                                     (sin(fraction * Math.PI + wavePhase) * horizontalShift * 0.5f).toFloat()
                                 val y = (h - waterHeight + surfaceWave).coerceIn(
-                                    h - waterHeight - maxAmplitude,
-                                    h
+                                    h - waterHeight - maxAmplitude, h
                                 )
                                 lineTo(x + sideOffset, y)
                             }
@@ -570,8 +557,7 @@ fun GlassWaterTracker3D(
                         }
 
                         drawPath(
-                            path = waterPath,
-                            brush = Brush.verticalGradient(
+                            path = waterPath, brush = Brush.verticalGradient(
                                 colors = listOf(Color(0xFF4FC3F7), Color(0xFF29B6F6)),
                                 startY = h - waterHeight - maxAmplitude,
                                 endY = h
@@ -580,8 +566,7 @@ fun GlassWaterTracker3D(
                     }
 
                     drawPath(
-                        path = glassPath,
-                        brush = Brush.verticalGradient(
+                        path = glassPath, brush = Brush.verticalGradient(
                             colors = listOf(Color.White.copy(alpha = 0.3f), Color.Transparent),
                             startY = 0f,
                             endY = h * 0.5f
@@ -602,13 +587,17 @@ fun GlassWaterTracker3D(
         Spacer(Modifier.height(Spacer.spacing16))
 
         Text(
-            text = "${"%.2f".format(currentWater)}L / ${waterGoal}L",
+            text = stringResource(
+                id = R.string.water_progress, currentWater, waterGoal
+            ),
             color = LocalTBCColors.current.onBackground,
             style = LocalTBCTypography.current.bodyLargest
         )
 
         Text(
-            text = "$animatedPercentage% hydrated",
+            text = stringResource(
+                id = R.string.hydration_message, animatedPercentage
+            ),
             style = LocalTBCTypography.current.bodyLargest,
             color = LocalTBCColors.current.onBackground
         )
@@ -627,19 +616,14 @@ fun GlassWaterTracker3D(
 @Composable
 fun CustomDropdown(
     items: List<ProductUi>,
-    selectedItem: ProductUi?,
     onItemSelected: (ProductUi) -> Unit,
 ) {
-    var expanded by remember { mutableStateOf(false) }
-    var query by remember { mutableStateOf("") }
+    var expanded by rememberSaveable { mutableStateOf(false) }
+    var query by rememberSaveable { mutableStateOf("") }
 
     val filteredItems = remember(query, items) {
         if (query.isEmpty()) items
         else items.filter { it.name.contains(query, ignoreCase = true) }
-    }
-
-    val textFieldValue = query.ifEmpty {
-        selectedItem?.name.orEmpty()
     }
 
     ExposedDropdownMenuBox(
@@ -650,14 +634,13 @@ fun CustomDropdown(
             .padding(24.dp)
             .clip(Radius.radius12)
     ) {
-
         TBCAppTextField(
-            value = textFieldValue,
+            value = query,
             onValueChange = {
                 query = it
                 expanded = true
             },
-            placeholder = "Select product",
+            placeholder = stringResource(R.string.select_product),
             modifier = Modifier
                 .menuAnchor()
                 .fillMaxWidth()
@@ -728,13 +711,15 @@ fun CustomDropdownItem(item: ProductUi) {
 fun BottomSheet(
     item: ProductUi,
     onClose: () -> Unit,
-    addProductQuantity: (quantity: Int, product: ProductUi) -> Unit,
+    addProductQuantity: (quantity: Double, product: ProductUi) -> Unit,
 ) {
     var quantity by rememberSaveable { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
+
     Column(
         Modifier
-            .fillMaxHeight(0.9f)
+            .fillMaxHeight()
+            .heightIn(max = LocalConfiguration.current.screenHeightDp.dp * 0.9f)
             .verticalScroll(rememberScrollState())
             .imePadding()
             .pointerInput(Unit) {
@@ -742,13 +727,16 @@ fun BottomSheet(
                     focusManager.clearFocus()
                 })
             }) {
+
         AppAsyncImage(
-            model = item.photo,
-            modifier = Modifier
+            model = item.photo, modifier = Modifier
                 .fillMaxWidth()
                 .height(250.dp)
+
         )
+
         Spacer(modifier = Modifier.height(Spacer.spacing12))
+
         Column {
             Text(
                 text = item.name,
@@ -756,44 +744,55 @@ fun BottomSheet(
                 color = TBCTheme.colors.onBackground,
                 modifier = Modifier.padding(horizontal = 24.dp)
             )
+
             Spacer(modifier = Modifier.height(Spacer.spacing16))
+
             Text(
                 text = item.description,
                 style = TBCTheme.typography.bodyLarge,
                 color = TBCTheme.colors.onBackground,
                 modifier = Modifier.padding(horizontal = 24.dp)
             )
+
             Spacer(modifier = Modifier.height(Spacer.spacing32))
+
             Text(
-                text = "Per 100g",
+                text = stringResource(R.string.per_100g),
                 style = TBCTheme.typography.headlineLarge,
                 color = TBCTheme.colors.onBackground,
                 modifier = Modifier.padding(horizontal = 24.dp)
             )
+
             Spacer(modifier = Modifier.height(Spacer.spacing16))
+
             Text(
-                text = "Calories:    ${item.calories}",
+                text = stringResource(R.string.calories_intake, item.calories),
+                style = TBCTheme.typography.bodyLarge,
+                color = TBCTheme.colors.onBackground,
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
+
+            Spacer(modifier = Modifier.height(Spacer.spacing8))
+
+            Text(
+                text = stringResource(R.string.protein_intake, item.protein),
+                style = TBCTheme.typography.bodyLarge,
+                color = TBCTheme.colors.onBackground,
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
+
+            Spacer(modifier = Modifier.height(Spacer.spacing8))
+
+            Text(
+                text = stringResource(R.string.fats_intake, item.fat),
                 style = TBCTheme.typography.bodyLarge,
                 color = TBCTheme.colors.onBackground,
                 modifier = Modifier.padding(horizontal = 24.dp)
             )
             Spacer(modifier = Modifier.height(Spacer.spacing8))
+
             Text(
-                text = "Protein:    ${item.protein}",
-                style = TBCTheme.typography.bodyLarge,
-                color = TBCTheme.colors.onBackground,
-                modifier = Modifier.padding(horizontal = 24.dp)
-            )
-            Spacer(modifier = Modifier.height(Spacer.spacing8))
-            Text(
-                text = "Fat:    ${item.fat}",
-                style = TBCTheme.typography.bodyLarge,
-                color = TBCTheme.colors.onBackground,
-                modifier = Modifier.padding(horizontal = 24.dp)
-            )
-            Spacer(modifier = Modifier.height(Spacer.spacing8))
-            Text(
-                text = "Carb:    ${item.carbs}",
+                text = stringResource(R.string.carbs_intake, item.carbs),
                 style = TBCTheme.typography.bodyLarge,
                 color = TBCTheme.colors.onBackground,
                 modifier = Modifier.padding(horizontal = 24.dp)
@@ -806,7 +805,7 @@ fun BottomSheet(
                 TBCAppTextField(
                     value = quantity,
                     onValueChange = { input ->
-                        if (input.all { it.isDigit() }) {
+                        if (input.matches(Regex("^\\d*\\.?\\d*$"))) {
                             quantity = input
                         }
                     },
@@ -819,7 +818,7 @@ fun BottomSheet(
                 )
                 Spacer(Modifier.width(8.dp))
                 Text(
-                    text = "g.",
+                    text = stringResource(R.string.g),
                     style = TBCTheme.typography.bodyLarge,
                     color = TBCTheme.colors.onBackground,
                     modifier = Modifier.padding(end = 24.dp, top = 24.dp, bottom = 24.dp)
@@ -828,9 +827,9 @@ fun BottomSheet(
         }
         Spacer(modifier = Modifier.height(Spacer.spacing16))
         TBCAppButton(
-            text = "Add",
+            text = stringResource(R.string.add),
             onClick = {
-                val amount: Int = quantity.toIntOrNull() ?: 0
+                val amount: Double = quantity.toDoubleOrNull() ?: 0.0
                 if (amount > 0) {
                     addProductQuantity(amount, item)
                 }
@@ -846,94 +845,71 @@ fun BottomSheet(
     }
 }
 
-@Preview
 @Composable
-fun DailyScreenPreview() {
-    TBCTheme {
-        //    DailyScreenContent(DailyState()) {}
-        ConsumedProductItem(
-            UserDailyProductUi(
-                userId = "denfienf",
-                productId = 34,
-                name = "Milk",
-                photo = "",
-                calories = 930,
-                protein = 10.0,
-                carbs = 10.0,
-                fat = 10.0,
-                description = "Milk",
-                quantity = 100,
-                date = 37484939
-            )
-        )
-    }
-}
-
-@Composable
-fun ConsumedProductItem(item: UserDailyProductUi) {
+fun ConsumedProductItem(item: UserDailyProductUi, onRemove: (UserDailyProductUi) -> Unit) {
     Box(
         Modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp, vertical = 12.dp)
-            .height(210.dp)
+            .heightIn(min = 180.dp, max = 220.dp)
             .border(shape = Radius.radius12, width = 1.dp, color = TBCTheme.colors.border)
             .clip(Radius.radius12)
-            .padding(24.dp)
+            .padding(12.dp),
     ) {
         Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
             AppAsyncImage(
                 modifier = Modifier
                     .size(130.dp)
-                    .clip(CircleShape),
-                model = item.photo
+                    .clip(CircleShape), model = item.photo
             )
             Spacer(Modifier.width(Spacer.spacing16))
-            Column(Modifier
-                .wrapContentWidth()
-                .fillMaxHeight()) {
+            Column(
+                Modifier
+                    .wrapContentWidth()
+                    .wrapContentHeight(),
+            ) {
                 Text(
                     text = item.name,
-                    style = TBCTheme.typography.bodyLargest,
+                    style = TBCTheme.typography.bodyMedium,
                     color = TBCTheme.colors.onBackground
                 )
                 Spacer(Modifier.height(Spacer.spacing16))
                 Text(
-                    text = "${item.quantity}g",
-                    style = TBCTheme.typography.bodyLarge,
+                    text = stringResource(R.string.intake, item.quantity),
+                    style = TBCTheme.typography.bodyMedium,
                     color = TBCTheme.colors.onBackground
                 )
                 Spacer(Modifier.height(Spacer.spacing8))
                 Text(
-                    text = "${item.calories} kkal",
-                    style = TBCTheme.typography.bodyLarge,
+                    text = stringResource(R.string.calories_intake, item.calories),
+                    style = TBCTheme.typography.bodyMedium,
                     color = TBCTheme.colors.onBackground
                 )
                 Spacer(Modifier.height(Spacer.spacing8))
                 Text(
-                    text = "protein: ${item.protein} g.",
-                    style = TBCTheme.typography.bodyLarge,
+                    text = stringResource(R.string.protein_intake, item.protein),
+                    style = TBCTheme.typography.bodyMedium,
                     color = TBCTheme.colors.onBackground
                 )
                 Spacer(Modifier.height(Spacer.spacing8))
                 Text(
-                    text = "fats: ${item.fat} g.",
-                    style = TBCTheme.typography.bodyLarge,
+                    text = stringResource(R.string.fats_intake, item.fat),
+                    style = TBCTheme.typography.bodyMedium,
                     color = TBCTheme.colors.onBackground
                 )
                 Spacer(Modifier.height(Spacer.spacing8))
                 Text(
-                    text = "carbs: ${item.carbs} g.",
-                    style = TBCTheme.typography.bodyLarge,
+                    text = stringResource(R.string.carbs_intake, item.carbs),
+                    style = TBCTheme.typography.bodyMedium,
                     color = TBCTheme.colors.onBackground
                 )
             }
-            Spacer(Modifier.width(Spacer.spacing4))
+            Spacer(Modifier.weight(1f))
             IconButton(
                 onClick = {
-
-                },
-                modifier = Modifier
-                    .size(24.dp)
+                    onRemove(item)
+                }, modifier = Modifier
+                    .size(48.dp)
                     .align(Alignment.Top)
             ) {
                 Icon(

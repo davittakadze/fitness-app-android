@@ -1,15 +1,15 @@
 package com.example.betteryou.feature.daily.domain.model
 
 data class UserDailyProduct(
-    val userId: String,
-    val productId: Int,
+    val id: Long,
+    val userId: String?,
     val name: String,
     val photo: String,
-    val calories: Int,
+    val calories: Double,
     val protein: Double,
     val carbs: Double,
     val fat: Double,
     val description: String,
-    val quantity: Int,
+    val quantity: Double,
     val date: Long
 )

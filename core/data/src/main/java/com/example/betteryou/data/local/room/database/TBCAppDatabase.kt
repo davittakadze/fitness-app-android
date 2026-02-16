@@ -13,7 +13,7 @@ import com.example.betteryou.data.local.room.entity.user_products.UserProductEnt
 
 @Database(
     entities = [UserEntity::class, NutritionEntity::class, DailyIntakeEntity::class, UserProductEntity::class],
-    version = 6,
+    version = 7,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

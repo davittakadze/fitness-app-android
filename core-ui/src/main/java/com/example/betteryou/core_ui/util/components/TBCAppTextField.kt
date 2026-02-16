@@ -54,7 +54,15 @@ fun TBCAppTextField(
     BasicTextField(
         value = value,
         onValueChange = { input ->
-            val filtered = if (numbersOnly) input.filter { it.isDigit() } else input
+            val filtered = if (numbersOnly) {
+                val digitsAndDot = input.filter { it.isDigit() || it == '.' }
+                val firstDotIndex = digitsAndDot.indexOfFirst { it == '.' }
+                if (firstDotIndex >= 0) {
+                    digitsAndDot.take(firstDotIndex + 1) + digitsAndDot.drop(firstDotIndex + 1).replace(".", "")
+                } else {
+                    digitsAndDot
+                }
+            } else input
             onValueChange(filtered)
         },
         singleLine = singleLine,

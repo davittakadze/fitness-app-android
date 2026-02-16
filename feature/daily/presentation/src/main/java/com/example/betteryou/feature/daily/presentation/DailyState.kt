@@ -5,20 +5,20 @@ import com.example.betteryou.feature.daily.presentation.model.UserDailyProductUi
 
 data class DailyState(
     //calories
-    val consumedCalories: Int=0,
-    val totalCaloriesGoal:Int=0,
+    val consumedCalories: Double=0.0,
+    val totalCaloriesGoal:Double=0.0,
 
     //proteins
-    val protein:Int=0,
-    val totalProteinGoal: Int=0,
+    val protein:Double=0.0,
+    val totalProteinGoal: Double=0.0,
 
     //fats
-    val fat: Int=0,
-    val totalFatGoal: Int=0,
+    val fat: Double=0.0,
+    val totalFatGoal: Double=0.0,
 
     //carbs
-    val carbs: Int=0,
-    val totalCarbsGoal: Int=0,
+    val carbs: Double=0.0,
+    val totalCarbsGoal: Double=0.0,
 
     //water
     val currentWater: Float=0f,

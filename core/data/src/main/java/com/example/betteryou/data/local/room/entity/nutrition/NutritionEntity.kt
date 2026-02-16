@@ -7,9 +7,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "user_nutrition")
 data class NutritionEntity(
     @PrimaryKey val userId: String,
-    val dailyCalories: Int,
-    val protein: Int,
-    val fats: Int,
-    val carbs: Int,
+    val dailyCalories: Double,
+    val protein: Double,
+    val fats: Double,
+    val carbs: Double,
     val water: Double
 )

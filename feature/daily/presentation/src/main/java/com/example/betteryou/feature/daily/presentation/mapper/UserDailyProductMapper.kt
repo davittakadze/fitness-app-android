@@ -5,8 +5,8 @@ import com.example.betteryou.feature.daily.presentation.model.UserDailyProductUi
 
 fun UserDailyProduct.toPresentation(): UserDailyProductUi {
     return UserDailyProductUi(
+        id=id,
         userId = userId,
-        productId = productId,
         name = name,
         photo = photo,
         calories = calories,
@@ -21,8 +21,8 @@ fun UserDailyProduct.toPresentation(): UserDailyProductUi {
 
 fun UserDailyProductUi.toDomain(): UserDailyProduct{
     return UserDailyProduct(
+        id =id,
         userId = userId,
-        productId = productId,
         name = name,
         photo = photo,
         calories = calories,
