@@ -1,6 +1,7 @@
 package com.example.betteryou.feature.daily.presentation
 
 import com.example.betteryou.feature.daily.presentation.model.ProductUi
+import com.example.betteryou.feature.daily.presentation.model.UserDailyProductUi
 
 sealed interface DailyEvent {
     //water events
@@ -22,4 +23,7 @@ sealed interface DailyEvent {
         val product: ProductUi,
         val quantity: Int
     ) : DailyEvent
+
+    //delete product
+    data class DeleteProduct(val product: UserDailyProductUi) : DailyEvent
 }

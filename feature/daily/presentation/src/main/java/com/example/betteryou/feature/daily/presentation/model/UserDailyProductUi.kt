@@ -1,7 +1,7 @@
 package com.example.betteryou.feature.daily.presentation.model
 
 data class UserDailyProductUi (
-    val userId: String,
+    val userId: String?=null,
     val productId: Int,
     val name: String,
     val photo: String,

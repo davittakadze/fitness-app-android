@@ -11,6 +11,7 @@ import com.example.betteryou.feature.daily.domain.usecase.intake.UpdateDailyInta
 import com.example.betteryou.feature.daily.domain.usecase.product.ProductUseCase
 import com.example.betteryou.feature.daily.domain.usecase.user_daily_product.AddUserDailyProductUseCase
 import com.example.betteryou.feature.daily.domain.usecase.user_daily_product.ClearOldUserDailyProductsUseCase
+import com.example.betteryou.feature.daily.domain.usecase.user_daily_product.DeleteProductByIdUseCase
 import com.example.betteryou.feature.daily.domain.usecase.user_daily_product.GetTodayUserProductsUseCase
 import com.example.betteryou.feature.daily.presentation.DailyEvent.*
 import com.example.betteryou.feature.daily.presentation.mapper.toDomain
@@ -37,7 +38,7 @@ class DailyViewModel @Inject constructor(
     private val getProductsUseCase: ProductUseCase,
     private val getUserDailyProduct: GetTodayUserProductsUseCase,
     private val addUserDailyProductUseCase: AddUserDailyProductUseCase,
-    private val clearOldProductsUseCase: ClearOldUserDailyProductsUseCase
+    private val deleteProductByIdUseCase: DeleteProductByIdUseCase,
 ) : BaseViewModel<DailyState, DailyEvent, DailySideEffect>(DailyState()) {
 
     init {
@@ -116,6 +117,34 @@ class DailyViewModel @Inject constructor(
                         fat = state.value.fat + addedFat,
                         carbs = state.value.carbs + addedCarbs
                     )
+                }
+            }
+
+            is DeleteProduct -> {
+                viewModelScope.launch {
+                    val userId = getUserIdUseCase() ?: return@launch
+
+                    try {
+                        deleteProductByIdUseCase(
+                            productId = event.product.productId,
+                            userId = userId
+                        )
+
+                        updateState {
+                            copy(
+                                consumedProducts = state.value.consumedProducts
+                                    .filterNot { it.productId == event.product.productId },
+
+                                consumedCalories = state.value.consumedCalories - event.product.calories,
+                                protein = state.value.protein - event.product.protein.toInt(),
+                                fat = state.value.fat - event.product.fat.toInt(),
+                                carbs = state.value.carbs - event.product.carbs.toInt()
+                            )
+                        }
+                    } catch (e: Exception) {
+                        Log.e("DailyViewModel", "Failed to delete product: ${e.message}")
+                        // აქ შეგიძლია emitSideEffect წააგდო რომ UI-ს აცნობო შეცდომა
+                    }
                 }
             }
         }

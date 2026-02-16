@@ -39,4 +39,8 @@ class UserDailyProductRepositoryImpl @Inject constructor(
     override suspend fun clearOldProducts(userId: String) {
         dao.clearPreviousDays(userId, getStartOfDayMillis())
     }
+
+    override suspend fun deleteProductById(userId: String,id: Int) {
+        dao.deleteProductById(id,userId)
+    }
 }

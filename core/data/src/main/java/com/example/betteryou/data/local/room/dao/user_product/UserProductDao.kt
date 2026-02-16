@@ -32,4 +32,14 @@ interface UserProductDao {
         userId: String,
         dayStart: Long
     )
+
+    @Query("""
+    DELETE FROM user_daily_products 
+    WHERE id = :id
+    AND userId = :userId
+""")
+    suspend fun deleteProductById(
+        id: Int,
+        userId: String
+    )
 }

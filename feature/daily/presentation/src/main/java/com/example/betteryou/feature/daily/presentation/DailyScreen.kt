@@ -864,14 +864,13 @@ fun DailyScreenPreview() {
                 description = "Milk",
                 quantity = 100,
                 date = 37484939
-            ),
-            {}
+            )
         )
     }
 }
 
 @Composable
-fun ConsumedProductItem(item: UserDailyProductUi,onRemove:(userId:String,productId:Int)->Unit) {
+fun ConsumedProductItem(item: UserDailyProductUi) {
     Box(
         Modifier
             .fillMaxWidth()

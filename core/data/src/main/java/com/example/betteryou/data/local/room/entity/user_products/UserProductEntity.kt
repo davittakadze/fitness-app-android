@@ -11,10 +11,9 @@ import androidx.room.PrimaryKey
     ]
 )
 data class UserProductEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey
+    val id: Int,
     val userId: String,
-    val productId: Int,
     val name: String,
     val photo: String,
     val calories: Int,

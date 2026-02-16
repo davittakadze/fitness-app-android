@@ -11,4 +11,6 @@ interface UserDailyProductRepository {
     fun getTodayProducts(userId: String): Flow<Resource<List<UserDailyProduct>>>
 
     suspend fun clearOldProducts(userId: String)
+
+    suspend fun deleteProductById(userId: String,productId: Int)
 }
