@@ -1,14 +1,13 @@
 package com.example.betteryou.data.common
 
 import com.example.betteryou.domain.common.Resource
-import jakarta.inject.Inject
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
+import javax.inject.Inject
 
-
-class HandleResponse @Inject constructor(){
+class HandleResponse @Inject constructor() {
     fun <T> safeApiCall(apiCall: suspend () -> Response<T>) = flow {
         emit(Resource.Loader(true))
         try {
@@ -24,10 +23,10 @@ class HandleResponse @Inject constructor(){
                 emit(Resource.Error(response.errorBody()?.string().orEmpty()))
             }
         } catch (e: Exception) {
-            when(e){
+            when (e) {
                 is IOException -> emit(Resource.Error(e.message.orEmpty()))
                 is HttpException -> emit(Resource.Error(e.message.orEmpty()))
-                else ->  emit(Resource.Error(e.message.orEmpty()))
+                else -> emit(Resource.Error(e.message.orEmpty()))
             }
         }
         emit(Resource.Loader(false))

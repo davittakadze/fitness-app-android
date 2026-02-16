@@ -5,6 +5,7 @@ plugins {
     id("betteryou.android.serialization")
     id("betteryou.android.room")
     id("betteryou.android.datastore")
+    id("betteryou.android.network")
 }
 
 android {

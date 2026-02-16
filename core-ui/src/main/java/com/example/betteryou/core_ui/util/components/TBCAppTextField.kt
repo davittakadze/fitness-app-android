@@ -5,9 +5,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
@@ -22,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.example.betteryou.core_ui.local_theme.LocalTBCColors
 import com.example.betteryou.core_ui.local_theme.LocalTBCTypography
 import com.example.betteryou.core_ui.util.Radius
+import com.example.betteryou.core_ui.util.Spacer
 
 @Composable
 fun TBCAppTextField(
@@ -32,7 +36,8 @@ fun TBCAppTextField(
     keyboardType: KeyboardType = KeyboardType.Text,
     singleLine: Boolean = true,
     readOnly: Boolean = false,
-    numbersOnly: Boolean = false
+    numbersOnly: Boolean = false,
+    trailingIcon: @Composable (() -> Unit)? = null
 ) {
     val colors = LocalTBCColors.current
     val typography = LocalTBCTypography.current
@@ -49,7 +54,15 @@ fun TBCAppTextField(
     BasicTextField(
         value = value,
         onValueChange = { input ->
-            val filtered = if (numbersOnly) input.filter { it.isDigit() } else input
+            val filtered = if (numbersOnly) {
+                val digitsAndDot = input.filter { it.isDigit() || it == '.' }
+                val firstDotIndex = digitsAndDot.indexOfFirst { it == '.' }
+                if (firstDotIndex >= 0) {
+                    digitsAndDot.take(firstDotIndex + 1) + digitsAndDot.drop(firstDotIndex + 1).replace(".", "")
+                } else {
+                    digitsAndDot
+                }
+            } else input
             onValueChange(filtered)
         },
         singleLine = singleLine,
@@ -75,18 +88,25 @@ fun TBCAppTextField(
             )
             .padding(horizontal = 16.dp, vertical = 14.dp),
         decorationBox = { innerTextField ->
-            Box(
+            Row(
                 modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.CenterStart
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                if (value.isEmpty()) {
-                    Text(
-                        text = placeholder,
-                        style = typography.bodyLarge,
-                        color = colors.textSecondary
-                    )
+                Box(modifier = Modifier.weight(1f)) {
+                    if (value.isEmpty()) {
+                        Text(
+                            text = placeholder,
+                            style = typography.bodyLarge,
+                            color = colors.textSecondary
+                        )
+                    }
+                    innerTextField()
                 }
-                innerTextField()
+
+                if (trailingIcon != null) {
+                    Spacer(modifier = Modifier.width(Spacer.spacing8))
+                    trailingIcon()
+                }
             }
         }
     )

@@ -71,7 +71,7 @@ fun SettingsContent(
         Modifier
             .fillMaxSize()
             .background(LocalTBCColors.current.background)
-            .padding(24.dp, 48.dp)
+            .padding(24.dp, 64.dp)
     ) {
         Text(
             text = stringResource(R.string.settings),

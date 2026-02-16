@@ -1,4 +1,5 @@
 package com.example.betteryou.feature.daily.presentation
 
-class DailySideEffect {
+sealed interface DailySideEffect {
+    data class ShowError(val error:String): DailySideEffect
 }

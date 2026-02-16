@@ -1,42 +1,27 @@
 package com.example.betteryou.feature.daily.data.remote.mapper
 
-import com.example.betteryou.data.local.room.entity.UserNutritionEntity
-import com.example.betteryou.feature.daily.data.remote.model.UserDto
-import com.example.betteryou.feature.daily.domain.model.User
+import com.example.betteryou.data.local.room.entity.nutrition.NutritionEntity
+import com.example.betteryou.feature.daily.data.remote.model.user.UserDto
+import com.example.betteryou.feature.daily.domain.model.Nutrient
 
-fun UserDto.toEntity(): UserNutritionEntity {
-    return UserNutritionEntity(
+fun UserDto.toEntity(): NutritionEntity {
+    return NutritionEntity(
         userId = userId,
-        name = name,
-        age = age,
-        gender = gender,
-        height = height,
-        weight = weight,
-        activityLevel = activityLevel,
-        goal = goal,
         dailyCalories = dailyCalories,
         protein = protein,
         fats = fats,
         carbs = carbs,
-        createdAt = createdAt
+        water = water
     )
 }
 
-fun UserNutritionEntity.toDomain(): User {
-    return User(
-        userId = userId,
-        name = name,
-        age = age,
-        gender = gender,
-        height = height,
-        weight = weight,
-        activityLevel = activityLevel,
-        goal = goal,
-        dailyCalories = dailyCalories,
+fun NutritionEntity.toDomain(): Nutrient {
+    return Nutrient(
         protein = protein,
         fats = fats,
         carbs = carbs,
-        createdAt = createdAt
+        water = water,
+        dailyCalories=dailyCalories
     )
 }
 
