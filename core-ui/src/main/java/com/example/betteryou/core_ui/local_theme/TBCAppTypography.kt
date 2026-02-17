@@ -36,7 +36,7 @@ val TBCAppTypography = TBCTypography(
     headlineMedium = TextStyle(
         fontFamily = main_font,
         fontSize = 22.sp,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.SemiBold,
         lineHeight = 28.sp
     ),
 

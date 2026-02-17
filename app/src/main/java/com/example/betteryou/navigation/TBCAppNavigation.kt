@@ -20,6 +20,7 @@ import com.betteryou.feature.register.presentation.register.navigation.registerN
 import com.betteryou.workout.presentation.navgraph.workoutNavGraph
 import com.example.betteryou.feature.daily.presentation.navigation.dailyNavGraph
 import com.example.betteryou.feature.profile.presentation.navigation.profileNavGraph
+import com.example.betteryou.feature.recipes.presentation.navigation.recipesNavGraph
 import com.example.betteryou.feature.settings.presentation.navigation.settingsNavGraph
 import com.example.betteryou.presentation.navigation.DailyRoute
 import com.example.betteryou.presentation.navigation.MainRoute
@@ -106,6 +107,7 @@ fun TBCAppTheme() {
                 profileNavGraph(navController)
                 dailyNavGraph(navController)
                 workoutNavGraph(navController)
+                recipesNavGraph(navController)
             }
         }
     }

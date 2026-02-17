@@ -52,7 +52,6 @@ class UserRepositoryImpl @Inject constructor(
 
         try {
             var photoUrl: String? = localEntity.profilePhotoUrl
-            Log.d("PHOTO_DEBUG", "photoUrl before upload = ${user.photoUrl}")
 
             user.photoUrl?.let { uriString ->
                 if (uriString.startsWith("content://") || uriString.startsWith("file://")) {

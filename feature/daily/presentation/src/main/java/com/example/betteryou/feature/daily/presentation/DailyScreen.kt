@@ -48,7 +48,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -65,6 +64,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -72,7 +72,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.betteryou.core_res.R
 import com.example.betteryou.core_ui.TBCTheme
 import com.example.betteryou.core_ui.local_theme.LocalTBCColors
@@ -85,6 +85,9 @@ import com.example.betteryou.core_ui.util.components.TBCAppButton
 import com.example.betteryou.core_ui.util.components.TBCAppTextField
 import com.example.betteryou.feature.daily.presentation.model.ProductUi
 import com.example.betteryou.feature.daily.presentation.model.UserDailyProductUi
+import com.example.betteryou.presentation.extensions.CollectSideEffects
+import com.example.betteryou.presentation.snackbar.SnackBarController
+import com.example.betteryou.presentation.snackbar.SnackbarEvent
 import kotlin.math.absoluteValue
 import kotlin.math.sin
 
@@ -92,7 +95,10 @@ import kotlin.math.sin
 fun DailyScreen(
     viewModel: DailyViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+
     val pagerState = rememberPagerState(
         initialPage = state.currentPage, pageCount = { 2 })
     LaunchedEffect(pagerState.currentPage) {
@@ -102,6 +108,17 @@ fun DailyScreen(
     LaunchedEffect(state.currentPage) {
         if (pagerState.currentPage != state.currentPage) {
             pagerState.scrollToPage(state.currentPage)
+        }
+    }
+    viewModel.sideEffect.CollectSideEffects { effect ->
+        when (effect) {
+            is DailySideEffect.ShowError -> {
+                SnackBarController.sendEvent(
+                    SnackbarEvent(
+                        message = effect.error.asString(context)
+                    )
+                )
+            }
         }
     }
     DailyScreenContent(state, pagerState, viewModel::onEvent)
