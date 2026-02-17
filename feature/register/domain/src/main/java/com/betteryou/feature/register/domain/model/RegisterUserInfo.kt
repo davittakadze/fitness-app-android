@@ -4,7 +4,7 @@ data class RegisterUserInfo(
     val userId: String = "",
     val name: String = "",
     val lastName:String?=null,
-    val age: Int = 0,
+    val age: Int=0,
     val gender: String = "",
     val height: Double = 0.0,
     val weight: Double = 0.0,

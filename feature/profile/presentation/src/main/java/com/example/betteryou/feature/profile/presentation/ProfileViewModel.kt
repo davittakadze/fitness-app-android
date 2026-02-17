@@ -11,11 +11,9 @@ import com.example.betteryou.presentation.common.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import javax.inject.Inject
 import java.time.YearMonth
 import com.example.betteryou.core_res.R
-import com.example.betteryou.domain.usecase.GetUserIdUseCase
 import com.example.betteryou.feature.profile.domain.usecase.usecase.GetUserInfoUseCase
 import com.example.betteryou.feature.profile.domain.usecase.usecase.SyncUserUseCase
 import com.example.betteryou.feature.profile.domain.usecase.usecase.UploadUserInfoUseCase
@@ -27,7 +25,6 @@ class ProfileViewModel @Inject constructor(
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val validator: AgeValidatorUseCase,
     private val syncUserUseCase: SyncUserUseCase,
-    private val getUserIdUseCase: GetUserIdUseCase
 ) :
     BaseViewModel<ProfileState, ProfileEvent, ProfileSideEffect>(ProfileState()) {
     private var pendingCameraUri: Uri? = null
@@ -44,7 +41,6 @@ class ProfileViewModel @Inject constructor(
                                     firstName = userUi.firstName.orEmpty(),
                                     lastName = userUi.lastName.orEmpty(),
                                     age = userUi.age,
-                                    selectedDate = getBirthDateFromAge(userUi.age),
                                     selectedSex = userUi.gender,
                                     height = userUi.height?.toString().orEmpty(),
                                     weight = userUi.weight?.toString().orEmpty(),
@@ -241,10 +237,5 @@ class ProfileViewModel @Inject constructor(
                 )
             }
         }
-    }
-
-
-    fun getBirthDateFromAge(age: Int?): LocalDate {
-        return LocalDate.now().minusYears(age!!.toLong())
     }
 }

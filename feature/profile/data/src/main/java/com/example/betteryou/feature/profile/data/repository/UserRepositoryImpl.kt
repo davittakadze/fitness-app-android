@@ -1,5 +1,6 @@
 package com.example.betteryou.feature.profile.data.repository
 
+import android.util.Log
 import com.example.betteryou.data.local.room.dao.user.UserDao
 import com.example.betteryou.domain.common.Resource
 import com.example.betteryou.feature.profile.data.remote.mapper.toDto
@@ -51,12 +52,15 @@ class UserRepositoryImpl @Inject constructor(
 
         try {
             var photoUrl: String? = localEntity.profilePhotoUrl
+            Log.d("PHOTO_DEBUG", "photoUrl before upload = ${user.photoUrl}")
 
             user.photoUrl?.let { uriString ->
-                val uri = uriString.toUri()
-                val ref = storage.reference.child("profile_photos/$userId.jpg")
-                ref.putFile(uri).await()
-                photoUrl = ref.downloadUrl.await().toString()
+                if (uriString.startsWith("content://") || uriString.startsWith("file://")) {
+                    val uri = uriString.toUri()
+                    val ref = storage.reference.child("profile_photos/$userId.jpg")
+                    ref.putFile(uri).await()
+                    photoUrl = ref.downloadUrl.await().toString()
+                }
             }
 
             val userMap = mapOf(
@@ -82,6 +86,7 @@ class UserRepositoryImpl @Inject constructor(
 
         } catch (e: Exception) {
             emit(Resource.Error(e.message ?: "Sync failed. Will retry later."))
+            Log.e("UPLOAD_ERROR", e.message ?: "error")
         }
 
         emit(Resource.Loader(false))

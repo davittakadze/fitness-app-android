@@ -109,10 +109,10 @@ class DailyViewModel @Inject constructor(
                     }
 
                     updateData(
-                        calories = state.value.consumedCalories + addedCalories,
-                        protein = state.value.protein + addedProtein,
-                        fat = state.value.fat + addedFat,
-                        carbs = state.value.carbs + addedCarbs
+                        calories = state.value.consumedCalories,
+                        protein = state.value.protein,
+                        fat = state.value.fat,
+                        carbs = state.value.carbs
                     )
                 }
             }
@@ -133,10 +133,10 @@ class DailyViewModel @Inject constructor(
                         )
                     }
                     updateData(
-                        calories = state.value.consumedCalories - event.item.calories,
-                        protein = state.value.protein - event.item.protein,
-                        fat = state.value.fat - event.item.fat,
-                        carbs = state.value.carbs - event.item.carbs
+                        calories = state.value.consumedCalories,
+                        protein = state.value.protein,
+                        fat = state.value.fat,
+                        carbs = state.value.carbs,
                     )
                 }
             }
