@@ -30,11 +30,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.betteryou.workout.presentation.screen.details.component.ExerciseDetailCard
-import com.example.betteryou.core_res.R
-import com.example.betteryou.core_ui.TBCTheme
-import com.example.betteryou.core_ui.util.Spacer
-import com.example.betteryou.core_ui.util.components.AppButtonType
-import com.example.betteryou.core_ui.util.components.TBCAppButton
+import com.example.betteryou.core_ui.R
+import com.example.betteryou.core_ui.theme.TBCTheme
+import com.example.betteryou.core_ui.theme.Spacer
+import com.example.betteryou.core_ui.components.button.AppButtonType
+import com.example.betteryou.core_ui.components.button.TBCAppButton
 import com.example.betteryou.presentation.extensions.CollectSideEffects
 
 @Composable

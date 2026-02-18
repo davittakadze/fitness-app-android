@@ -9,7 +9,7 @@ import com.betteryou.feature.register.domain.validation.EmailValidatorUseCase
 import com.betteryou.feature.register.domain.validation.EmptyFieldsValidatorUseCase
 import com.betteryou.feature.register.domain.validation.PasswordValidatorUseCase
 import com.betteryou.feature.register.domain.validation.RepeatPasswordValidatorUseCase
-import com.example.betteryou.core_res.R
+import com.example.betteryou.core_ui.R
 import com.example.betteryou.presentation.common.BaseViewModel
 import com.example.betteryou.presentation.common.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel

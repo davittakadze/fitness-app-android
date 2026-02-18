@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import java.time.YearMonth
-import com.example.betteryou.core_res.R
+import com.example.betteryou.core_ui.R
 import com.example.betteryou.feature.profile.domain.usecase.usecase.GetUserInfoUseCase
 import com.example.betteryou.feature.profile.domain.usecase.usecase.SyncUserUseCase
 import com.example.betteryou.feature.profile.domain.usecase.usecase.UploadUserInfoUseCase

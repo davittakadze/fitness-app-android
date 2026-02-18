@@ -37,9 +37,9 @@ class LogInViewModel @Inject constructor(
         val passwordError = passwordValidatorUseCase.invoke(password)
 
         val validationErrorResId = when {
-            emptyFieldsError -> com.example.betteryou.core_res.R.string.empty_fields
-            !emailError -> com.example.betteryou.core_res.R.string.invalid_email
-            passwordError -> com.example.betteryou.core_res.R.string.invalid_password
+            emptyFieldsError -> com.example.betteryou.core_ui.R.string.empty_fields
+            !emailError -> com.example.betteryou.core_ui.R.string.invalid_email
+            passwordError -> com.example.betteryou.core_ui.R.string.invalid_password
             else -> null
         }
 

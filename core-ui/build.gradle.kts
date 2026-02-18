@@ -6,7 +6,3 @@ plugins {
 android {
     namespace = "com.example.betteryou.core_ui"
 }
-
-dependencies {
-    implementation(projects.coreRes)
-}

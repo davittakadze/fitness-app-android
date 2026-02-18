@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.betteryou.core_ui.TBCTheme
+import com.example.betteryou.core_ui.theme.TBCTheme
 import com.example.betteryou.navigation.TBCAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 

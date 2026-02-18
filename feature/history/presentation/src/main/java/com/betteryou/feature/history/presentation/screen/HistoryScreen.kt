@@ -28,10 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.betteryou.feature.history.presentation.component.HistoryCard
-import com.example.betteryou.core_res.R
-import com.example.betteryou.core_ui.TBCTheme
-import com.example.betteryou.core_ui.util.components.SwipeToDeleteContainer
-import com.example.betteryou.core_ui.util.components.TBCAppScreenPlaceholder
+import com.example.betteryou.core_ui.R
+import com.example.betteryou.core_ui.theme.TBCTheme
+import com.example.betteryou.core_ui.components.SwipeToDeleteContainer
+import com.example.betteryou.core_ui.components.TBCAppScreenPlaceholder
 import com.example.betteryou.presentation.extensions.CollectSideEffects
 import com.example.betteryou.presentation.snackbar.SnackBarController
 import com.example.betteryou.presentation.snackbar.SnackbarEvent

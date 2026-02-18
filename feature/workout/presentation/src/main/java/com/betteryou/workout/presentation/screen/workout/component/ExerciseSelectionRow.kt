@@ -24,10 +24,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.betteryou.workout.presentation.model.ExerciseUI
-import com.example.betteryou.core_res.R
-import com.example.betteryou.core_ui.TBCTheme
-import com.example.betteryou.core_ui.util.Radius
-import com.example.betteryou.core_ui.util.components.TBCAppAsyncImage
+import com.example.betteryou.core_ui.R
+import com.example.betteryou.core_ui.theme.TBCTheme
+import com.example.betteryou.core_ui.theme.Radius
+import com.example.betteryou.core_ui.components.TBCAppAsyncImage
 
 @Composable
 fun ExerciseSelectionRow(

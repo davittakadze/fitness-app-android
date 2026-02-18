@@ -5,6 +5,7 @@
       <module name="BetterYou.build-logic.convention" target="21" />
       <module name="BetterYou.build-logic.convention.main" target="21" />
       <module name="BetterYou.build-logic.convention.test" target="21" />
+      <module name="BetterYou.core-res" target="21" />
       <module name="BetterYou.core_res" target="21" />
       <module name="BetterYou.core_ui" target="21" />
       <module name="BetterYou.feature.login" target="21" />

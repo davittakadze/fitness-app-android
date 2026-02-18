@@ -17,10 +17,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.betteryou.core_res.R
-import com.example.betteryou.core_ui.local_theme.LocalTBCColors
+import com.example.betteryou.core_ui.R
+import com.example.betteryou.core_ui.theme.LocalTBCColors
 import com.example.betteryou.presentation.navigation.DailyRoute
 import com.example.betteryou.presentation.navigation.RecipesRoute
 import com.example.betteryou.presentation.navigation.SettingsRoute

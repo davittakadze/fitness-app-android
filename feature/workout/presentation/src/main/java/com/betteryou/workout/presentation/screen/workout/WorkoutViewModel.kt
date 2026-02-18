@@ -10,7 +10,7 @@ import com.betteryou.workout.presentation.mapper.toDomain
 import com.betteryou.workout.presentation.mapper.toPresentation
 import com.betteryou.workout.presentation.model.ExerciseUI
 import com.bettetyou.core.model.GetExercise
-import com.example.betteryou.core_res.R
+import com.example.betteryou.core_ui.R
 import com.example.betteryou.presentation.common.BaseViewModel
 import com.example.betteryou.presentation.common.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel

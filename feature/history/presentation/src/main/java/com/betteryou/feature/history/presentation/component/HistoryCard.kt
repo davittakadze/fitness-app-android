@@ -32,11 +32,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.betteryou.feature.history.presentation.extension.toLocalDate
 import com.betteryou.feature.history.presentation.screen.model.HistoryUI
-import com.example.betteryou.core_res.R
-import com.example.betteryou.core_ui.TBCTheme
-import com.example.betteryou.core_ui.util.Radius
-import com.example.betteryou.core_ui.util.Spacer.spacing16
-import com.example.betteryou.core_ui.util.Spacer.spacing8
+import com.example.betteryou.core_ui.R
+import com.example.betteryou.core_ui.theme.TBCTheme
+import com.example.betteryou.core_ui.theme.Radius
+import com.example.betteryou.core_ui.theme.Spacer.spacing16
+import com.example.betteryou.core_ui.theme.Spacer.spacing8
 import com.example.betteryou.util.formatToString
 
 @Composable

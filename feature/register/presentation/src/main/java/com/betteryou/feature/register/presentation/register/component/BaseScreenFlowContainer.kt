@@ -24,9 +24,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.betteryou.feature.register.presentation.register.common.RegisterEvent
-import com.example.betteryou.core_res.R
-import com.example.betteryou.core_ui.TBCTheme
-import com.example.betteryou.core_ui.util.Spacer
+import com.example.betteryou.core_ui.R
+import com.example.betteryou.core_ui.theme.TBCTheme
+import com.example.betteryou.core_ui.theme.Spacer
 
 @Composable
 fun BaseScreenFlowContainer(

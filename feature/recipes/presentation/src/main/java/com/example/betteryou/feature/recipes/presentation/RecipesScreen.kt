@@ -39,12 +39,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.betteryou.core_res.R
-import com.example.betteryou.core_ui.TBCTheme
-import com.example.betteryou.core_ui.util.Radius
-import com.example.betteryou.core_ui.util.Spacer
-import com.example.betteryou.core_ui.util.components.TBCAppAsyncImage
-import com.example.betteryou.core_ui.util.components.TBCAppTextField
+import com.example.betteryou.core_ui.R
+import com.example.betteryou.core_ui.theme.TBCTheme
+import com.example.betteryou.core_ui.theme.Radius
+import com.example.betteryou.core_ui.theme.Spacer
+import com.example.betteryou.core_ui.components.TBCAppAsyncImage
+import com.example.betteryou.core_ui.components.text_field.TBCAppTextField
 import com.example.betteryou.feature.recipes.presentation.model.Meal
 import com.example.betteryou.feature.recipes.presentation.model.RecipeUi
 

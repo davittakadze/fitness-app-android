@@ -1,7 +1,7 @@
 package com.betteryou.feature.register.presentation.register.mapper
 
 import com.betteryou.feature.register.domain.model.ActivityLevelType
-import com.example.betteryou.core_res.R
+import com.example.betteryou.core_ui.R
 
 fun ActivityLevelType.toResourceString() : Int {
     return when (this) {

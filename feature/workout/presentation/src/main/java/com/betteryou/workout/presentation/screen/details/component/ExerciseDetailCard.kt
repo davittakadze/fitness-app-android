@@ -20,10 +20,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.betteryou.workout.presentation.model.WorkoutExerciseUI
-import com.example.betteryou.core_res.R
-import com.example.betteryou.core_ui.TBCTheme
-import com.example.betteryou.core_ui.util.Spacer
-import com.example.betteryou.core_ui.util.components.TBCAppAsyncImage
+import com.example.betteryou.core_ui.R
+import com.example.betteryou.core_ui.theme.TBCTheme
+import com.example.betteryou.core_ui.theme.Spacer
+import com.example.betteryou.core_ui.components.TBCAppAsyncImage
 
 @Composable
 fun ExerciseDetailCard(

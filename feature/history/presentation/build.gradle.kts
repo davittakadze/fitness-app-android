@@ -12,7 +12,7 @@ android {
 dependencies {
     implementation(projects.core.presentation)
     implementation(projects.core.domain)
-    implementation(projects.coreRes)
+
     implementation(projects.coreUi)
     implementation(projects.core.model)
     implementation(projects.feature.history.domain)

@@ -18,9 +18,9 @@ import com.betteryou.feature.register.presentation.register.common.RegisterViewM
 import com.betteryou.feature.register.presentation.register.component.BaseScreenFlowContainer
 import com.betteryou.feature.register.presentation.register.component.SelectCard
 import com.betteryou.feature.register.presentation.register.mapper.toResourceString
-import com.example.betteryou.core_res.R
-import com.example.betteryou.core_ui.util.Spacer
-import com.example.betteryou.core_ui.util.components.TBCAppButton
+import com.example.betteryou.core_ui.R
+import com.example.betteryou.core_ui.theme.Spacer
+import com.example.betteryou.core_ui.components.button.TBCAppButton
 import com.example.betteryou.presentation.extensions.CollectSideEffects
 
 @Composable

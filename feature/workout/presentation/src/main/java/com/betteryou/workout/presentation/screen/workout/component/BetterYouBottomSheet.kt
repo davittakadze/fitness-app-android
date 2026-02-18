@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.betteryou.core_ui.TBCTheme
+import com.example.betteryou.core_ui.theme.TBCTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

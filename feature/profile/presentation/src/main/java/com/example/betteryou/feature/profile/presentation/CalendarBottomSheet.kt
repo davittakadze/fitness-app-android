@@ -8,8 +8,8 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.betteryou.core_ui.local_theme.LocalTBCColors
-import com.example.betteryou.core_ui.util.Spacer
+import com.example.betteryou.core_ui.theme.LocalTBCColors
+import com.example.betteryou.core_ui.theme.Spacer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

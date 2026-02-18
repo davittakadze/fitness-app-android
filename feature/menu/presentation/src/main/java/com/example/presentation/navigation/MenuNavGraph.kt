@@ -49,7 +49,7 @@ fun NavGraphBuilder.menuNavGraph(
                         SnackBarController.sendEvent(
                             SnackbarEvent(
                                 message = context.getString(
-                                    com.example.betteryou.core_res.R.string.google_sign_in_failed
+                                    com.example.betteryou.core_ui.R.string.google_sign_in_failed
                                 )
                             )
                         )
