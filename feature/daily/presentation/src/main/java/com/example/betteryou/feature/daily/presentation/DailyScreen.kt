@@ -63,7 +63,6 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
@@ -223,7 +222,7 @@ fun DailyScreenContent(
             ModalBottomSheet(
                 onDismissRequest = { onEvent(DailyEvent.CloseBottomSheet) },
                 containerColor = TBCTheme.colors.background,
-                modifier = Modifier.fillMaxHeight(0.9f)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 BottomSheet(
                     state.selectedProduct,
@@ -730,7 +729,8 @@ fun BottomSheet(
 
     Column(
         Modifier
-            .fillMaxHeight()
+            .fillMaxWidth()
+            .heightIn(600.dp)
             .verticalScroll(rememberScrollState())
             .imePadding()
             .pointerInput(Unit) {

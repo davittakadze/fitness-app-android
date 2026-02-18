@@ -1,6 +1,7 @@
 package com.example.betteryou.feature.recipes.domain.model
 
 data class Recipe(
+    val id:Long,
     val category: String,
     val title: String,
     val imageUrl: String,

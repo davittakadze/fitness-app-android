@@ -6,4 +6,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface RecipeRepository {
     suspend fun getMeals(): Flow<Resource<List<Recipe>>>
+    suspend fun getFavoriteMeals(): Flow<Resource<List<Recipe>>>
+
+    suspend fun addFavoriteMeal(meal: Recipe)
+
+    suspend fun removeFavoriteMealById(mealId: Long)
 }

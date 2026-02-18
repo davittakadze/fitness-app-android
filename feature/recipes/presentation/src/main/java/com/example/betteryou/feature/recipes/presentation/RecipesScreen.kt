@@ -9,10 +9,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -35,7 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -68,18 +68,23 @@ fun RecipesContent(state: RecipesState, onEvent: (RecipesEvent) -> Unit) {
             if (state.selectedMeal != null) {
                 ModalBottomSheet(
                     onDismissRequest = { onEvent(RecipesEvent.OnDismissSheet) },
-                    modifier = Modifier.fillMaxHeight(0.9f),
+                    modifier = Modifier.fillMaxWidth(),
                     containerColor = TBCTheme.colors.background
                 ) {
                     BottomSheet(item = state.selectedMeal)
                 }
             }
-            Column {
+
+            Column(Modifier
+                .fillMaxSize()
+                .padding(bottom = 100.dp)) {
+
                 Spacer(Modifier.height(32.dp))
+
                 TBCAppTextField(
                     value = state.searchQuery,
                     onValueChange = { onEvent(RecipesEvent.OnSearchQueryChange(it)) },
-                    placeholder = "Search recipes...",
+                    placeholder = stringResource(R.string.search_recipes),
                     modifier = Modifier.fillMaxWidth(),
                     trailingIcon = {
                         IconButton(
@@ -101,11 +106,13 @@ fun RecipesContent(state: RecipesState, onEvent: (RecipesEvent) -> Unit) {
                 }
 
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    items(filteredMeals, key = { it.title }) { item ->
+                    items(filteredMeals, key = { it.id }) { item ->
                         MealItem(
                             item = item,
                             isSelected = state.favouriteMeals.contains(item),
-                            onFavouriteClick = { onEvent(RecipesEvent.OnFavouriteClick(item)) },
+                            onFavouriteClick = {
+                                onEvent(RecipesEvent.OnFavouriteClick(item))
+                            },
                             onItemClick = { onEvent(RecipesEvent.OnItemClick(item)) }
                         )
                     }
@@ -117,7 +124,7 @@ fun RecipesContent(state: RecipesState, onEvent: (RecipesEvent) -> Unit) {
             if (state.selectedMeal != null) {
                 ModalBottomSheet(
                     onDismissRequest = { onEvent(RecipesEvent.OnDismissSheet) },
-                    modifier = Modifier.fillMaxHeight(0.9f),
+                    modifier = Modifier.fillMaxWidth(),
                     containerColor = TBCTheme.colors.background
                 ) {
                     BottomSheet(item = state.selectedMeal)
@@ -127,12 +134,12 @@ fun RecipesContent(state: RecipesState, onEvent: (RecipesEvent) -> Unit) {
                 Modifier
                     .fillMaxSize()
                     .background(TBCTheme.colors.background)
-                    .padding(bottom = 64.dp)
+                    .padding(bottom = 100.dp)
             ) {
                 TopAppBar(
                     title = {
                         Text(
-                            text = "Healthy recipes",
+                            text = stringResource(R.string.healthy_recipes_title),
                             style = TBCTheme.typography.headlineMedium,
                             color = TBCTheme.colors.onBackground
                         )
@@ -145,7 +152,7 @@ fun RecipesContent(state: RecipesState, onEvent: (RecipesEvent) -> Unit) {
                         IconButton(onClick = { onEvent(RecipesEvent.OnSearchClick) }) {
                             Icon(
                                 painter = painterResource(R.drawable.search_button_svgrepo_com),
-                                contentDescription = "Favorite",
+                                contentDescription = null,
                                 tint = TBCTheme.colors.onBackground
                             )
                         }
@@ -253,19 +260,19 @@ fun MealItem(
                 )
                 Spacer(Modifier.height(Spacer.spacing8))
                 Text(
-                    text = "Ingrediend count: ${item.ingredientCount}",
+                    text = stringResource(R.string.ingredient_count, item.ingredientCount),
                     style = TBCTheme.typography.bodySmallest,
                     color = TBCTheme.colors.onBackground
                 )
                 Spacer(Modifier.height(Spacer.spacing8))
                 Text(
-                    text = "Cooking time: ${item.cookingTime}",
+                    text = stringResource(R.string.cooking_time, item.cookingTime),
                     style = TBCTheme.typography.bodySmallest,
                     color = TBCTheme.colors.onBackground
                 )
                 Spacer(Modifier.height(Spacer.spacing8))
                 Text(
-                    text = "Difficulty: ${item.difficulty}",
+                    text = stringResource(R.string.difficulty, item.difficulty),
                     style = TBCTheme.typography.bodySmallest,
                     color = TBCTheme.colors.onBackground
                 )
@@ -303,6 +310,7 @@ fun BottomSheet(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .heightIn(max = 600.dp)
             .verticalScroll(rememberScrollState())
     ) {
         TBCAppAsyncImage(
@@ -376,12 +384,20 @@ fun InfoCard(item: RecipeUi) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.weight(1f))
-        InfoItem("Difficulty", item.difficulty, R.drawable.chef_svgrepo_com)
-        Spacer(Modifier.weight(1f))
-        InfoItem("Time", item.cookingTime, R.drawable.timer_svgrepo_com)
+        InfoItem(
+            stringResource(R.string.difficulty_without_dots),
+            item.difficulty,
+            R.drawable.chef_svgrepo_com
+        )
         Spacer(Modifier.weight(1f))
         InfoItem(
-            "Ingredients",
+            stringResource(R.string.cooking_time_without_dots),
+            item.cookingTime,
+            R.drawable.timer_svgrepo_com
+        )
+        Spacer(Modifier.weight(1f))
+        InfoItem(
+            stringResource(R.string.ingredient_count_without_dots),
             item.ingredientCount.toString(),
             R.drawable.cooking_food_in_a_hot_casserole_svgrepo_com
         )
@@ -411,25 +427,6 @@ fun InfoItem(title: String, value: String, @DrawableRes icon: Int) {
             text = value,
             color = TBCTheme.colors.onBackground,
             style = TBCTheme.typography.bodyLarge
-        )
-    }
-}
-
-@Preview
-@Composable
-fun RecipesScreenPreview() {
-    TBCTheme {
-        BottomSheet(
-            RecipeUi(
-                category = "All",
-                title = "Hello iddwidnid",
-                imageUrl = "",
-                ingredientCount = 5,
-                ingredients = listOf("duef", "fhunf", "ifief"),
-                cookingTime = "2h",
-                difficulty = "hard",
-                recipe = "efninfienf"
-            )
         )
     }
 }

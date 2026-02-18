@@ -1,6 +1,7 @@
 package com.example.betteryou.feature.recipes.data.repository
 
 import com.example.betteryou.data.common.HandleResponse
+import com.example.betteryou.data.local.room.dao.meal.FavoriteMealDao
 import com.example.betteryou.data.local.room.dao.meal.MealDao
 import com.example.betteryou.domain.common.Resource
 import com.example.betteryou.feature.recipes.data.remote.service.RecipeService
@@ -10,6 +11,7 @@ import com.example.betteryou.feature.recipes.domain.model.Recipe
 import com.example.betteryou.feature.recipes.domain.repository.RecipeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import kotlinx.coroutines.flow.flowOn
@@ -18,6 +20,7 @@ class RecipeRepositoryImpl @Inject constructor(
     private val handleResponse: HandleResponse,
     private val recipeService: RecipeService,
     private val mealDao: MealDao,
+    private val favoriteMealDao: FavoriteMealDao
 ) : RecipeRepository {
     override suspend fun getMeals(): Flow<Resource<List<Recipe>>> {
         return handleResponse.safeApiCall {
@@ -46,5 +49,24 @@ class RecipeRepositoryImpl @Inject constructor(
                 }
             }
         }
+    }
+
+    override suspend fun getFavoriteMeals(): Flow<Resource<List<Recipe>>> = flow {
+        emit(Resource.Loader(true))
+        try {
+            val favorites = favoriteMealDao.getAllMeals()
+            emit(Resource.Success(favorites.map { it.toDomain() }))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.localizedMessage ?: "Unknown error"))
+        }
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun addFavoriteMeal(meal: Recipe) {
+        val entity = meal.toEntity()
+        favoriteMealDao.insertMeal(entity)
+    }
+
+    override suspend fun removeFavoriteMealById(mealId: Long) {
+        favoriteMealDao.deleteMealById(mealId)
     }
 }

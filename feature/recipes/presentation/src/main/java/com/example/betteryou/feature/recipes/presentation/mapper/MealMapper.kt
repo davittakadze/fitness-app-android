@@ -5,6 +5,7 @@ import com.example.betteryou.feature.recipes.presentation.model.RecipeUi
 
 fun Recipe.toPresentation(): RecipeUi {
     return RecipeUi(
+        id=id,
         category = category,
         title = title,
         imageUrl = imageUrl,
@@ -15,3 +16,19 @@ fun Recipe.toPresentation(): RecipeUi {
         recipe = recipe
     )
 }
+
+fun RecipeUi.toDomain(): Recipe {
+    return Recipe(
+        id=id,
+        category = category,
+        title = title,
+        imageUrl = imageUrl,
+        ingredientCount = ingredientCount,
+        ingredients = ingredients,
+        cookingTime = cookingTime,
+        difficulty = difficulty,
+        recipe = recipe
+    )
+}
+
+

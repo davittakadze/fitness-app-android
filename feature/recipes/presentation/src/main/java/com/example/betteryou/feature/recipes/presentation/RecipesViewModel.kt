@@ -1,14 +1,24 @@
 package com.example.betteryou.feature.recipes.presentation
 
-import com.example.betteryou.feature.recipes.domain.usecase.MealUseCase
+import android.util.Log
+import androidx.lifecycle.viewModelScope
+import com.example.betteryou.feature.recipes.domain.usecase.AddFavoriteMealUseCase
+import com.example.betteryou.feature.recipes.domain.usecase.GetFavoriteMealUseCase
+import com.example.betteryou.feature.recipes.domain.usecase.GetMealUseCase
+import com.example.betteryou.feature.recipes.domain.usecase.RemoveFavoriteMealUseCase
+import com.example.betteryou.feature.recipes.presentation.mapper.toDomain
 import com.example.betteryou.feature.recipes.presentation.mapper.toPresentation
 import com.example.betteryou.presentation.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RecipesViewModel @Inject constructor(
-    private val mealUseCase: MealUseCase,
+    private val mealUseCase: GetMealUseCase,
+    private val favoriteMealUseCase: AddFavoriteMealUseCase,
+    private val removeFavoriteMealUseCase: RemoveFavoriteMealUseCase,
+    private val getFavoriteMealUseCase: GetFavoriteMealUseCase,
 ) : BaseViewModel<RecipesState, RecipesEvent, Unit>(RecipesState()) {
 
     init {
@@ -21,30 +31,41 @@ class RecipesViewModel @Inject constructor(
                 updateState {
                     copy(selectedCategory = event.item)
                 }
+                Log.d("VM_DEBUG", "Selected category: ${event.item.displayName}")
             }
 
             is RecipesEvent.SelectMeal -> {
                 updateState {
                     copy(selectedMeal = event.item)
                 }
+                Log.d("VM_DEBUG", "Selected meal: ${event.item.title}")
             }
 
             is RecipesEvent.OnFavouriteClick -> {
-                val currentFavourites=state.value.favouriteMeals
-                updateState {
-                    copy(
-                        favouriteMeals = if (currentFavourites.contains(event.item)) {
-                            currentFavourites - event.item
+                viewModelScope.launch {
+                    val isAlreadyFavorite =
+                        state.value.favouriteMeals.any { it.id == event.item.id }
+
+                    if (isAlreadyFavorite) {
+                        removeFavoriteMealUseCase.removeFavoriteMealById(event.item.id)
+                    } else {
+                        favoriteMealUseCase.addFavoriteMeal(event.item.toDomain())
+                    }
+                    updateState {
+                        val newList = if (isAlreadyFavorite) {
+                            favouriteMeals.filter { it.id != event.item.id }
                         } else {
-                            currentFavourites + event.item
+                            favouriteMeals + event.item
                         }
-                    )
+                        copy(favouriteMeals = newList)
+                    }
                 }
             }
 
             RecipesEvent.OnDismissSheet -> updateState {
                 copy(selectedMeal = null)
             }
+
             is RecipesEvent.OnItemClick -> updateState {
                 copy(selectedMeal = event.item)
             }
@@ -54,6 +75,7 @@ class RecipesViewModel @Inject constructor(
                     copy(isSearching = true, searchQuery = "")
                 }
             }
+
             is RecipesEvent.OnSearchQueryChange -> {
                 updateState {
                     copy(searchQuery = event.query)
@@ -70,19 +92,41 @@ class RecipesViewModel @Inject constructor(
         handleResponse(
             apiCall = { mealUseCase.getMeals() },
             onLoading = {
-                updateState {
-                    copy(isLoading = it.isLoading)
-                }
+                updateState { copy(isLoading = it.isLoading) }
             },
-            onSuccess = { it ->
+            onSuccess = { resource ->
                 updateState {
-                    copy(meals = it.map { it.toPresentation() }, isLoading = false)
+                    copy(meals = resource.map { it.toPresentation() })
+                }
+                loadFavoriteMeals()
+            },
+            onError = {
+                updateState { copy(isLoading = false) }
+            }
+        )
+    }
+
+    private fun loadFavoriteMeals() {
+        handleResponse(
+            apiCall = { getFavoriteMealUseCase.invoke() },
+            onSuccess = { resource ->
+                val currentMeals = state.value.meals
+
+                val updatedFavorites = currentMeals.filter { meal ->
+                    resource.any { fav ->
+                        fav.id == meal.id
+                    }
+                }
+
+                updateState {
+                    copy(favouriteMeals = updatedFavorites)
                 }
             },
             onError = {
-                updateState {
-                    copy(isLoading = false)
-                }
+
+            },
+            onLoading = {
+
             }
         )
     }

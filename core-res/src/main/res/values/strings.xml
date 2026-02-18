@@ -110,4 +110,14 @@
     <string name="calories_intake_string">Calories intake</string>
     <string name="g">g.</string>
 
+    <!-- Healthy recipes Screen  -->
+    <string name="healthy_recipes_title">Healthy recipes</string>
+    <string name="search_recipes">Search recipes...</string>
+    <string name="ingredient_count">Ingredient count: %1$d</string>
+    <string name="cooking_time">Cooking time: %1$s</string>
+    <string name="difficulty">Difficulty: %1$s</string>
+    <string name="ingredient_count_without_dots">Ingredients</string>
+    <string name="cooking_time_without_dots">Time</string>
+    <string name="difficulty_without_dots">Difficulty</string>
+
 </resources>
