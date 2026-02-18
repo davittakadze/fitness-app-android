@@ -10,7 +10,7 @@ import com.example.domain.usecase.validator.PasswordValidatorUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
+import com.example.betteryou.core_ui.R
 
 @HiltViewModel
 class LogInViewModel @Inject constructor(
@@ -37,9 +37,9 @@ class LogInViewModel @Inject constructor(
         val passwordError = passwordValidatorUseCase.invoke(password)
 
         val validationErrorResId = when {
-            emptyFieldsError -> com.example.betteryou.core_ui.R.string.empty_fields
-            !emailError -> com.example.betteryou.core_ui.R.string.invalid_email
-            passwordError -> com.example.betteryou.core_ui.R.string.invalid_password
+            emptyFieldsError -> R.string.empty_fields
+            !emailError -> R.string.invalid_email
+            passwordError -> R.string.invalid_password
             else -> null
         }
 
