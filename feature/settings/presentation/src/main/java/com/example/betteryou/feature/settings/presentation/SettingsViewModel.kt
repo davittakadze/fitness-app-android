@@ -19,7 +19,7 @@ class SettingsViewModel @Inject constructor(
     private val setPreferencesUseCase: SetPreferencesUseCase,
     private val getPreferencesUseCase: GetPreferencesUseCase,
     private val logoutUseCase: LogoutUseCase,
-    private val deleteAccountUseCase: DeleteAccountUseCase
+    private val deleteAccountUseCase: DeleteAccountUseCase,
 ) : BaseViewModel<SettingsState, SettingsEvent, SettingSideEffects>(SettingsState()) {
 
     init {
@@ -28,27 +28,18 @@ class SettingsViewModel @Inject constructor(
 
     override fun onEvent(event: SettingsEvent) {
         when (event) {
-            is SettingsEvent.OnDarkThemeChanged -> {
-                updateDarkTheme(event.isEnabled)
-            }
+            is SettingsEvent.OnDarkThemeChanged -> updateDarkTheme(event.isEnabled)
 
-            SettingsEvent.OnChangePasswordClick -> {
+            SettingsEvent.OnChangePasswordClick -> {}
 
-            }
+            SettingsEvent.OnDeleteAccountClick -> deleteAccount()
 
-            SettingsEvent.OnDeleteAccountClick -> {
-               deleteAccount()
-            }
+            SettingsEvent.OnLogOutClick -> logout()
 
-            SettingsEvent.OnLogOutClick -> {
-               logout()
-            }
+            SettingsEvent.OnProfileClick -> emitSideEffect(SettingSideEffects.NavigateToProfile)
 
-            SettingsEvent.OnProfileClick -> {
+            SettingsEvent.OnHistoryClick -> emitSideEffect(SettingSideEffects.NavigateToHistory)
 
-                emitSideEffect(SettingSideEffects.NavigateToProfile)
-
-            }
         }
     }
 
@@ -92,7 +83,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    private fun deleteAccount(){
+    private fun deleteAccount() {
         viewModelScope.launch {
             deleteAccountUseCase().collectLatest { result ->
                 when (result) {

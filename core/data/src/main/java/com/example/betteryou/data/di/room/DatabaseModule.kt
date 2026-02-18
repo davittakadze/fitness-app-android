@@ -54,6 +54,10 @@ object DatabaseModule {
     fun provideUserDailyProductDao(db: AppDatabase): UserProductDao = db.userProductDao()
 
     @Provides
+    @Singleton
+    fun provideHistoryDao(db: AppDatabase) = db.historyDao()
+
+    @Provides
     fun provideMealDao(db: AppDatabase): MealDao = db.mealDao()
 
     @Provides

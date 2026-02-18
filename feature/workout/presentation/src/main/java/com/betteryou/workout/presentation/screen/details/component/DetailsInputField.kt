@@ -17,12 +17,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.betteryou.core_ui.TBCTheme
 import com.example.betteryou.core_ui.util.Radius
+import kotlin.text.isDigit
 
 @Composable
 fun DetailsInputField(value: String, onValueChange: (String) -> Unit) {
     BasicTextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { input ->
+            val digitsAndDot = input.filter { it.isDigit() || it == '.' }
+            val firstDotIndex = digitsAndDot.indexOfFirst { it == '.' }
+            val filtered = if (firstDotIndex >= 0) {
+                digitsAndDot.take(firstDotIndex + 1) + digitsAndDot.drop(firstDotIndex + 1)
+                    .replace(".", "")
+            } else {
+                digitsAndDot
+            }
+            onValueChange(filtered)
+        },
         textStyle = TextStyle(
             color = Color.Black,
             fontWeight = FontWeight.Bold,

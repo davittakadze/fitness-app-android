@@ -66,9 +66,4 @@ interface WorkoutDao {
         insertSets(sets)
     }
 
-    // For History
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertHistory(history: WorkoutHistoryEntity)
-
 }

@@ -91,9 +91,14 @@ dependencies {
     implementation(projects.feature.settings.domain)
 
     implementation(projects.feature.daily.presentation)
+
+    implementation(projects.feature.workout.presentation)
     implementation(projects.feature.workout.data)
     implementation(projects.feature.daily.data)
     implementation(projects.feature.daily.domain)
+
+    implementation(projects.feature.history.presentation)
+    implementation(projects.feature.history.data)
 
     implementation(projects.feature.workout.presentation)
 

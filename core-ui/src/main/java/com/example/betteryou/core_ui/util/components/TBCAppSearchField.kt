@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
+import com.example.betteryou.core_ui.R
 import com.example.betteryou.core_ui.TBCTheme
 import com.example.betteryou.core_ui.util.Radius
 
@@ -50,7 +51,7 @@ fun TBCAppSearchField(
         modifier = modifier
             .fillMaxWidth()
             .height(56.dp)
-            .background(colors.surface , Radius.radius16)
+            .background(colors.surface, Radius.radius16)
             .border(
                 width = if (isFocused) 1.5.dp else 1.dp,
                 color = if (isFocused) colors.accent else colors.border,

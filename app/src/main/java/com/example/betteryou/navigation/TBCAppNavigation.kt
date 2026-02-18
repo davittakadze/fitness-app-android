@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.betteryou.feature.history.presentation.navigation.historyNavGraph
 import com.betteryou.feature.register.presentation.register.navigation.registerNavGraph
 import com.betteryou.workout.presentation.navgraph.workoutNavGraph
 import com.example.betteryou.feature.daily.presentation.navigation.dailyNavGraph
@@ -57,9 +58,13 @@ fun TBCAppTheme() {
         )
     }
 
-    val showBottomBar = navBackStackEntry?.destination?.hierarchy?.any {
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    val showBottomBar = (navBackStackEntry?.destination?.hierarchy?.any {
         it.route == MainRoute::class.qualifiedName
-    } == true && navBackStackEntry?.destination?.route?.contains("WorkoutDetails") == false
+    } == true
+            && currentRoute?.contains("WorkoutDetails") == false)
+            && !currentRoute.contains("History")
 
 
     // Observe SnackBar events
@@ -107,6 +112,7 @@ fun TBCAppTheme() {
                 profileNavGraph(navController)
                 dailyNavGraph(navController)
                 workoutNavGraph(navController)
+                historyNavGraph(navController)
                 recipesNavGraph(navController)
             }
         }

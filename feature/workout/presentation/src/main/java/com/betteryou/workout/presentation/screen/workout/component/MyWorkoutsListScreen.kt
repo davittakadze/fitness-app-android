@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -33,6 +34,8 @@ import com.example.betteryou.core_ui.TBCTheme
 import com.example.betteryou.core_ui.util.Radius
 import com.example.betteryou.core_ui.util.Spacer
 import com.example.betteryou.core_res.R
+import com.example.betteryou.core_ui.util.components.SwipeToDeleteContainer
+import com.example.betteryou.core_ui.util.components.TBCAppScreenPlaceholder
 
 @Composable
 fun MyWorkoutsListScreen(
@@ -45,11 +48,13 @@ fun MyWorkoutsListScreen(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = "No custom workouts yet.\nClick '+' to create one!",
-                textAlign = TextAlign.Center,
-                style = TBCTheme.typography.bodyMedium,
-                color = TBCTheme.colors.textSecondary
+            TBCAppScreenPlaceholder(
+                modifier = Modifier
+                    .padding(bottom = 100.dp)
+                    .fillMaxWidth(),
+                icon = R.drawable.icon_workout_screen,
+                primaryText = "No custom workouts yet.",
+                secondaryText = "Click '+' to create one!"
             )
         }
     } else {
@@ -58,48 +63,9 @@ fun MyWorkoutsListScreen(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-
             items(workouts, key = { it.id }) { workout ->
-                val dismissState = rememberSwipeToDismissBoxState(
-                    confirmValueChange = { value ->
-                        if (value == SwipeToDismissBoxValue.EndToStart) {
-                            onEvent(WorkoutEvent.DeleteWorkout(workout.id))
-                            true
-                        } else false
-                    }
-                )
-
-                SwipeToDismissBox(
-                    state = dismissState,
-                    enableDismissFromStartToEnd = false,
-                    backgroundContent = {
-                        val isVisible = dismissState.targetValue == SwipeToDismissBoxValue.EndToStart
-
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(vertical = 8.dp, horizontal = 16.dp)
-                                .clip(Radius.radius16)
-                                .background(if (isVisible) Color.Red.copy(alpha = 0.2f) else Color.Transparent),
-                            contentAlignment = Alignment.CenterEnd
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .width(80.dp)
-                                    .clip(RoundedCornerShape(topEnd = 16.dp, bottomEnd = 16.dp))
-                                    .background(Color.Red)
-                                    .clickable { onEvent(WorkoutEvent.DeleteWorkout(workout.id)) },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    painter = painterResource(R.drawable.ic_garbage),
-                                    contentDescription = "Delete",
-                                    tint = Color.White
-                                )
-                            }
-                        }
-                    }
+                SwipeToDeleteContainer(
+                    onDelete = { onEvent(WorkoutEvent.DeleteWorkout(workout.id)) }
                 ) {
                     WorkoutCard(
                         workout = workout,
@@ -109,9 +75,8 @@ fun MyWorkoutsListScreen(
             }
 
             item {
-                Spacer(modifier = Modifier.height(Spacer.spacing64))
+                Spacer(modifier = Modifier.height(64.dp))
             }
-
         }
     }
 }

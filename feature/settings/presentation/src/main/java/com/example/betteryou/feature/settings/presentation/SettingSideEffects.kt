@@ -6,4 +6,5 @@ sealed interface SettingSideEffects {
     data class ShowError(val message: UiText) : SettingSideEffects
     data object NavigateToProfile : SettingSideEffects
     data object NavigateToMenu : SettingSideEffects
+    data object NavigateToHistory : SettingSideEffects
 }

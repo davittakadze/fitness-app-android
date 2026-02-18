@@ -37,6 +37,10 @@
             <option value="$PROJECT_DIR$/feature/daily/data" />
             <option value="$PROJECT_DIR$/feature/daily/domain" />
             <option value="$PROJECT_DIR$/feature/daily/presentation" />
+            <option value="$PROJECT_DIR$/feature/history" />
+            <option value="$PROJECT_DIR$/feature/history/data" />
+            <option value="$PROJECT_DIR$/feature/history/domain" />
+            <option value="$PROJECT_DIR$/feature/history/presentation" />
             <option value="$PROJECT_DIR$/feature/log_in" />
             <option value="$PROJECT_DIR$/feature/log_in/data" />
             <option value="$PROJECT_DIR$/feature/log_in/domain" />

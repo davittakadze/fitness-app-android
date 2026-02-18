@@ -27,6 +27,9 @@ data object DailyRoute
 data object WorkoutRoute
 
 @Serializable
+data object HistoryRoute
+
+@Serializable
 data class WorkoutDetails(val workoutId: String)
 
 @Serializable
