@@ -30,20 +30,26 @@ import com.example.betteryou.core_ui.local_theme.LocalTBCTypography
 import com.example.betteryou.core_ui.util.Radius
 import com.example.betteryou.core_ui.util.Spacer
 import androidx.compose.material3.Icon
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.betteryou.core_ui.util.components.TBCAppSwitch
 import com.example.betteryou.presentation.extensions.CollectSideEffects
+import com.example.betteryou.presentation.snackbar.SnackBarController
+import com.example.betteryou.presentation.snackbar.SnackbarEvent
 
 @Composable
 fun SettingsScreen(
     onProfileClick: () -> Unit,
     onNavigateToMenu: () -> Unit,
+    onNavigateToHistory: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
     SettingsContent(viewModel::onEvent, state)
     viewModel.sideEffect.CollectSideEffects { effect ->
         when (effect) {
@@ -52,18 +58,22 @@ fun SettingsScreen(
             }
 
             is SettingSideEffects.ShowError -> {
-
+                SnackBarController.sendEvent(
+                    SnackbarEvent(
+                        message = effect.message.asString(context)
+                    )
+                )
             }
 
-            SettingSideEffects.NavigateToMenu -> {
-                onNavigateToMenu()
-            }
+            SettingSideEffects.NavigateToMenu -> onNavigateToMenu()
+
+            SettingSideEffects.NavigateToHistory -> onNavigateToHistory()
         }
     }
 }
 
 @Composable
-fun SettingsContent(
+private fun SettingsContent(
     onEvent: (SettingsEvent) -> Unit,
     state: SettingsState,
 ) {
@@ -112,6 +122,13 @@ fun SettingsContent(
 
         SettingsSection {
             SettingsItem(
+                title = stringResource(R.string.history),
+                textColor = LocalTBCColors.current.onBackground,
+                showArrow = true,
+                onClick = { onEvent(SettingsEvent.OnHistoryClick) }
+            )
+
+            SettingsItem(
                 title = stringResource(R.string.log_out),
                 textColor = LocalTBCColors.current.destructiveColor,
                 showArrow = false,
@@ -129,7 +146,7 @@ fun SettingsContent(
 }
 
 @Composable
-fun SettingsItem(
+private fun SettingsItem(
     title: String,
     textColor: Color,
     showArrow: Boolean = true,
@@ -201,7 +218,7 @@ fun SettingsItem(
 
 
 @Composable
-fun SettingsSection(
+private fun SettingsSection(
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(
@@ -224,7 +241,7 @@ fun SettingsSection(
 
 @Preview(showBackground = true)
 @Composable
-fun SettingsScreenPreview() {
+private fun SettingsScreenPreview() {
     TBCTheme {
         SettingsContent({}, SettingsState())
     }

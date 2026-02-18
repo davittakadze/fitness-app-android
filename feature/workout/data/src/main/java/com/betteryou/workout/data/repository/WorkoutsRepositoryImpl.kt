@@ -91,7 +91,4 @@ class WorkoutsRepositoryImpl @Inject constructor(
             list.map { it.toDomain() }
         }
     }
-
-
-
 }

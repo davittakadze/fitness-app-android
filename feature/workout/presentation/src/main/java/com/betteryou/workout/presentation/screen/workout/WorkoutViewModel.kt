@@ -30,6 +30,7 @@ class WorkoutViewModel @Inject constructor(
     override fun onEvent(event: WorkoutEvent) {
         when (event) {
             is WorkoutEvent.OnSearchChange -> {
+
                 val filteredList = state.value.workouts.filter {
                     it.category.trim().lowercase()
                         .contains(event.exercise, ignoreCase = true) || it.name.trim()
@@ -39,9 +40,8 @@ class WorkoutViewModel @Inject constructor(
                 updateState { copy(searchQuery = event.exercise, filteredWorkouts = filteredList) }
             }
 
-            is WorkoutEvent.OnExerciseNameChange -> {
-                updateState { copy(workoutName = event.name) }
-            }
+            is WorkoutEvent.OnExerciseNameChange -> updateState { copy(workoutName = event.name) }
+
 
             is WorkoutEvent.OnSelectExercise -> toggleExerciseCard(event)
             is WorkoutEvent.LoadWorkouts -> loadWorkouts()
@@ -157,9 +157,9 @@ class WorkoutViewModel @Inject constructor(
 
         val updatedFilteredWorkouts = updatedWorkouts.filter {
             val query = state.value.searchQuery
-            if (query.isBlank()) {
-                true
-            } else {
+
+            if (query.isBlank()) true
+             else {
                 it.category.contains(query, ignoreCase = true) ||
                         it.name.contains(query, ignoreCase = true)
             }

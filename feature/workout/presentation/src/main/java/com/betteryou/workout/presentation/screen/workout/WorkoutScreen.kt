@@ -10,23 +10,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -48,7 +41,6 @@ import com.example.betteryou.core_ui.util.components.TBCAppTextField
 import com.example.betteryou.presentation.extensions.CollectSideEffects
 import com.example.betteryou.presentation.snackbar.SnackBarController
 import com.example.betteryou.presentation.snackbar.SnackbarEvent
-import kotlinx.coroutines.launch
 
 @Composable
 fun WorkoutScreen(
@@ -119,9 +111,6 @@ private fun WorkoutContent(
             )
         }
     ) { paddingValues ->
-//        val tabs = state.tabs
-//        val pagerState = rememberPagerState(pageCount = { tabs.size })
-//        val scope = rememberCoroutineScope()
         if (state.isSheetOpen) {
             CreateWorkoutBottomSheet(
                 state = state,
@@ -145,65 +134,11 @@ private fun WorkoutContent(
                     },
                     onEvent = onEvent
                 )
-//                TabRow(
-//                    selectedTabIndex = pagerState.currentPage,
-//                    containerColor = Color.Transparent,
-//                    contentColor = Color.White,
-//                    indicator = { tabPositions ->
-//                        if (pagerState.currentPage < tabPositions.size) {
-//                            TabRowDefaults.SecondaryIndicator(
-//                                modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
-//                                color = TBCTheme.colors.accent
-//                            )
-//                        }
-//                    },
-//                    divider = {}
-//                ) {
-//                    tabs.forEachIndexed { index, title ->
-//                        Tab(
-//                            selected = pagerState.currentPage == index,
-//                            onClick = {
-//                                scope.launch {
-//                                    pagerState.animateScrollToPage(index)
-//                                }
-//                            },
-//                            text = {
-//                                Text(
-//                                    text = title,
-//                                    style = TBCTheme.typography.bodyMedium,
-//                                    color = if (pagerState.currentPage == index) TBCTheme.colors.accent else TBCTheme.colors.textSecondary
-//                                )
-//                            }
-//                        )
-//                    }
-//                }
-
-//                HorizontalPager(
-//                    state = pagerState,
-//                    modifier = Modifier.fillMaxSize(),
-//                    userScrollEnabled = false
-//                ) { page ->
-//                    when (page) {
-//                        0 -> MyWorkoutsListScreen(
-//                            workouts = state.myWorkouts.map(Workout::toPresentation),
-//                            onWorkoutClick = {
-//                                onEvent(WorkoutEvent.NavigateToDetails(it))
-//                            },
-//                            onEvent = onEvent
-//                        )
-//                        1 -> PreDefinedPlansScreen()
-//                    }
-//                }
             }
         }
     }
 
 }
-
-//@Composable
-//private fun PreDefinedPlansScreen() {
-//    Text(text = "aeee", modifier = Modifier.padding(16.dp))
-//}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

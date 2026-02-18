@@ -2,6 +2,7 @@ package com.example.betteryou.data.local.room.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.example.betteryou.data.local.room.dao.history.HistoryDao
 import com.example.betteryou.data.local.room.dao.intake.DailyIntakeDao
 import com.example.betteryou.data.local.room.dao.nutrition.NutritionDao
 import com.example.betteryou.data.local.room.dao.user.UserDao
@@ -27,7 +28,7 @@ import com.example.betteryou.data.local.room.entity.workout.WorkoutHistoryEntity
         ExerciseSetEntity::class,
         WorkoutHistoryEntity::class
     ],
-    version = 10,
+    version = 11,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -36,4 +37,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun userNutritionDao(): NutritionDao
     abstract fun dailyIntakeDao(): DailyIntakeDao
     abstract fun userProductDao(): UserProductDao
+    abstract fun historyDao(): HistoryDao
 }

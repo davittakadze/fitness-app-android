@@ -96,6 +96,9 @@ dependencies {
     implementation(projects.feature.workout.data)
     implementation(projects.feature.daily.data)
     implementation(projects.feature.daily.domain)
+
+    implementation(projects.feature.history.presentation)
+    implementation(projects.feature.history.data)
 }
 protobuf {
     protoc {
