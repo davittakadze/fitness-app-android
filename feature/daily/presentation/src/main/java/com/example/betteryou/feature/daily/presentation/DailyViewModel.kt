@@ -17,6 +17,7 @@ import com.example.betteryou.feature.daily.presentation.mapper.toDomain
 import com.example.betteryou.feature.daily.presentation.mapper.toPresentation
 import com.example.betteryou.feature.daily.presentation.model.UserDailyProductUi
 import com.example.betteryou.presentation.common.BaseViewModel
+import com.example.betteryou.presentation.common.UiText
 import com.example.betteryou.util.getStartOfDayMillis
 import com.example.betteryou.util.getTodayStartTimestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -109,10 +110,10 @@ class DailyViewModel @Inject constructor(
                     }
 
                     updateData(
-                        calories = state.value.consumedCalories + addedCalories,
-                        protein = state.value.protein + addedProtein,
-                        fat = state.value.fat + addedFat,
-                        carbs = state.value.carbs + addedCarbs
+                        calories = state.value.consumedCalories,
+                        protein = state.value.protein,
+                        fat = state.value.fat,
+                        carbs = state.value.carbs
                     )
                 }
             }
@@ -133,10 +134,10 @@ class DailyViewModel @Inject constructor(
                         )
                     }
                     updateData(
-                        calories = state.value.consumedCalories - event.item.calories,
-                        protein = state.value.protein - event.item.protein,
-                        fat = state.value.fat - event.item.fat,
-                        carbs = state.value.carbs - event.item.carbs
+                        calories = state.value.consumedCalories,
+                        protein = state.value.protein,
+                        fat = state.value.fat,
+                        carbs = state.value.carbs,
                     )
                 }
             }
@@ -278,23 +279,31 @@ class DailyViewModel @Inject constructor(
     private fun loadUserDailyProducts() {
         viewModelScope.launch {
             val userId = getUserIdUseCase() ?: return@launch
-            getUserDailyProduct(userId).collect { resource ->
-                when (resource) {
-                    is Resource.Loader -> {
-                        updateState { copy(isLoading = true) }
+            handleResponse(
+                apiCall = { getUserDailyProduct.invoke(userId) },
+                onLoading = { loader ->
+                    updateState {
+                        copy(isLoading = true)
+                    }
+                },
+                onSuccess = { resource ->
+                    updateState { copy(consumedProducts = resource.map { it.toPresentation() }) }
+                },
+                onError = { resource ->
+                    updateState {
+                        copy(isLoading = false)
                     }
 
-                    is Resource.Success -> {
-                        updateState { copy(consumedProducts = resource.data.map { it.toPresentation() }) }
-                    }
-
-                    is Resource.Error -> {
-                        // emitSideEffect(DailySideEffect.ShowError(resource.errorMessage))
-                    }
+                    emitSideEffect(
+                        DailySideEffect.ShowError(
+                            UiText.DynamicString(resource)
+                        )
+                    )
                 }
-            }
+            )
         }
     }
 }
+
 
 

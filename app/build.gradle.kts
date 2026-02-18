@@ -99,6 +99,11 @@ dependencies {
 
     implementation(projects.feature.history.presentation)
     implementation(projects.feature.history.data)
+
+    implementation(projects.feature.workout.presentation)
+
+    implementation(projects.feature.recipes.presentation)
+
 }
 protobuf {
     protoc {

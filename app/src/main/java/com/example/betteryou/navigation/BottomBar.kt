@@ -22,6 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.betteryou.core_res.R
 import com.example.betteryou.core_ui.local_theme.LocalTBCColors
 import com.example.betteryou.presentation.navigation.DailyRoute
+import com.example.betteryou.presentation.navigation.RecipesRoute
 import com.example.betteryou.presentation.navigation.SettingsRoute
 import com.example.betteryou.presentation.navigation.WorkoutRoute
 
@@ -34,8 +35,9 @@ fun BottomBar(
 
     val tabs = listOf(
         BottomTab(DailyRoute, R.drawable.line_ascendant_graphic_of_zigzag_arrow_svgrepo_com),
+        BottomTab(RecipesRoute,R.drawable.book_book_svgrepo_com),
         BottomTab(WorkoutRoute, R.drawable.icon_workout_screen),
-        BottomTab(SettingsRoute, R.drawable.settings_svgrepo_com),
+        BottomTab(SettingsRoute, R.drawable.settings_svgrepo_com)
     )
 
     Box(
