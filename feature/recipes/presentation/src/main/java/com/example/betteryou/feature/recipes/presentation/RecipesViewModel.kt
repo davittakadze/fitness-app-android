@@ -41,6 +41,28 @@ class RecipesViewModel @Inject constructor(
                     )
                 }
             }
+
+            RecipesEvent.OnDismissSheet -> updateState {
+                copy(selectedMeal = null)
+            }
+            is RecipesEvent.OnItemClick -> updateState {
+                copy(selectedMeal = event.item)
+            }
+
+            RecipesEvent.OnSearchClick -> {
+                updateState {
+                    copy(isSearching = true, searchQuery = "")
+                }
+            }
+            is RecipesEvent.OnSearchQueryChange -> {
+                updateState {
+                    copy(searchQuery = event.query)
+                }
+            }
+
+            RecipesEvent.OnSearchClose -> updateState {
+                copy(isSearching = false, searchQuery = "")
+            }
         }
     }
 

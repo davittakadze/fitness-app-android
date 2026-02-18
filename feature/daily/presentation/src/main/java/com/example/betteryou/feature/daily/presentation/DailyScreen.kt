@@ -222,7 +222,8 @@ fun DailyScreenContent(
         if (state.isBottomSheetOpen && state.selectedProduct != null) {
             ModalBottomSheet(
                 onDismissRequest = { onEvent(DailyEvent.CloseBottomSheet) },
-                containerColor = TBCTheme.colors.background
+                containerColor = TBCTheme.colors.background,
+                modifier = Modifier.fillMaxHeight(0.9f)
             ) {
                 BottomSheet(
                     state.selectedProduct,
@@ -730,7 +731,6 @@ fun BottomSheet(
     Column(
         Modifier
             .fillMaxHeight()
-            .heightIn(max = LocalConfiguration.current.screenHeightDp.dp * 0.9f)
             .verticalScroll(rememberScrollState())
             .imePadding()
             .pointerInput(Unit) {

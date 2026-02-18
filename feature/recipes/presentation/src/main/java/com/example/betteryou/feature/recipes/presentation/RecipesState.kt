@@ -9,5 +9,7 @@ data class  RecipesState (
     val isLoading:Boolean=false,
     val meals:List<RecipeUi> = emptyList(),
     val selectedMeal:RecipeUi?=null,
-    val favouriteMeals:List<RecipeUi> = emptyList()
+    val favouriteMeals:List<RecipeUi> = emptyList(),
+    val isSearching: Boolean = false,
+    val searchQuery: String = ""
 )

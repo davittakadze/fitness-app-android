@@ -1,12 +1,15 @@
 package com.example.betteryou.feature.recipes.presentation
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,9 +20,12 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -38,6 +44,7 @@ import com.example.betteryou.core_ui.TBCTheme
 import com.example.betteryou.core_ui.util.Radius
 import com.example.betteryou.core_ui.util.Spacer
 import com.example.betteryou.core_ui.util.components.TBCAppAsyncImage
+import com.example.betteryou.core_ui.util.components.TBCAppTextField
 import com.example.betteryou.feature.recipes.presentation.model.Meal
 import com.example.betteryou.feature.recipes.presentation.model.RecipeUi
 
@@ -51,60 +58,138 @@ fun RecipesScreen(viewModel: RecipesViewModel = hiltViewModel()) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipesContent(state: RecipesState, onEvent: (RecipesEvent) -> Unit) {
-    Column(
-        Modifier
-            .fillMaxSize()
-            .background(TBCTheme.colors.background)
-            .padding(bottom=64.dp)
-    ) {
-        TopAppBar(
-            title = {
-                Text(
-                    text = "Healthy recipes",
-                    style = TBCTheme.typography.headlineMedium,
-                    color = TBCTheme.colors.onBackground
-                )
-            },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = TBCTheme.colors.transparentBack
-            ),
-            modifier = Modifier.padding(top = 16.dp),
-            actions = {
-                IconButton(onClick = {
-
-                }) {
-                    Icon(
-                        painter = painterResource(R.drawable.search_button_svgrepo_com),
-                        contentDescription = "Favorite",
-                        tint = TBCTheme.colors.onBackground
-                    )
+    if (state.isSearching) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(TBCTheme.colors.background)
+                .padding(16.dp)
+        ) {
+            if (state.selectedMeal != null) {
+                ModalBottomSheet(
+                    onDismissRequest = { onEvent(RecipesEvent.OnDismissSheet) },
+                    modifier = Modifier.fillMaxHeight(0.9f),
+                    containerColor = TBCTheme.colors.background
+                ) {
+                    BottomSheet(item = state.selectedMeal)
                 }
             }
-        )
+            Column {
+                Spacer(Modifier.height(32.dp))
+                TBCAppTextField(
+                    value = state.searchQuery,
+                    onValueChange = { onEvent(RecipesEvent.OnSearchQueryChange(it)) },
+                    placeholder = "Search recipes...",
+                    modifier = Modifier.fillMaxWidth(),
+                    trailingIcon = {
+                        IconButton(
+                            onClick = { onEvent(RecipesEvent.OnSearchClose) }
+                        ) {
+                            Icon(
+                                contentDescription = null,
+                                tint = TBCTheme.colors.onBackground,
+                                painter = painterResource(R.drawable.close_svgrepo_com)
+                            )
+                        }
+                    }
+                )
 
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.padding(12.dp)
-        ) {
-            items(items = state.categoryList, key = { it.displayName }) { item ->
-                CategoryItem(item, item == state.selectedCategory, onClick = {
-                    onEvent(RecipesEvent.OnCategoryClick(item))
-                })
+                Spacer(Modifier.height(16.dp))
+
+                val filteredMeals = state.meals.filter {
+                    it.title.contains(state.searchQuery, ignoreCase = true)
+                }
+
+                LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    items(filteredMeals, key = { it.title }) { item ->
+                        MealItem(
+                            item = item,
+                            isSelected = state.favouriteMeals.contains(item),
+                            onFavouriteClick = { onEvent(RecipesEvent.OnFavouriteClick(item)) },
+                            onItemClick = { onEvent(RecipesEvent.OnItemClick(item)) }
+                        )
+                    }
+                }
             }
         }
+    } else {
+        Box(Modifier.fillMaxSize()) {
+            if (state.selectedMeal != null) {
+                ModalBottomSheet(
+                    onDismissRequest = { onEvent(RecipesEvent.OnDismissSheet) },
+                    modifier = Modifier.fillMaxHeight(0.9f),
+                    containerColor = TBCTheme.colors.background
+                ) {
+                    BottomSheet(item = state.selectedMeal)
+                }
+            }
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .background(TBCTheme.colors.background)
+                    .padding(bottom = 64.dp)
+            ) {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = "Healthy recipes",
+                            style = TBCTheme.typography.headlineMedium,
+                            color = TBCTheme.colors.onBackground
+                        )
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = TBCTheme.colors.transparentBack
+                    ),
+                    modifier = Modifier.padding(top = 16.dp),
+                    actions = {
+                        IconButton(onClick = { onEvent(RecipesEvent.OnSearchClick) }) {
+                            Icon(
+                                painter = painterResource(R.drawable.search_button_svgrepo_com),
+                                contentDescription = "Favorite",
+                                tint = TBCTheme.colors.onBackground
+                            )
+                        }
+                    }
+                )
 
-        Spacer(Modifier.height(Spacer.spacing12))
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.padding(12.dp)
+                ) {
+                    items(items = state.categoryList, key = { it.displayName }) { item ->
+                        CategoryItem(item, item == state.selectedCategory, onClick = {
+                            onEvent(RecipesEvent.OnCategoryClick(item))
+                        })
+                    }
+                }
 
-        LazyColumn(
-            modifier = Modifier.padding(horizontal = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(items = state.meals, key = { it.title }) { item ->
-                MealItem(item,state.favouriteMeals.contains(item),onFavouriteClick = {onEvent(RecipesEvent.OnFavouriteClick(item))})
+                Spacer(Modifier.height(Spacer.spacing12))
+
+                LazyColumn(
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    val filteredMeals = state.selectedCategory.let { selected ->
+                        if (selected == Meal.ALL) {
+                            return@let state.meals
+                        } else {
+                            state.meals.filter { it.category == state.selectedCategory.displayName }
+                        }
+                    }
+                    items(items = filteredMeals, key = { it.title }) { item ->
+                        MealItem(
+                            item = item,
+                            isSelected = state.favouriteMeals.contains(item),
+                            onFavouriteClick = { onEvent(RecipesEvent.OnFavouriteClick(item)) },
+                            onItemClick = { onEvent(RecipesEvent.OnItemClick(item)) }
+                        )
+                    }
+                }
             }
         }
     }
 }
+
 
 @Composable
 fun CategoryItem(item: Meal, isSelected: Boolean, onClick: () -> Unit) {
@@ -136,11 +221,23 @@ fun CategoryItem(item: Meal, isSelected: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-fun MealItem(item: RecipeUi,isSelected: Boolean,onFavouriteClick:()->Unit) {
-    Box(Modifier
-        .fillMaxWidth()
-        .height(125.dp)
-        .clip(Radius.radius12)) {
+fun MealItem(
+    item: RecipeUi,
+    isSelected: Boolean,
+    onFavouriteClick: () -> Unit,
+    onItemClick: () -> Unit,
+) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .height(125.dp)
+            .clip(Radius.radius12)
+            .clickable(
+                onClick = {
+                    onItemClick()
+                }
+            )
+    ) {
         Row {
             TBCAppAsyncImage(
                 img = item.imageUrl,
@@ -177,18 +274,17 @@ fun MealItem(item: RecipeUi,isSelected: Boolean,onFavouriteClick:()->Unit) {
         IconButton(
             onClick = {
                 onFavouriteClick()
-            }
-            ,
+            },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(4.dp)
         ) {
             Icon(
-                painter=painterResource(R.drawable.heart_shape_svgrepo_com),
+                painter = painterResource(R.drawable.heart_shape_svgrepo_com),
                 null,
-                tint = if(isSelected) {
+                tint = if (isSelected) {
                     TBCTheme.colors.destructiveColor
-                }else{
+                } else {
                     TBCTheme.colors.border
                 },
                 modifier = Modifier
@@ -199,11 +295,131 @@ fun MealItem(item: RecipeUi,isSelected: Boolean,onFavouriteClick:()->Unit) {
     }
 }
 
+//Bottom sheet:
+@Composable
+fun BottomSheet(
+    item: RecipeUi,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
+    ) {
+        TBCAppAsyncImage(
+            img = item.imageUrl,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(220.dp),
+            placeholder = R.drawable.icon_workout_screen
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        Column(
+            modifier = Modifier.padding(horizontal = 20.dp)
+        ) {
+            InfoCard(item)
+
+            Spacer(Modifier.height(20.dp))
+
+            Text(
+                text = item.title,
+                style = TBCTheme.typography.headlineMedium,
+                color = TBCTheme.colors.onBackground
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            Text(
+                text = "Ingredients:",
+                style = TBCTheme.typography.headlineMedium,
+                color = TBCTheme.colors.onBackground
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            (item.ingredients).forEach { item ->
+                Text(
+                    text = item,
+                    style = TBCTheme.typography.bodyMedium,
+                    color = TBCTheme.colors.onBackground
+                )
+                Spacer(Modifier.height(Spacer.spacing4))
+            }
+            Spacer(Modifier.height(Spacer.spacing12))
+            Text(
+                text = "Recipe:",
+                style = TBCTheme.typography.headlineMedium,
+                color = TBCTheme.colors.onBackground
+            )
+            Spacer(Modifier.height(Spacer.spacing12))
+            Text(
+                text = item.recipe,
+                style = TBCTheme.typography.bodyMedium,
+                color = TBCTheme.colors.onBackground
+            )
+            Spacer(Modifier.height(32.dp))
+        }
+    }
+}
+
+@Composable
+fun InfoCard(item: RecipeUi) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(Radius.radius16)
+            .border(1.dp, TBCTheme.colors.border, Radius.radius16)
+            .background(TBCTheme.colors.border.copy(alpha = 0.2f))
+            .padding(vertical = 16.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(Modifier.weight(1f))
+        InfoItem("Difficulty", item.difficulty, R.drawable.chef_svgrepo_com)
+        Spacer(Modifier.weight(1f))
+        InfoItem("Time", item.cookingTime, R.drawable.timer_svgrepo_com)
+        Spacer(Modifier.weight(1f))
+        InfoItem(
+            "Ingredients",
+            item.ingredientCount.toString(),
+            R.drawable.cooking_food_in_a_hot_casserole_svgrepo_com
+        )
+        Spacer(Modifier.weight(1f))
+    }
+}
+
+@Composable
+fun InfoItem(title: String, value: String, @DrawableRes icon: Int) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            painter = painterResource(icon),
+            contentDescription = null,
+            tint = TBCTheme.colors.onBackground,
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            text = title,
+            color = TBCTheme.colors.onBackground,
+            style = TBCTheme.typography.bodySmallest
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            text = value,
+            color = TBCTheme.colors.onBackground,
+            style = TBCTheme.typography.bodyLarge
+        )
+    }
+}
+
 @Preview
 @Composable
 fun RecipesScreenPreview() {
     TBCTheme {
-        MealItem(
+        BottomSheet(
             RecipeUi(
                 category = "All",
                 title = "Hello iddwidnid",
@@ -213,8 +429,7 @@ fun RecipesScreenPreview() {
                 cookingTime = "2h",
                 difficulty = "hard",
                 recipe = "efninfienf"
-            ),
-            true
-        ) {}
+            )
+        )
     }
 }
