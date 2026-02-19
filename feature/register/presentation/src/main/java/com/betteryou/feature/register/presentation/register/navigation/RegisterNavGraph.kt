@@ -12,7 +12,7 @@ import com.betteryou.feature.register.presentation.register.screen.basic_info.Ba
 import com.betteryou.feature.register.presentation.register.screen.body_metrics.BodyMetricsScreen
 import com.betteryou.feature.register.presentation.register.screen.goal_setting.GoalSettingScreen
 import com.betteryou.feature.register.presentation.register.screen.user_activity.ActivityLevelScreen
-import com.example.betteryou.presentation.navigation.MainRoute
+import com.example.betteryou.presentation.navigation.Route
 import com.example.betteryou.presentation.navigation.RegistrationRoute
 
 fun NavGraphBuilder.registerNavGraph(navController: NavController) {
@@ -84,7 +84,7 @@ fun NavGraphBuilder.registerNavGraph(navController: NavController) {
             AccountCreationScreen(
                 viewModel = viewModel,
                 onEvent = viewModel::onEvent,
-                navigateToHome = { navController.navigate(MainRoute) },
+                navigateToHome = { navController.navigate(Route.Main) },
                 onBack = { navController.popBackStack() }
             )
         }

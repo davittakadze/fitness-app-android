@@ -4,10 +4,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.betteryou.feature.profile.presentation.ProfileScreen
-import com.example.betteryou.presentation.navigation.ProfileRoute
+import com.example.betteryou.presentation.navigation.Route
 
 fun NavGraphBuilder.profileNavGraph(navController: NavController){
-    composable<ProfileRoute> {
+    composable<Route.Profile> {
         ProfileScreen(
             onBackClick = {
                 navController.popBackStack()

@@ -23,9 +23,7 @@ import com.example.betteryou.feature.daily.presentation.navigation.dailyNavGraph
 import com.example.betteryou.feature.profile.presentation.navigation.profileNavGraph
 import com.example.betteryou.feature.recipes.presentation.navigation.recipesNavGraph
 import com.example.betteryou.feature.settings.presentation.navigation.settingsNavGraph
-import com.example.betteryou.presentation.navigation.DailyRoute
-import com.example.betteryou.presentation.navigation.MainRoute
-import com.example.betteryou.presentation.navigation.SplashRoute
+import com.example.betteryou.presentation.navigation.Route
 import com.example.betteryou.presentation.snackbar.ObserveAsEvents
 import com.example.betteryou.presentation.snackbar.SnackBarController
 import com.example.presentation.login.navigation.logInNavGraph
@@ -61,7 +59,7 @@ fun TBCAppTheme() {
     val currentRoute = navBackStackEntry?.destination?.route
 
     val showBottomBar = (navBackStackEntry?.destination?.hierarchy?.any {
-        it.route == MainRoute::class.qualifiedName
+        it.route == Route.Main::class.qualifiedName
     } == true
             && currentRoute?.contains("WorkoutDetails") == false)
             && !currentRoute.contains("History")
@@ -99,14 +97,14 @@ fun TBCAppTheme() {
     }) {
         NavHost(
             navController = navController,
-            startDestination = SplashRoute,
+            startDestination = Route.Splash
         ) {
             splashNavGraph(navController)
             menuNavGraph(navController, googleClient)
             logInNavGraph(navController)
             registerNavGraph(navController)
-            navigation<MainRoute>(
-                startDestination = DailyRoute
+            navigation<Route.Main>(
+                startDestination = Route.Daily
             ) {
                 settingsNavGraph(navController)
                 profileNavGraph(navController)

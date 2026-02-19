@@ -2,35 +2,49 @@ package com.example.betteryou.presentation.navigation
 
 import kotlinx.serialization.Serializable
 
-@Serializable
-data object MainRoute
+sealed interface Route {
+    @Serializable data object Main : Route
+    @Serializable data object Splash : Route
+    @Serializable data object LogIn : Route
+    @Serializable data object Menu : Route
+    @Serializable data object Profile : Route
+    @Serializable data object Settings : Route
+    @Serializable data object Daily : Route
+    @Serializable data object Workout : Route
+    @Serializable data object History : Route
+    @Serializable data class WorkoutDetails(val workoutId: String)
+    @Serializable data object Recipes : Route
+}
 
-@Serializable
-data object SplashRoute
-
-@Serializable
-data object LogInRoute
-
-@Serializable
-data object MenuRoute
-
-@Serializable
-data object ProfileRoute
-
-@Serializable
-data object SettingsRoute
-
-@Serializable
-data object DailyRoute
-
-@Serializable
-data object WorkoutRoute
-
-@Serializable
-data object HistoryRoute
-
-@Serializable
-data class WorkoutDetails(val workoutId: String)
-
-@Serializable
-data object RecipesRoute
+//@Serializable
+//data object MainRoute
+//
+//@Serializable
+//data object SplashRoute
+//
+//@Serializable
+//data object LogInRoute
+//
+//@Serializable
+//data object MenuRoute
+//
+//@Serializable
+//data object ProfileRoute
+//
+//@Serializable
+//data object SettingsRoute
+//
+//@Serializable
+//data object DailyRoute
+//
+//@Serializable
+//data object WorkoutRoute
+//
+//@Serializable
+//data object HistoryRoute
+//
+//@Serializable
+//data class WorkoutDetails(val workoutId: String)
+//
+//@Serializable
+//data object RecipesRoute

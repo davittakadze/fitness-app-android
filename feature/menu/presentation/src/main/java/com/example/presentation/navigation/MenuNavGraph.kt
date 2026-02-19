@@ -8,9 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.example.betteryou.presentation.navigation.LogInRoute
-import com.example.betteryou.presentation.navigation.MainRoute
-import com.example.betteryou.presentation.navigation.MenuRoute
+import com.example.betteryou.presentation.navigation.Route
 import com.example.betteryou.presentation.navigation.RegistrationRoute
 import com.example.betteryou.presentation.snackbar.SnackBarController
 import com.example.betteryou.presentation.snackbar.SnackbarEvent
@@ -25,7 +23,7 @@ fun NavGraphBuilder.menuNavGraph(
     navController: NavController,
     googleClient: GoogleSignInClient,
 ) {
-    composable<MenuRoute> {
+    composable<Route.Menu> {
         val viewModel: MenuViewModel = hiltViewModel()
         val context = LocalContext.current
         val scope = rememberCoroutineScope()
@@ -61,7 +59,7 @@ fun NavGraphBuilder.menuNavGraph(
             viewModel = viewModel,
 
             onLoginClick = {
-                navController.navigate(LogInRoute)
+                navController.navigate(Route.LogIn)
             },
 
             onRegisterClick = {
@@ -69,8 +67,8 @@ fun NavGraphBuilder.menuNavGraph(
             },
 
             onNavigateHome = {
-                navController.navigate(MainRoute) {
-                    popUpTo(MenuRoute) { inclusive = true }
+                navController.navigate(Route.Main) {
+                    popUpTo(Route.Menu) { inclusive = true }
                 }
             },
 
