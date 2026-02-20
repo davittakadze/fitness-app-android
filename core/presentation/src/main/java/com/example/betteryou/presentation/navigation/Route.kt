@@ -14,37 +14,6 @@ sealed interface Route {
     @Serializable data object History : Route
     @Serializable data class WorkoutDetails(val workoutId: String)
     @Serializable data object Recipes : Route
+    @Serializable data object Explore : Route
+    @Serializable data class ExploreDetails(val workoutId: String) : Route
 }
-
-//@Serializable
-//data object MainRoute
-//
-//@Serializable
-//data object SplashRoute
-//
-//@Serializable
-//data object LogInRoute
-//
-//@Serializable
-//data object MenuRoute
-//
-//@Serializable
-//data object ProfileRoute
-//
-//@Serializable
-//data object SettingsRoute
-//
-//@Serializable
-//data object DailyRoute
-//
-//@Serializable
-//data object WorkoutRoute
-//
-//@Serializable
-//data object HistoryRoute
-//
-//@Serializable
-//data class WorkoutDetails(val workoutId: String)
-//
-//@Serializable
-//data object RecipesRoute

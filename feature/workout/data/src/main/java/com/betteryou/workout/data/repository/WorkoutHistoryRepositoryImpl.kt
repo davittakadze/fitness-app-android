@@ -1,5 +1,6 @@
 package com.betteryou.workout.data.repository
 
+import com.betteryou.workout.data.remote.mapper.toEntity
 import com.betteryou.workout.domain.repository.WorkoutHistoryRepository
 import com.bettetyou.core.model.WorkoutHistory
 import com.example.betteryou.data.local.room.dao.history.HistoryDao
@@ -12,12 +13,6 @@ class WorkoutHistoryRepositoryImpl @Inject constructor(
 ) : WorkoutHistoryRepository {
 
     override suspend fun saveToHistory(history: WorkoutHistory) {
-        val entity = WorkoutHistoryEntity(
-            workoutTitle = history.workoutTitle,
-            timestamp = history.timestamp,
-            durationMillis = history.durationMillis,
-            exercisesJson = history.exercisesJson
-        )
-        historyDao.insertHistory(entity)
+        historyDao.insertHistory(history.toEntity())
     }
 }

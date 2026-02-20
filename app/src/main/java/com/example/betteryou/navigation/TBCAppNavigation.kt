@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.betteryou.feature.explore.presentation.navigation.exploreNavGraph
 import com.betteryou.feature.history.presentation.navigation.historyNavGraph
 import com.betteryou.feature.register.presentation.register.navigation.registerNavGraph
 import com.betteryou.workout.presentation.navgraph.workoutNavGraph
@@ -61,7 +62,7 @@ fun TBCAppTheme() {
     val showBottomBar = (navBackStackEntry?.destination?.hierarchy?.any {
         it.route == Route.Main::class.qualifiedName
     } == true
-            && currentRoute?.contains("WorkoutDetails") == false)
+            && currentRoute?.contains("Details") == false)
             && !currentRoute.contains("History")
 
 
@@ -112,6 +113,7 @@ fun TBCAppTheme() {
                 workoutNavGraph(navController)
                 historyNavGraph(navController)
                 recipesNavGraph(navController)
+                exploreNavGraph(navController)
             }
         }
     }

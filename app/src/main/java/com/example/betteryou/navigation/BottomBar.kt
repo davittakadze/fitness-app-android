@@ -33,6 +33,7 @@ fun BottomBar(
         BottomTab(Route.Daily, R.drawable.line_ascendant_graphic_of_zigzag_arrow_svgrepo_com),
         BottomTab(Route.Recipes,R.drawable.book_book_svgrepo_com),
         BottomTab(Route.Workout, R.drawable.icon_workout_screen),
+        BottomTab(Route.Explore, R.drawable.ic_explore),
         BottomTab(Route.Settings, R.drawable.settings_svgrepo_com)
     )
 

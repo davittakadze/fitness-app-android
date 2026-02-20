@@ -3,6 +3,7 @@ package com.example.betteryou.data.local.room.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.betteryou.data.local.room.dao.explore.ExerciseDao
 import com.example.betteryou.data.local.room.dao.history.HistoryDao
 import com.example.betteryou.data.local.room.dao.intake.DailyIntakeDao
 import com.example.betteryou.data.local.room.dao.meal.FavoriteMealDao
@@ -11,6 +12,7 @@ import com.example.betteryou.data.local.room.dao.nutrition.NutritionDao
 import com.example.betteryou.data.local.room.dao.user.UserDao
 import com.example.betteryou.data.local.room.dao.user_product.UserProductDao
 import com.example.betteryou.data.local.room.dao.workout.WorkoutDao
+import com.example.betteryou.data.local.room.entity.explore.ExerciseEntity
 import com.example.betteryou.data.local.room.entity.intake.DailyIntakeEntity
 import com.example.betteryou.data.local.room.entity.meal.Converters
 import com.example.betteryou.data.local.room.entity.meal.FavoriteMealEntity
@@ -34,9 +36,10 @@ import com.example.betteryou.data.local.room.entity.workout.WorkoutHistoryEntity
         ExerciseSetEntity::class,
         WorkoutHistoryEntity::class,
         MealEntity::class,
-        FavoriteMealEntity::class
+        FavoriteMealEntity::class,
+        ExerciseEntity::class
     ],
-    version = 15,
+    version = 16,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -49,4 +52,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun historyDao(): HistoryDao
     abstract fun mealDao(): MealDao
     abstract fun favoriteMealDao(): FavoriteMealDao
+    abstract fun exerciseDao(): ExerciseDao
 }
