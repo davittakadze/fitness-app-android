@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.betteryou.feature.explore.presentation.navigation.exploreNavGraph
 import com.betteryou.feature.history.presentation.navigation.historyNavGraph
 import com.betteryou.feature.register.presentation.register.navigation.registerNavGraph
 import com.betteryou.workout.presentation.navgraph.workoutNavGraph
@@ -23,9 +24,7 @@ import com.example.betteryou.feature.daily.presentation.navigation.dailyNavGraph
 import com.example.betteryou.feature.profile.presentation.navigation.profileNavGraph
 import com.example.betteryou.feature.recipes.presentation.navigation.recipesNavGraph
 import com.example.betteryou.feature.settings.presentation.navigation.settingsNavGraph
-import com.example.betteryou.presentation.navigation.DailyRoute
-import com.example.betteryou.presentation.navigation.MainRoute
-import com.example.betteryou.presentation.navigation.SplashRoute
+import com.example.betteryou.presentation.navigation.Route
 import com.example.betteryou.presentation.snackbar.ObserveAsEvents
 import com.example.betteryou.presentation.snackbar.SnackBarController
 import com.example.presentation.login.navigation.logInNavGraph
@@ -61,9 +60,9 @@ fun TBCAppTheme() {
     val currentRoute = navBackStackEntry?.destination?.route
 
     val showBottomBar = (navBackStackEntry?.destination?.hierarchy?.any {
-        it.route == MainRoute::class.qualifiedName
+        it.route == Route.Main::class.qualifiedName
     } == true
-            && currentRoute?.contains("WorkoutDetails") == false)
+            && currentRoute?.contains("Details") == false)
             && !currentRoute.contains("History")
 
 
@@ -99,14 +98,14 @@ fun TBCAppTheme() {
     }) {
         NavHost(
             navController = navController,
-            startDestination = SplashRoute,
+            startDestination = Route.Splash
         ) {
             splashNavGraph(navController)
             menuNavGraph(navController, googleClient)
             logInNavGraph(navController)
             registerNavGraph(navController)
-            navigation<MainRoute>(
-                startDestination = DailyRoute
+            navigation<Route.Main>(
+                startDestination = Route.Daily
             ) {
                 settingsNavGraph(navController)
                 profileNavGraph(navController)
@@ -114,6 +113,7 @@ fun TBCAppTheme() {
                 workoutNavGraph(navController)
                 historyNavGraph(navController)
                 recipesNavGraph(navController)
+                exploreNavGraph(navController)
             }
         }
     }

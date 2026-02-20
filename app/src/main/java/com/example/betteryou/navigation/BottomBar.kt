@@ -20,10 +20,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.betteryou.core_ui.R
 import com.example.betteryou.core_ui.theme.LocalTBCColors
-import com.example.betteryou.presentation.navigation.DailyRoute
-import com.example.betteryou.presentation.navigation.RecipesRoute
-import com.example.betteryou.presentation.navigation.SettingsRoute
-import com.example.betteryou.presentation.navigation.WorkoutRoute
+import com.example.betteryou.presentation.navigation.Route
 
 @Composable
 fun BottomBar(
@@ -33,10 +30,11 @@ fun BottomBar(
     val currentDestination = backStackEntry?.destination
 
     val tabs = listOf(
-        BottomTab(DailyRoute, R.drawable.line_ascendant_graphic_of_zigzag_arrow_svgrepo_com),
-        BottomTab(RecipesRoute,R.drawable.book_book_svgrepo_com),
-        BottomTab(WorkoutRoute, R.drawable.icon_workout_screen),
-        BottomTab(SettingsRoute, R.drawable.settings_svgrepo_com)
+        BottomTab(Route.Daily, R.drawable.line_ascendant_graphic_of_zigzag_arrow_svgrepo_com),
+        BottomTab(Route.Recipes,R.drawable.book_book_svgrepo_com),
+        BottomTab(Route.Workout, R.drawable.icon_workout_screen),
+        BottomTab(Route.Explore, R.drawable.ic_explore),
+        BottomTab(Route.Settings, R.drawable.settings_svgrepo_com)
     )
 
     Box(
@@ -67,7 +65,7 @@ fun BottomBar(
                         navController.navigate(tab.route) {
                             launchSingleTop = true
                             restoreState = true
-                            popUpTo(DailyRoute::class.qualifiedName ?: "") {
+                            popUpTo(Route.Daily::class.qualifiedName ?: "") {
                                 saveState = true
                             }
                         }

@@ -4,22 +4,19 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.betteryou.feature.settings.presentation.SettingsScreen
-import com.example.betteryou.presentation.navigation.HistoryRoute
-import com.example.betteryou.presentation.navigation.MenuRoute
-import com.example.betteryou.presentation.navigation.ProfileRoute
-import com.example.betteryou.presentation.navigation.SettingsRoute
+import com.example.betteryou.presentation.navigation.Route
 
 fun NavGraphBuilder.settingsNavGraph(navController: NavController){
-    composable<SettingsRoute> {
+    composable<Route.Settings> {
         SettingsScreen(
             onProfileClick = {
-                navController.navigate(ProfileRoute)
+                navController.navigate(Route.Profile)
             },
             onNavigateToMenu = {
-                navController.navigate(MenuRoute)
+                navController.navigate(Route.Menu)
             },
             onNavigateToHistory = {
-                navController.navigate(HistoryRoute)
+                navController.navigate(Route.History)
             }
         )
     }

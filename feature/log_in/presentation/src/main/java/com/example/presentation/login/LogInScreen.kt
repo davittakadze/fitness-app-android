@@ -35,6 +35,7 @@ import com.example.betteryou.core_ui.components.button.AppButtonType
 import com.example.betteryou.core_ui.components.button.TBCAppButton
 import com.example.betteryou.core_ui.components.text_field.TBCAppPasswordField
 import com.example.betteryou.core_ui.components.text_field.TBCAppTextField
+import com.example.betteryou.presentation.extensions.CollectSideEffects
 import com.example.betteryou.presentation.snackbar.SnackBarController
 import com.example.betteryou.presentation.snackbar.SnackbarEvent
 
@@ -48,25 +49,19 @@ fun LogInScreen(
 
     val context = LocalContext.current
 
-    LaunchedEffect(Unit) {
-        viewModel.sideEffect.collect { effect ->
-            when (effect) {
+    viewModel.sideEffect.CollectSideEffects { effect ->
+        when (effect) {
 
-                LogInSideEffect.NavigateBack -> {
-                    onBackClick()
-                }
+            LogInSideEffect.NavigateBack -> onBackClick()
 
-                LogInSideEffect.NavigateHome -> {
-                    onLogInClick()
-                }
+            LogInSideEffect.NavigateHome -> onLogInClick()
 
-                is LogInSideEffect.ShowError -> {
-                    SnackBarController.sendEvent(
-                        SnackbarEvent(
-                            message = effect.error.asString(context)
-                        )
+            is LogInSideEffect.ShowError -> {
+                SnackBarController.sendEvent(
+                    SnackbarEvent(
+                        message = effect.error.asString(context)
                     )
-                }
+                )
             }
         }
     }

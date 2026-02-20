@@ -22,7 +22,7 @@ import javax.inject.Inject
 class WorkoutsRepositoryImpl @Inject constructor(
     private val apiService: GetWorkoutsApiService,
     private val workoutDao: WorkoutDao,
-    private val handleResponse: HandleResponse
+    private val handleResponse: HandleResponse,
 ) : WorkoutsRepository {
 
     override suspend fun getWorkoutsFromApi(): Flow<Resource<List<GetExercise>>> {

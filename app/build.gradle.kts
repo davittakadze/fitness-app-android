@@ -104,6 +104,8 @@ dependencies {
 
     implementation(projects.feature.recipes.presentation)
 
+    implementation(projects.feature.explore.presentation)
+    implementation(projects.feature.explore.data)
 }
 protobuf {
     protoc {

@@ -1,0 +1,107 @@
+[
+  {
+    "id": "1",
+    "title": "Bench Press",
+    "imageUrl": "https://i.ibb.co/JjPkrRkY/0025.webp",
+    "description": "Unhook the bar and slowly lower it to the lower part of your chest. As you contract your pectorals, push the load upwards until your arms are almost straight.",
+    "musclesTargeted": ["Pectorals", "Triceps", "Deltoids"]
+  },
+  {
+    "id": "2",
+    "title": "Squats",
+    "imageUrl": "https://i.ibb.co/JjPkrRkY/0025.webp",
+    "description": "Keep your feet shoulder-width apart. Lower your hips until your thighs are parallel to the floor, then push back up through your heels.",
+    "musclesTargeted": ["Quadriceps", "Glutes", "Hamstrings"]
+  },
+  {
+    "id": "3",
+    "title": "Deadlift",
+    "imageUrl": "https://i.ibb.co/JjPkrRkY/0025.webp",
+    "description": "Stand with feet mid-foot under the bar. Bend over and grab the bar. Enhance your core, lift the bar by standing up, keeping it close to your body.",
+    "musclesTargeted": ["Lower Back", "Glutes", "Hamstrings", "Forearms"]
+  },
+  {
+    "id": "4",
+    "title": "Lateral Raises",
+    "imageUrl": "https://i.ibb.co/JjPkrRkY/0025.webp",
+    "description": "Stand or sit with a dumbbell in each hand at your sides. Keep your back straight, core braced, and then slowly lift the weights out to the side until your arms are parallel with the floor.",
+    "musclesTargeted": ["Lateral Deltoids", "Trapezius"]
+  },
+  {
+    "id": "5",
+    "title": "Push-ups",
+    "imageUrl": "https://i.ibb.co/JjPkrRkY/0025.webp",
+    "description": "Get into a high plank position. Lower your body until your chest nearly touches the floor. Keep your elbows tucked in and push back up to the start.",
+    "musclesTargeted": ["Pectorals", "Triceps", "Front Deltoids", "Core"]
+  },
+  {
+    "id": "6",
+    "title": "Barbell Curls",
+    "imageUrl": "https://i.ibb.co/JjPkrRkY/0025.webp",
+    "description": "Stand with feet shoulder-width apart, holding a barbell with an underhand grip. Curl the bar toward your chest while keeping your elbows locked at your sides.",
+    "musclesTargeted": ["Biceps Brachii", "Brachialis", "Forearms"]
+  },
+  {
+    "id": "7",
+    "title": "Pull-ups",
+    "imageUrl": "https://i.ibb.co/JjPkrRkY/0025.webp",
+    "description": "Grip the pull-up bar with palms facing away from you. Pull your body up until your chin clears the bar, then lower yourself back down with control.",
+    "musclesTargeted": ["Latissimus Dorsi", "Biceps", "Rhomboids", "Rear Deltoids"]
+  },
+  {
+    "id": "8",
+    "title": "Plank",
+    "imageUrl": "https://example.com/images/plank.png",
+    "description": "Position your elbows directly under your shoulders. Maintain a straight line from head to heels, engaging your core and glutes without letting your hips sag.",
+    "musclesTargeted": ["Abdominals", "Obliques", "Lower Back", "Shoulders"]
+  },
+  {
+    "id": "9",
+    "title": "Dumbbell Shoulder Press",
+    "imageUrl": "https://example.com/images/shoulder_press.png",
+    "description": "Sit or stand with dumbbells at shoulder height. Press the weights upward until your arms are fully extended, then lower them back slowly.",
+    "musclesTargeted": ["Front Deltoids", "Triceps", "Upper Chest"]
+  },
+  {
+    "id": "10",
+    "title": "Lunges",
+    "imageUrl": "https://example.com/images/lunges.png",
+    "description": "Step forward with one leg and lower your hips until both knees are bent at about a 90-degree angle. Push back to the starting position.",
+    "musclesTargeted": ["Quadriceps", "Glutes", "Hamstrings", "Calves"]
+  },
+  {
+    "id": "11",
+    "title": "Tricep Dips",
+    "imageUrl": "https://example.com/images/tricep_dips.png",
+    "description": "Use parallel bars or a bench. Lower your body by bending your elbows until your upper arms are parallel to the floor, then drive back up.",
+    "musclesTargeted": ["Triceps Brachii", "Chest", "Shoulders"]
+  },
+  {
+    "id": "12",
+    "title": "Hammer Curls",
+    "imageUrl": "https://example.com/images/hammer_curls.png",
+    "description": "Hold dumbbells with a neutral grip (palms facing each other). Curl the weights toward your shoulders, focusing on the brachialis and forearms.",
+    "musclesTargeted": ["Biceps", "Brachialis", "Brachioradialis"]
+  },
+  {
+    "id": "13",
+    "title": "Bent Over Rows",
+    "imageUrl": "https://example.com/images/bent_over_rows.png",
+    "description": "Bend at the hips and knees while holding a barbell. Pull the bar toward your lower ribs, squeezing your shoulder blades together.",
+    "musclesTargeted": ["Latissimus Dorsi", "Rhomboids", "Rear Deltoids", "Biceps"]
+  },
+  {
+    "id": "14",
+    "title": "Leg Press",
+    "imageUrl": "https://example.com/images/leg_press.png",
+    "description": "Sit on the machine and place your feet on the platform. Push the platform away by extending your legs, but do not lock your knees.",
+    "musclesTargeted": ["Quadriceps", "Glutes", "Hamstrings"]
+  },
+  {
+    "id": "15",
+    "title": "Face Pulls",
+    "imageUrl": "https://example.com/images/face_pulls.png",
+    "description": "Using a rope attachment on a cable machine, pull the rope toward your face, pulling the ends apart as you reach your forehead.",
+    "musclesTargeted": ["Rear Deltoids", "Trapezius", "Rotator Cuff"]
+  }
+]
