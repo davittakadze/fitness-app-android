@@ -21,6 +21,7 @@ import com.betteryou.feature.history.presentation.navigation.historyNavGraph
 import com.betteryou.feature.register.presentation.register.navigation.registerNavGraph
 import com.betteryou.workout.presentation.navgraph.workoutNavGraph
 import com.example.betteryou.feature.daily.presentation.navigation.dailyNavGraph
+import com.example.betteryou.feature.favorites_page.presentation.navigation.favoritesNavGraph
 import com.example.betteryou.feature.profile.presentation.navigation.profileNavGraph
 import com.example.betteryou.feature.recipes.presentation.navigation.recipesNavGraph
 import com.example.betteryou.feature.settings.presentation.navigation.settingsNavGraph
@@ -114,6 +115,7 @@ fun TBCAppTheme() {
                 historyNavGraph(navController)
                 recipesNavGraph(navController)
                 exploreNavGraph(navController)
+                favoritesNavGraph(navController)
             }
         }
     }

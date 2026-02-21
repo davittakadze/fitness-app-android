@@ -121,4 +121,7 @@
     <string name="cooking_time_without_dots">Time</string>
     <string name="difficulty_without_dots">Difficulty</string>
 
+    <!-- Favorites screen -->
+    <string name="favorites_title">Favorites</string>
+    <string name="no_favorites">No favorites yet</string>
 </resources>

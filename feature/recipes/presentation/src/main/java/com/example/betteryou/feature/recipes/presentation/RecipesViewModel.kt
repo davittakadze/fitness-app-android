@@ -38,7 +38,6 @@ class RecipesViewModel @Inject constructor(
                 updateState {
                     copy(selectedMeal = event.item)
                 }
-                Log.d("VM_DEBUG", "Selected meal: ${event.item.title}")
             }
 
             is RecipesEvent.OnFavouriteClick -> {

@@ -106,6 +106,9 @@ dependencies {
 
     implementation(projects.feature.explore.presentation)
     implementation(projects.feature.explore.data)
+
+    implementation(projects.feature.favoritesPage.presentation)
+
 }
 protobuf {
     protoc {

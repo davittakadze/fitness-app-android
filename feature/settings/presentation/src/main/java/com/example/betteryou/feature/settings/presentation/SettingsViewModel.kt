@@ -39,7 +39,7 @@ class SettingsViewModel @Inject constructor(
             SettingsEvent.OnProfileClick -> emitSideEffect(SettingSideEffects.NavigateToProfile)
 
             SettingsEvent.OnHistoryClick -> emitSideEffect(SettingSideEffects.NavigateToHistory)
-
+            SettingsEvent.OnFavoritesClick -> emitSideEffect(SettingSideEffects.NavigateToFavorites)
         }
     }
 

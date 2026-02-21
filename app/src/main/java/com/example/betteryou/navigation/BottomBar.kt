@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.betteryou.core_ui.R
 import com.example.betteryou.core_ui.theme.LocalTBCColors
@@ -63,11 +64,11 @@ fun BottomBar(
                     } == true,
                     onClick = {
                         navController.navigate(tab.route) {
-                            launchSingleTop = true
-                            restoreState = true
-                            popUpTo(Route.Daily::class.qualifiedName ?: "") {
+                            popUpTo(navController.graph.findStartDestination().id) {
                                 saveState = true
                             }
+                            launchSingleTop = true
+                            restoreState = true
                         }
                     },
                     icon = {

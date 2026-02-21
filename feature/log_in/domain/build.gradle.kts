@@ -15,6 +15,5 @@ kotlin {
 dependencies {
     implementation(libs.dagger)
     implementation(libs.kotlinx.coroutines.play.services)
-
     implementation(project(":core:domain"))
 }

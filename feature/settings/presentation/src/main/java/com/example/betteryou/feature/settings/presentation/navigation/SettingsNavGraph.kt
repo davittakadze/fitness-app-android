@@ -17,6 +17,9 @@ fun NavGraphBuilder.settingsNavGraph(navController: NavController){
             },
             onNavigateToHistory = {
                 navController.navigate(Route.History)
+            },
+            onNavigateToFavorites = {
+                navController.navigate(Route.Favorites)
             }
         )
     }

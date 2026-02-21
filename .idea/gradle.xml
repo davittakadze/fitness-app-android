@@ -40,6 +40,10 @@
             <option value="$PROJECT_DIR$/feature/explore/data" />
             <option value="$PROJECT_DIR$/feature/explore/domain" />
             <option value="$PROJECT_DIR$/feature/explore/presentation" />
+            <option value="$PROJECT_DIR$/feature/favorites_page" />
+            <option value="$PROJECT_DIR$/feature/favorites_page/data" />
+            <option value="$PROJECT_DIR$/feature/favorites_page/domain" />
+            <option value="$PROJECT_DIR$/feature/favorites_page/presentation" />
             <option value="$PROJECT_DIR$/feature/history" />
             <option value="$PROJECT_DIR$/feature/history/data" />
             <option value="$PROJECT_DIR$/feature/history/domain" />

@@ -7,4 +7,5 @@ sealed interface SettingSideEffects {
     data object NavigateToProfile : SettingSideEffects
     data object NavigateToMenu : SettingSideEffects
     data object NavigateToHistory : SettingSideEffects
+    data object NavigateToFavorites : SettingSideEffects
 }

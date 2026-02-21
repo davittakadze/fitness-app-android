@@ -45,6 +45,7 @@ fun SettingsScreen(
     onProfileClick: () -> Unit,
     onNavigateToMenu: () -> Unit,
     onNavigateToHistory: () -> Unit,
+    onNavigateToFavorites: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -68,6 +69,7 @@ fun SettingsScreen(
             SettingSideEffects.NavigateToMenu -> onNavigateToMenu()
 
             SettingSideEffects.NavigateToHistory -> onNavigateToHistory()
+            SettingSideEffects.NavigateToFavorites -> onNavigateToFavorites()
         }
     }
 }
@@ -127,7 +129,12 @@ private fun SettingsContent(
                 showArrow = true,
                 onClick = { onEvent(SettingsEvent.OnHistoryClick) }
             )
-
+            SettingsItem(
+                title= stringResource(R.string.favorites_title),
+                textColor = LocalTBCColors.current.onBackground,
+                showArrow = true,
+                onClick = { onEvent(SettingsEvent.OnFavoritesClick) }
+            )
             SettingsItem(
                 title = stringResource(R.string.log_out),
                 textColor = LocalTBCColors.current.destructiveColor,
