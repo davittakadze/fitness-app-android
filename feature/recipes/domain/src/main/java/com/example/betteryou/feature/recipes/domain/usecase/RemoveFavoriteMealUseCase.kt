@@ -6,7 +6,7 @@ import javax.inject.Inject
 class RemoveFavoriteMealUseCase @Inject constructor(
     private val favoriteMealRepository: RecipeRepository,
 ) {
-    suspend fun removeFavoriteMealById(mealId: Long) {
-        favoriteMealRepository.removeFavoriteMealById(mealId)
+    suspend fun removeFavoriteMealById(mealId: Long, userId: String?) {
+        favoriteMealRepository.removeFavoriteMealById(mealId, userId)
     }
 }

@@ -58,6 +58,7 @@
     <string name="basic_screen_title">Tell us about yourself</string>
     <string name="basic_screen_description">Please enter your details to continue</string>
     <string name="your_name">Your Name</string>
+    <string name="your_last_name">Your last name</string>
 
     <!-- Body Metrics Screen  -->
     <string name="body_screen_title">Let’s get your measurements</string>

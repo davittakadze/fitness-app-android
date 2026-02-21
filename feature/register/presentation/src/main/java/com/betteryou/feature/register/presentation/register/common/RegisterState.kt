@@ -14,6 +14,7 @@ data class RegisterState(
     val gender: Gender = Gender.UNSPECIFIED,
     val email: String = "",
     val name: String = "",
+    val lastName:String="",
     val age: String = "",
     val weight: String = "",
     val height: String = "",

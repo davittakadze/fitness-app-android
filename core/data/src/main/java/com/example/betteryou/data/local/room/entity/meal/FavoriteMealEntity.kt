@@ -1,12 +1,14 @@
 package com.example.betteryou.data.local.room.entity.meal
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity(tableName = "favorite_meals")
-data class FavoriteMealEntity (
-    @PrimaryKey
+@Entity(
+    tableName = "favorite_meals",
+    primaryKeys = ["userId", "id"]
+)
+data class FavoriteMealEntity(
     val id: Long,
+    val userId: String,
     val category: String,
     val title: String,
     val imageUrl: String,
@@ -14,5 +16,5 @@ data class FavoriteMealEntity (
     val ingredients: List<String>,
     val cookingTime: String,
     val difficulty: String,
-    val recipe: String
+    val recipe: String,
 )

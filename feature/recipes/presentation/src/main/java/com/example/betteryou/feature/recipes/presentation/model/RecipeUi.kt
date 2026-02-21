@@ -2,6 +2,7 @@ package com.example.betteryou.feature.recipes.presentation.model
 
 data class RecipeUi (
     val id:Long,
+    val userId:String?=null,
     val category: String,
     val title: String,
     val imageUrl: String,

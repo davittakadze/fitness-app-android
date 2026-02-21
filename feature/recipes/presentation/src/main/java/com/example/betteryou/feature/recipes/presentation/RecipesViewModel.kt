@@ -2,6 +2,7 @@ package com.example.betteryou.feature.recipes.presentation
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.example.betteryou.domain.usecase.GetUserIdUseCase
 import com.example.betteryou.feature.recipes.domain.usecase.AddFavoriteMealUseCase
 import com.example.betteryou.feature.recipes.domain.usecase.GetFavoriteMealUseCase
 import com.example.betteryou.feature.recipes.domain.usecase.GetMealUseCase
@@ -19,6 +20,7 @@ class RecipesViewModel @Inject constructor(
     private val favoriteMealUseCase: AddFavoriteMealUseCase,
     private val removeFavoriteMealUseCase: RemoveFavoriteMealUseCase,
     private val getFavoriteMealUseCase: GetFavoriteMealUseCase,
+    private val getIdUseCase: GetUserIdUseCase,
 ) : BaseViewModel<RecipesState, RecipesEvent, Unit>(RecipesState()) {
 
     init {
@@ -46,9 +48,16 @@ class RecipesViewModel @Inject constructor(
                         state.value.favouriteMeals.any { it.id == event.item.id }
 
                     if (isAlreadyFavorite) {
-                        removeFavoriteMealUseCase.removeFavoriteMealById(event.item.id)
+                        removeFavoriteMealUseCase.removeFavoriteMealById(
+                            event.item.id,
+                            getIdUseCase.invoke()
+                        )
                     } else {
-                        favoriteMealUseCase.addFavoriteMeal(event.item.toDomain())
+                        favoriteMealUseCase.addFavoriteMeal(
+                            event.item.copy(
+                                userId = getIdUseCase.invoke()
+                            ).toDomain()
+                        )
                     }
                     updateState {
                         val newList = if (isAlreadyFavorite) {
@@ -89,7 +98,7 @@ class RecipesViewModel @Inject constructor(
 
     private fun loadMeals() {
         handleResponse(
-            apiCall = { mealUseCase.getMeals() },
+            apiCall = { mealUseCase.getMeals(getIdUseCase.invoke()) },
             onLoading = {
                 updateState { copy(isLoading = it.isLoading) }
             },
@@ -107,7 +116,7 @@ class RecipesViewModel @Inject constructor(
 
     private fun loadFavoriteMeals() {
         handleResponse(
-            apiCall = { getFavoriteMealUseCase.invoke() },
+            apiCall = { getFavoriteMealUseCase.invoke(getIdUseCase.invoke()!!) },
             onSuccess = { resource ->
                 val currentMeals = state.value.meals
 

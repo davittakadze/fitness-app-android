@@ -1,10 +1,5 @@
-package com.betteryou.feature.register.domain.usecase
+package com.example.betteryou.feature.daily.presentation
 
-import com.betteryou.feature.register.domain.model.ActivityLevelType
-import com.betteryou.feature.register.domain.model.BodyData
-import com.betteryou.feature.register.domain.model.Gender
-import com.betteryou.feature.register.domain.model.GoalType
-import com.betteryou.feature.register.domain.model.NutritionResults
 import javax.inject.Inject
 
 class CalculateNutritionUseCase @Inject constructor() {
@@ -41,3 +36,9 @@ class CalculateNutritionUseCase @Inject constructor() {
         )
     }
 }
+
+/*  val dailyCalories: Int = 0,
+    val protein: Int = 0,
+    val carbs: Int = 0,
+    val fats: Int = 0,
+    val water:Double=0.0, */

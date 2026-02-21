@@ -5,6 +5,7 @@ import com.example.betteryou.feature.favorites_page.presentation.model.FavoriteM
 
 fun Recipe.toPresentation(): FavoriteMealUi {
     return FavoriteMealUi(
+        userId = userId,
         id = id,
         category = category,
         title = title,

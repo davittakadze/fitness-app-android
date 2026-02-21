@@ -39,7 +39,7 @@ import com.example.betteryou.data.local.room.entity.workout.WorkoutHistoryEntity
         FavoriteMealEntity::class,
         ExerciseEntity::class
     ],
-    version = 16,
+    version = 17,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

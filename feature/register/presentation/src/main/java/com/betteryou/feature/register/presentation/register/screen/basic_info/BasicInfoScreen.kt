@@ -83,7 +83,17 @@ private fun BasicInfoContent(
             onValueChange = {
                 onEvent(RegisterEvent.OnNameChange(it))
             },
-            placeholder = stringResource(R.string.your_name),
+            placeholder = stringResource(R.string.your_last_name),
+            keyboardType = KeyboardType.Text
+        )
+
+        //Last name
+        TBCAppTextField(
+            value = state.lastName,
+            onValueChange = {
+                onEvent(RegisterEvent.OnLastNameChange(it))
+            },
+            placeholder = stringResource(R.string.last_name),
             keyboardType = KeyboardType.Text
         )
 

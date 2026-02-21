@@ -13,6 +13,7 @@ fun FavoriteMealEntity.toDomain(): Recipe {
         ingredients = ingredients,
         cookingTime = cookingTime,
         difficulty = difficulty,
-        recipe = recipe
+        recipe = recipe,
+        userId = userId
     )
 }

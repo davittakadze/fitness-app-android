@@ -1,6 +1,7 @@
 package com.example.betteryou.feature.favorites_page.domain.model
 
 data class Recipe(
+    val userId:String,
     val id:Long,
     val category: String,
     val title: String,

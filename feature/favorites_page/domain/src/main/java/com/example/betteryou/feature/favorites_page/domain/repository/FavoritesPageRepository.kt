@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 import com.example.betteryou.feature.favorites_page.domain.model.Recipe
 
 interface FavoritesPageRepository {
-    fun getFavoriteMeals(): Flow<Resource<List<Recipe>>>
-    suspend fun removeFavoriteMealById(mealId: Long)
+    fun getFavoriteMeals(userId:String): Flow<Resource<List<Recipe>>>
+    suspend fun removeFavoriteMealById(mealId: Long, userId: String)
 }
