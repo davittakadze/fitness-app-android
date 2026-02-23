@@ -20,10 +20,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -32,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -77,18 +80,14 @@ fun FavoritesScreen(onNavigateBack: () -> Unit, viewModel: FavoritesViewModel = 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoritesContent(state: FavoritesState, onEvent: (FavoritesEvent) -> Unit) {
-    Box(Modifier.fillMaxSize()) {
-        Column(
-            Modifier
-                .fillMaxSize()
-                .background(TBCTheme.colors.background)
-                .padding(bottom = 100.dp)
-        ) {
-            TopAppBar(
+    Scaffold(
+        containerColor = TBCTheme.colors.background,
+        topBar = {
+            CenterAlignedTopAppBar(
                 title = {
                     Text(
                         text = stringResource(R.string.favorites_title),
-                        style = TBCTheme.typography.headlineMedium,
+                        style = TBCTheme.typography.headlineLarge,
                         color = TBCTheme.colors.onBackground
                     )
                 },
@@ -101,56 +100,70 @@ fun FavoritesContent(state: FavoritesState, onEvent: (FavoritesEvent) -> Unit) {
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = TBCTheme.colors.transparentBack
-                ),
-                modifier = Modifier.padding(top = 16.dp)
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = TBCTheme.colors.background,
+                    titleContentColor = Color.White,
+                    actionIconContentColor = Color.White
+                )
             )
+        }
+    ) { paddingValues ->
 
-            Spacer(Modifier.height(Spacer.spacing12))
-
-            LazyColumn(
-                modifier = Modifier.padding(horizontal = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+        Box(Modifier
+            .fillMaxSize()
+            .padding(paddingValues)) {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .background(TBCTheme.colors.background)
+                    .padding(bottom = 100.dp)
             ) {
-                if (state.favouriteMeals.isEmpty()) {
-                    item {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            TBCAppScreenPlaceholder(
-                                modifier = Modifier
-                                    .padding(top = 200.dp)
-                                    .fillMaxWidth(),
-                                primaryText = stringResource(R.string.no_favorites),
-                                icon = R.drawable.heart_shape_svgrepo_com,
-                                secondaryText = "Favorites will appear here"
-                            )
+
+                Spacer(Modifier.height(Spacer.spacing12))
+
+                LazyColumn(
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    if (state.favouriteMeals.isEmpty()) {
+                        item {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                TBCAppScreenPlaceholder(
+                                    modifier = Modifier
+                                        .padding(top = 200.dp)
+                                        .fillMaxWidth(),
+                                    primaryText = stringResource(R.string.no_favorites),
+                                    icon = R.drawable.heart_shape_svgrepo_com,
+                                    secondaryText = "Favorites will appear here"
+                                )
+                            }
                         }
-                    }
-                } else {
-                    items(items = state.favouriteMeals, key = { it.title }) { item ->
-                        SwipeToDeleteContainer(
-                            onDelete = { onEvent.invoke(FavoritesEvent.RemoveFavorite(item.id)) }
-                        ) {
-                            MealItem(
-                                item = item,
-                                onItemClick = { onEvent(FavoritesEvent.OnItemClick(item)) }
-                            )
+                    } else {
+                        items(items = state.favouriteMeals, key = { it.title }) { item ->
+                            SwipeToDeleteContainer(
+                                onDelete = { onEvent.invoke(FavoritesEvent.RemoveFavorite(item.id)) }
+                            ) {
+                                MealItem(
+                                    item = item,
+                                    onItemClick = { onEvent(FavoritesEvent.OnItemClick(item)) }
+                                )
+                            }
                         }
                     }
                 }
-            }
 
-        }
-        if (state.selectedMeal != null) {
-            ModalBottomSheet(
-                onDismissRequest = { onEvent(FavoritesEvent.OnDismissSheet) },
-                modifier = Modifier.fillMaxWidth(),
-                containerColor = TBCTheme.colors.background
-            ) {
-                BottomSheet(item = state.selectedMeal)
+            }
+            if (state.selectedMeal != null) {
+                ModalBottomSheet(
+                    onDismissRequest = { onEvent(FavoritesEvent.OnDismissSheet) },
+                    modifier = Modifier.fillMaxWidth(),
+                    containerColor = TBCTheme.colors.background
+                ) {
+                    BottomSheet(item = state.selectedMeal)
+                }
             }
         }
     }

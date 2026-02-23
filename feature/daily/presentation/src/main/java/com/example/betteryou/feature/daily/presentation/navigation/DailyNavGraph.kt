@@ -15,6 +15,10 @@ fun NavGraphBuilder.dailyNavGraph(
             navDeepLink { uriPattern = "tbcapp://daily" }
         )
     ) {
-        DailyScreen()
+        DailyScreen(
+            navigateToNotifications = {
+                navController.navigate(Route.Notifications)
+            }
+        )
     }
 }

@@ -55,7 +55,7 @@ fun SplashContent(){
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(R.drawable.ic_launcher_foreground),
+            painter = painterResource(R.mipmap.better_you_logo_foreground),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier

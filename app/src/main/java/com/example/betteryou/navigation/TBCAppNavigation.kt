@@ -67,6 +67,8 @@ fun TBCAppTheme() {
             && currentRoute?.contains("Details") == false)
             && !currentRoute.contains("History")
             && !currentRoute.contains("Notification")
+            && !currentRoute.contains("Profile")
+            && !currentRoute.contains("Favorites")
 
 
     // Observe SnackBar events
