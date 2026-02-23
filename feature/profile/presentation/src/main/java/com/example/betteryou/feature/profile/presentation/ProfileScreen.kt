@@ -276,7 +276,7 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
 
                         DatePickerRow(
                             label = stringResource(R.string.date_of_birth),
-                            valueText = state.selectedDate?.formatToString(),
+                            valueText = state.selectedDate?.formatToString() ?: "dd/MM/yyyy",
                             onClick = { onEvent(OnOpenCalendar) }
                         )
 

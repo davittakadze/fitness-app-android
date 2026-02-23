@@ -1,6 +1,7 @@
 package com.example.betteryou.feature.profile.presentation
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.betteryou.domain.common.Resource
 import com.example.betteryou.feature.profile.presentation.mapper.toDomain
@@ -35,6 +36,7 @@ class ProfileViewModel @Inject constructor(
                     is Resource.Success -> {
                         result.data?.let { user ->
                             val userUi = user.toPresentation()
+                            Log.d("PROFILE_DEBUG", "Fetched from Room: birthDate=${userUi.birthDate}")
                             updateState {
                                 copy(
                                     firstName = userUi.firstName.orEmpty(),
@@ -130,6 +132,7 @@ class ProfileViewModel @Inject constructor(
             }
 
             is ProfileEvent.OnDateSelected -> {
+                Log.d("PROFILE_DEBUG", "Date selected: ${event.date}")
                 if (YearMonth.from(event.date) == state.value.calendarMonth) {
                     updateState {
                         copy(
@@ -190,12 +193,16 @@ class ProfileViewModel @Inject constructor(
                 )
             }
 
-            is ProfileEvent.SaveChanges -> uploadUserProfile(event.user)
+            is ProfileEvent.SaveChanges -> {
+                Log.d("PROFILE_DEBUG", "Saving user: birthDate=${event.user.birthDate}, selectedDate=${state.value.selectedDate}")
+                uploadUserProfile(event.user)
+            }
             ProfileEvent.OnBackClick -> emitSideEffect(ProfileSideEffect.OnBackClick)
         }
     }
 
     private fun uploadUserProfile(user: UserUi) {
+        Log.d("PROFILE_DEBUG", "uploadUserProfile called with birthDate=${user.birthDate}")
         viewModelScope.launch {
             if ( state.value.selectedDate==null||validator(user.age!!)) {
                 uploadUseCase(user.toDomain())

@@ -63,6 +63,7 @@ class UserInfoRepositoryImpl @Inject constructor(
             gender = doc.getString("sex"),
             height = doc.getDouble("height"),
             weight = doc.getDouble("weight"),
+            birthDate = doc.getString("birthDate"),
             profilePhotoUrl = doc.getString("profilePhotoUrl"),
             activityLevel = doc.getString("activityLevel"),
             goal = doc.getString("goal")
