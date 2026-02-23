@@ -8,4 +8,5 @@ sealed interface SettingSideEffects {
     data object NavigateToMenu : SettingSideEffects
     data object NavigateToHistory : SettingSideEffects
     data object NavigateToFavorites : SettingSideEffects
+    data object NavigateToNotifications : SettingSideEffects
 }

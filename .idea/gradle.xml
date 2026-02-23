@@ -30,6 +30,7 @@
             <option value="$PROJECT_DIR$/core/data" />
             <option value="$PROJECT_DIR$/core/domain" />
             <option value="$PROJECT_DIR$/core/model" />
+            <option value="$PROJECT_DIR$/core/notification" />
             <option value="$PROJECT_DIR$/core/presentation" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/daily" />
@@ -56,6 +57,10 @@
             <option value="$PROJECT_DIR$/feature/menu/data" />
             <option value="$PROJECT_DIR$/feature/menu/domain" />
             <option value="$PROJECT_DIR$/feature/menu/presentation" />
+            <option value="$PROJECT_DIR$/feature/notification" />
+            <option value="$PROJECT_DIR$/feature/notification/data" />
+            <option value="$PROJECT_DIR$/feature/notification/domain" />
+            <option value="$PROJECT_DIR$/feature/notification/presentation" />
             <option value="$PROJECT_DIR$/feature/profile" />
             <option value="$PROJECT_DIR$/feature/profile/data" />
             <option value="$PROJECT_DIR$/feature/profile/domain" />

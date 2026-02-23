@@ -8,6 +8,8 @@ import com.example.betteryou.data.local.room.dao.history.HistoryDao
 import com.example.betteryou.data.local.room.dao.intake.DailyIntakeDao
 import com.example.betteryou.data.local.room.dao.meal.FavoriteMealDao
 import com.example.betteryou.data.local.room.dao.meal.MealDao
+import com.example.betteryou.data.local.room.dao.notification.NotificationDao
+import com.example.betteryou.data.local.room.dao.nutrition.NutritionDao
 import com.example.betteryou.data.local.room.dao.user.UserDao
 import com.example.betteryou.data.local.room.dao.user_product.UserProductDao
 import com.example.betteryou.data.local.room.dao.workout.WorkoutDao
@@ -16,6 +18,8 @@ import com.example.betteryou.data.local.room.entity.intake.DailyIntakeEntity
 import com.example.betteryou.data.local.room.entity.meal.Converters
 import com.example.betteryou.data.local.room.entity.meal.FavoriteMealEntity
 import com.example.betteryou.data.local.room.entity.meal.MealEntity
+import com.example.betteryou.data.local.room.entity.notification.NotificationEntity
+import com.example.betteryou.data.local.room.entity.nutrition.NutritionEntity
 import com.example.betteryou.data.local.room.entity.user.UserEntity
 import com.example.betteryou.data.local.room.entity.user_products.UserProductEntity
 import com.example.betteryou.data.local.room.entity.workout.ExerciseSetEntity
@@ -34,7 +38,8 @@ import com.example.betteryou.data.local.room.entity.workout.WorkoutHistoryEntity
         WorkoutHistoryEntity::class,
         MealEntity::class,
         FavoriteMealEntity::class,
-        ExerciseEntity::class
+        ExerciseEntity::class,
+        NotificationEntity::class
     ],
     version = 20,
     exportSchema = false
@@ -49,4 +54,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun mealDao(): MealDao
     abstract fun favoriteMealDao(): FavoriteMealDao
     abstract fun exerciseDao(): ExerciseDao
+    abstract fun notificationDao(): NotificationDao
 }

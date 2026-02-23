@@ -6,4 +6,5 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 object DatastoreKeys {
     val USER_TOKEN = stringPreferencesKey("user_token")
     val DARK_THEME_KEY = booleanPreferencesKey("dark_theme")
+    val WATER_REMINDER_ENABLED = booleanPreferencesKey("water_reminder_enabled")
 }

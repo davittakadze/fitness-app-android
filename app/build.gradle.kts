@@ -54,6 +54,7 @@ dependencies {
     // DI hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.work.v130)
 
     // Firebase
     implementation(platform(libs.firebase.bom))
@@ -108,6 +109,13 @@ dependencies {
     implementation(projects.feature.explore.data)
 
     implementation(projects.feature.favoritesPage.presentation)
+
+    implementation(projects.core.notification)
+
+    implementation(projects.feature.notification.presentation)
+    implementation(projects.feature.notification.data)
+    implementation(projects.feature.notification.domain)
+
 
 }
 protobuf {
