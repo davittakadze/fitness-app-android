@@ -51,10 +51,10 @@ class RecipeRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getFavoriteMeals(): Flow<Resource<List<Recipe>>> = flow {
+    override suspend fun getFavoriteMeals(userId: String?): Flow<Resource<List<Recipe>>> = flow {
         emit(Resource.Loader(true))
         try {
-            val favorites = favoriteMealDao.getAllMeals()
+            val favorites = favoriteMealDao.getMealsForUser(userId!!)
             emit(Resource.Success(favorites.map { it.toDomain() }))
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "Unknown error"))
@@ -66,7 +66,7 @@ class RecipeRepositoryImpl @Inject constructor(
         favoriteMealDao.insertMeal(entity)
     }
 
-    override suspend fun removeFavoriteMealById(mealId: Long) {
-        favoriteMealDao.deleteMealById(mealId)
+    override suspend fun removeFavoriteMealById(mealId: Long, userId: String?) {
+        favoriteMealDao.deleteMealByIdForUser(mealId,userId!!)
     }
 }

@@ -1,4 +1,4 @@
-package com.example.betteryou.feature.daily.domain.model
+package com.example.betteryou.feature.daily.domain.model.product
 
 data class Product(
     val id: Int,

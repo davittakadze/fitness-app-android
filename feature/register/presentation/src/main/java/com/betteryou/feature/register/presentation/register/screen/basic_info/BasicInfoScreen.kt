@@ -87,6 +87,16 @@ private fun BasicInfoContent(
             keyboardType = KeyboardType.Text
         )
 
+        //Last name
+        TBCAppTextField(
+            value = state.lastName,
+            onValueChange = {
+                onEvent(RegisterEvent.OnLastNameChange(it))
+            },
+            placeholder = stringResource(R.string.your_last_name),
+            keyboardType = KeyboardType.Text
+        )
+
         // Age
         TBCAppTextField(
             value = state.age,

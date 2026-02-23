@@ -1,7 +1,7 @@
 package com.example.betteryou.feature.daily.domain.usecase.intake
 
 import com.example.betteryou.domain.common.Resource
-import com.example.betteryou.feature.daily.domain.model.Intake
+import com.example.betteryou.feature.daily.domain.model.intake.Intake
 import com.example.betteryou.feature.daily.domain.repository.intake.GetDailyIntakeRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

@@ -1,7 +1,7 @@
 package com.example.betteryou.feature.daily.data.remote.mapper
 
 import com.example.betteryou.data.local.room.entity.user_products.UserProductEntity
-import com.example.betteryou.feature.daily.domain.model.UserDailyProduct
+import com.example.betteryou.feature.daily.domain.model.intake.UserDailyProduct
 
 fun UserDailyProduct.toEntity() = UserProductEntity(
     userId = userId,

@@ -1,6 +1,6 @@
 package com.example.betteryou.feature.daily.domain.usecase.intake
 
-import com.example.betteryou.feature.daily.domain.model.Intake
+import com.example.betteryou.feature.daily.domain.model.intake.Intake
 import com.example.betteryou.feature.daily.domain.repository.intake.UpdateDailyIntakeRepository
 import javax.inject.Inject
 

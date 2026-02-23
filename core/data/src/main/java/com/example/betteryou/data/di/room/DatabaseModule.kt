@@ -6,7 +6,6 @@ import com.example.betteryou.data.local.room.dao.explore.ExerciseDao
 import com.example.betteryou.data.local.room.dao.intake.DailyIntakeDao
 import com.example.betteryou.data.local.room.dao.meal.FavoriteMealDao
 import com.example.betteryou.data.local.room.dao.meal.MealDao
-import com.example.betteryou.data.local.room.dao.nutrition.NutritionDao
 import com.example.betteryou.data.local.room.dao.user.UserDao
 import com.example.betteryou.data.local.room.dao.user_product.UserProductDao
 import com.example.betteryou.data.local.room.dao.workout.WorkoutDao
@@ -43,10 +42,6 @@ object DatabaseModule {
     fun provideWorkoutDao(appDatabase: AppDatabase): WorkoutDao {
         return appDatabase.workoutDao()
     }
-
-    @Provides
-    @Singleton
-    fun provideUserNutritionDao(db: AppDatabase): NutritionDao = db.userNutritionDao()
 
     @Provides
     fun provideIntakeDao(db: AppDatabase): DailyIntakeDao = db.dailyIntakeDao()

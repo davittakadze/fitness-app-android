@@ -1,6 +1,7 @@
 package com.example.betteryou.feature.favorites_page.presentation
 
 import androidx.lifecycle.viewModelScope
+import com.example.betteryou.domain.usecase.GetUserIdUseCase
 import com.example.betteryou.feature.favorites_page.domain.usecase.FavoriteMealUseCase
 import com.example.betteryou.feature.favorites_page.domain.usecase.RemoveFavoriteMealUseCase
 import com.example.betteryou.feature.favorites_page.presentation.mapper.toPresentation
@@ -14,6 +15,7 @@ import javax.inject.Inject
 class FavoritesViewModel @Inject constructor(
     private val getFavoriteMealUseCase: FavoriteMealUseCase,
     private val removeFavoriteMealUseCase: RemoveFavoriteMealUseCase,
+    private val getIdUseCase: GetUserIdUseCase
 ) : BaseViewModel<FavoritesState, FavoritesEvent, FavoritesSideEffect>(FavoritesState()) {
 
     init {
@@ -32,7 +34,7 @@ class FavoritesViewModel @Inject constructor(
 
             is FavoritesEvent.RemoveFavorite -> {
                 viewModelScope.launch {
-                    removeFavoriteMealUseCase.invoke(event.mealId)
+                    removeFavoriteMealUseCase.invoke(event.mealId, getIdUseCase.invoke()!!)
                     updateState {
                         copy(favouriteMeals = favouriteMeals.filter { it.id != event.mealId })
                     }
@@ -53,7 +55,7 @@ class FavoritesViewModel @Inject constructor(
 
     private fun loadFavoriteMeals() {
         handleResponse(
-            apiCall = { getFavoriteMealUseCase.invoke() },
+            apiCall = { getFavoriteMealUseCase.invoke(getIdUseCase.invoke()!!) },
             onSuccess = { resource ->
                 updateState {
                     copy(isLoading = false, favouriteMeals = resource.map {

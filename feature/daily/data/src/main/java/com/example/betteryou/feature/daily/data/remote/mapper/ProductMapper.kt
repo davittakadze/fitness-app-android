@@ -1,7 +1,7 @@
 package com.example.betteryou.feature.daily.data.remote.mapper
 
 import com.example.betteryou.feature.daily.data.remote.model.product.ProductDto
-import com.example.betteryou.feature.daily.domain.model.Product
+import com.example.betteryou.feature.daily.domain.model.product.Product
 
 fun ProductDto.toDomain(): Product{
     return Product(

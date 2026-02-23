@@ -7,5 +7,4 @@ import kotlinx.coroutines.flow.Flow
 interface UserProfileRepository {
     fun uploadUserProfile(user: User): Flow<Resource<Unit>>
     fun getUser(): Flow<Resource<User?>>
-    suspend fun syncUserFromRemote()
 }

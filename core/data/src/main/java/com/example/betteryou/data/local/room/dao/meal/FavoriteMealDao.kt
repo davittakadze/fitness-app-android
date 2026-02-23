@@ -11,9 +11,9 @@ interface FavoriteMealDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMeal(meal: FavoriteMealEntity)
 
-    @Query("SELECT * FROM favorite_meals")
-    fun getAllMeals(): List<FavoriteMealEntity>
+    @Query("SELECT * FROM favorite_meals WHERE userId = :userId")
+    fun getMealsForUser(userId: String): List<FavoriteMealEntity>
 
-    @Query("DELETE FROM favorite_meals WHERE id = :mealId")
-    suspend fun deleteMealById(mealId: Long)
+    @Query("DELETE FROM favorite_meals WHERE id = :mealId AND userId = :userId")
+    suspend fun deleteMealByIdForUser(mealId: Long, userId: String)
 }

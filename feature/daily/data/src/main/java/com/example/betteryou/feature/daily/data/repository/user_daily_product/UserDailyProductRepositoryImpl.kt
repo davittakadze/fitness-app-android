@@ -5,7 +5,7 @@ import com.example.betteryou.data.local.room.entity.user_products.UserProductEnt
 import com.example.betteryou.feature.daily.data.remote.mapper.toDomain
 import com.example.betteryou.feature.daily.data.remote.mapper.toEntity
 import com.example.betteryou.domain.common.Resource
-import com.example.betteryou.feature.daily.domain.model.UserDailyProduct
+import com.example.betteryou.feature.daily.domain.model.intake.UserDailyProduct
 import com.example.betteryou.feature.daily.domain.repository.user_daily_product.UserDailyProductRepository
 import com.example.betteryou.util.getStartOfDayMillis
 import kotlinx.coroutines.flow.Flow

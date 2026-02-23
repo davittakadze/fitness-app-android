@@ -30,7 +30,6 @@ import com.example.betteryou.data.local.room.entity.workout.WorkoutHistoryEntity
 @Database(
     entities = [
         UserEntity::class,
-        NutritionEntity::class,
         DailyIntakeEntity::class,
         UserProductEntity::class,
         WorkoutEntity::class,
@@ -49,7 +48,6 @@ import com.example.betteryou.data.local.room.entity.workout.WorkoutHistoryEntity
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun workoutDao(): WorkoutDao
-    abstract fun userNutritionDao(): NutritionDao
     abstract fun dailyIntakeDao(): DailyIntakeDao
     abstract fun userProductDao(): UserProductDao
     abstract fun historyDao(): HistoryDao

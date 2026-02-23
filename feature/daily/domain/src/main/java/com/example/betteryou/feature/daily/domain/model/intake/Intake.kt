@@ -1,4 +1,4 @@
-package com.example.betteryou.feature.daily.domain.model
+package com.example.betteryou.feature.daily.domain.model.intake
 
 data class Intake(
     val dailyCalories:Double,

@@ -1,7 +1,7 @@
 package com.example.betteryou.feature.daily.domain.usecase.product
 
 import com.example.betteryou.domain.common.Resource
-import com.example.betteryou.feature.daily.domain.model.Product
+import com.example.betteryou.feature.daily.domain.model.product.Product
 import com.example.betteryou.feature.daily.domain.repository.product.ProductRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

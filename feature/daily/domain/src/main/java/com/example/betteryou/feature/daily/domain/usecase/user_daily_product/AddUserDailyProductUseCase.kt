@@ -1,6 +1,6 @@
 package com.example.betteryou.feature.daily.domain.usecase.user_daily_product
 
-import com.example.betteryou.feature.daily.domain.model.UserDailyProduct
+import com.example.betteryou.feature.daily.domain.model.intake.UserDailyProduct
 import com.example.betteryou.feature.daily.domain.repository.user_daily_product.UserDailyProductRepository
 import javax.inject.Inject
 

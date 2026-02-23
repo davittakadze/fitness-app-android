@@ -14,6 +14,7 @@ sealed interface RegisterEvent {
     data class OnGenderChange(val gender: Gender) : RegisterEvent
     data class OnAgeChange(val age: String) : RegisterEvent
     data class OnNameChange(val name: String) : RegisterEvent
+    data class OnLastNameChange(val lastName: String) : RegisterEvent
 
     // Screen 3: Body Metrics
     data class OnWeightChange(val weight: String) : RegisterEvent
@@ -29,4 +30,5 @@ sealed interface RegisterEvent {
     data class OnTogglePassword1Visibility(val isVisible: Boolean) : RegisterEvent
     data class OnTogglePassword2Visibility(val isVisible: Boolean) : RegisterEvent
     data object OnRegisterButtonClick : RegisterEvent
+
 }

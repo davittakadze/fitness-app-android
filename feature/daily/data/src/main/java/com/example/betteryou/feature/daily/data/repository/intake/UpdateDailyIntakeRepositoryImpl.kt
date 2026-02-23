@@ -1,7 +1,7 @@
 package com.example.betteryou.feature.daily.data.repository.intake
 
 import com.example.betteryou.data.local.room.dao.intake.DailyIntakeDao
-import com.example.betteryou.feature.daily.domain.model.Intake
+import com.example.betteryou.feature.daily.domain.model.intake.Intake
 import com.example.betteryou.feature.daily.domain.repository.intake.UpdateDailyIntakeRepository
 import javax.inject.Inject
 

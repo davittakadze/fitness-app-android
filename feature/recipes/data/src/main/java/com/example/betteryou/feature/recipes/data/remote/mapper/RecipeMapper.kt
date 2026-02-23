@@ -57,6 +57,7 @@ fun Recipe.toEntity(): FavoriteMealEntity {
         ingredients = ingredients,
         cookingTime = cookingTime,
         difficulty = difficulty,
-        recipe = recipe
+        recipe = recipe,
+        userId = userId!!
     )
 }

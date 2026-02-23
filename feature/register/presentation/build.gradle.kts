@@ -14,4 +14,5 @@ dependencies {
 
     implementation(projects.coreUi)
     implementation(projects.feature.register.domain)
+    implementation(projects.util)
 }

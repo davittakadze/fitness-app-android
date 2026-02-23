@@ -5,6 +5,7 @@ data class User (
     val firstName: String?=null,
     val lastName: String?=null,
     val age: Int? = null,
+    val birthDate:String?=null,
     val gender: String?=null,
     val height: Double? = null,
     val weight: Double? = null,

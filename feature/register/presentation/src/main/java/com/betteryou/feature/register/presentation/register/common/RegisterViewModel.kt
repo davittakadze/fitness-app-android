@@ -3,7 +3,6 @@ package com.betteryou.feature.register.presentation.register.common
 import androidx.lifecycle.viewModelScope
 import com.betteryou.feature.register.domain.model.BodyData
 import com.betteryou.feature.register.domain.model.RegisterUserInfo
-import com.betteryou.feature.register.domain.usecase.CalculateNutritionUseCase
 import com.betteryou.feature.register.domain.usecase.RegisterUseCase
 import com.betteryou.feature.register.domain.validation.EmailValidatorUseCase
 import com.betteryou.feature.register.domain.validation.EmptyFieldsValidatorUseCase
@@ -23,7 +22,6 @@ class RegisterViewModel @Inject constructor(
     private val passwordValidatorUseCase: PasswordValidatorUseCase,
     private val repeatPasswordValidatorUseCase: RepeatPasswordValidatorUseCase,
     private val emptyFieldsValidatorUseCase: EmptyFieldsValidatorUseCase,
-    private val calculateNutritionUseCase: CalculateNutritionUseCase
 ) : BaseViewModel<RegisterState, RegisterEvent, RegisterSideEffect>(RegisterState()) {
 
     override fun onEvent(event: RegisterEvent) {
@@ -58,6 +56,10 @@ class RegisterViewModel @Inject constructor(
                 viewModelScope.launch {
                     emitSideEffect(RegisterSideEffect.NavigateBack)
                 }
+            }
+
+            is RegisterEvent.OnLastNameChange -> updateState{
+                copy(lastName = event.lastName)
             }
         }
     }
@@ -104,22 +106,22 @@ class RegisterViewModel @Inject constructor(
             activityLevel = model.activityLevel!!,
             goal = model.goal!!
         )
-        val nutritionResults = calculateNutritionUseCase.invoke(bodyData)
-
+//        val nutritionResults = calculateNutritionUseCase.invoke(bodyData)
 
         val userInfo = RegisterUserInfo(
             name = model.name,
+            lastName = model.lastName,
             age = model.age.toInt(),
             gender = model.gender.name,
             height = model.height.toDouble(),
             weight = model.weight.toDouble(),
             activityLevel = model.activityLevel.name,
             goal = model.goal.name,
-            dailyCalories = nutritionResults.calories,
-            protein = nutritionResults.protein,
-            carbs = nutritionResults.carbs,
-            fats = nutritionResults.fats,
-            water = nutritionResults.waterLiters
+//            dailyCalories = nutritionResults.calories,
+//            protein = nutritionResults.protein,
+ //           carbs = nutritionResults.carbs,
+//            fats = nutritionResults.fats,
+ //           water = nutritionResults.waterLiters
         )
 
         handleResponse(

@@ -1,7 +1,7 @@
 package com.example.betteryou.feature.daily.domain.repository.user_daily_product
 
 import com.example.betteryou.domain.common.Resource
-import com.example.betteryou.feature.daily.domain.model.UserDailyProduct
+import com.example.betteryou.feature.daily.domain.model.intake.UserDailyProduct
 import kotlinx.coroutines.flow.Flow
 
 interface UserDailyProductRepository {

@@ -1,6 +1,6 @@
 package com.example.betteryou.feature.daily.domain.repository.intake
 
-import com.example.betteryou.feature.daily.domain.model.Intake
+import com.example.betteryou.feature.daily.domain.model.intake.Intake
 
 interface UpdateDailyIntakeRepository {
     suspend fun updateDailyIntake(

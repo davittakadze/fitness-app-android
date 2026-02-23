@@ -10,6 +10,7 @@ fun UserUi.toDomain(): User {
         firstName = firstName,
         lastName = lastName,
         age = age,
+        birthDate=birthDate,
         gender = gender.toString().lowercase(),
         height = height,
         weight = weight,
@@ -19,16 +20,17 @@ fun UserUi.toDomain(): User {
 
 fun User.toPresentation(): UserUi {
     return UserUi(
-        this.firstName,
-        this.lastName,
-        this.age,
-        if (this.gender==Sex.MALE.toString().lowercase()) {
+        firstName = this.firstName,
+        lastName=this.lastName,
+        age=this.age,
+        birthDate=this.birthDate,
+        gender=if (this.gender==Sex.MALE.toString().lowercase()) {
             Sex.MALE
         } else {
             Sex.FEMALE
         },
-        this.height,
-        this.weight,
-        this.photoUrl?.toUri()
+        height=this.height,
+        weight=this.weight,
+        photoUrl=this.photoUrl?.toUri()
     )
 }

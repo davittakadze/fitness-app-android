@@ -3,7 +3,7 @@ package com.example.betteryou.feature.daily.data.repository.intake
 import com.example.betteryou.data.local.room.dao.intake.DailyIntakeDao
 import com.example.betteryou.domain.common.Resource
 import com.example.betteryou.feature.daily.data.remote.mapper.toDomain
-import com.example.betteryou.feature.daily.domain.model.Intake
+import com.example.betteryou.feature.daily.domain.model.intake.Intake
 import com.example.betteryou.feature.daily.domain.repository.intake.GetDailyIntakeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

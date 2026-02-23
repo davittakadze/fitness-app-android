@@ -2,7 +2,7 @@ package com.example.betteryou.feature.daily.data.remote.mapper
 
 import com.example.betteryou.data.local.room.entity.intake.DailyIntakeEntity
 import com.example.betteryou.feature.daily.data.remote.model.intake.IntakeDto
-import com.example.betteryou.feature.daily.domain.model.Intake
+import com.example.betteryou.feature.daily.domain.model.intake.Intake
 
 fun DailyIntakeEntity.toDomain(): Intake=Intake(
     this.consumedCalories,
