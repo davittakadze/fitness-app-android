@@ -30,4 +30,5 @@ sealed interface RegisterEvent {
     data class OnTogglePassword1Visibility(val isVisible: Boolean) : RegisterEvent
     data class OnTogglePassword2Visibility(val isVisible: Boolean) : RegisterEvent
     data object OnRegisterButtonClick : RegisterEvent
+
 }

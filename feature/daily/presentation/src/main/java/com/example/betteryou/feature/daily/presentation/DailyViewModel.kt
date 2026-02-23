@@ -4,11 +4,13 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.betteryou.domain.common.Resource
 import com.example.betteryou.domain.usecase.GetUserIdUseCase
-import com.example.betteryou.feature.daily.domain.model.Intake
-import com.example.betteryou.feature.daily.domain.usecase.data.GetNutrientsUseCase
+import com.example.betteryou.feature.daily.domain.model.intake.Intake
+import com.example.betteryou.feature.daily.domain.usecase.user.GetUserUseCase
 import com.example.betteryou.feature.daily.domain.usecase.intake.GetDailyIntakeUseCase
 import com.example.betteryou.feature.daily.domain.usecase.intake.UpdateDailyIntakeUseCase
 import com.example.betteryou.feature.daily.domain.usecase.product.ProductUseCase
+import com.example.betteryou.feature.daily.domain.usecase.user.CalculateNutritionUseCase
+import com.example.betteryou.feature.daily.domain.usecase.user.RefreshUserUseCase
 import com.example.betteryou.feature.daily.domain.usecase.user_daily_product.AddUserDailyProductUseCase
 import com.example.betteryou.feature.daily.domain.usecase.user_daily_product.DeleteProductByIdUseCase
 import com.example.betteryou.feature.daily.domain.usecase.user_daily_product.GetTodayUserProductsUseCase
@@ -27,12 +29,14 @@ import javax.inject.Inject
 @HiltViewModel
 class DailyViewModel @Inject constructor(
     //nutrients
-    private val getDailyDataUseCase: GetNutrientsUseCase,
+    private val getDailyDataUseCase: GetUserUseCase,
+    private val calculateNutritionUseCase: CalculateNutritionUseCase,
     //intake
     private val updateDailyIntakeUseCase: UpdateDailyIntakeUseCase,
     private val getDailyIntakeUseCase: GetDailyIntakeUseCase,
     //id
     private val getUserIdUseCase: GetUserIdUseCase,
+    private val refreshUserUseCase: RefreshUserUseCase,
     //products
     private val getProductsUseCase: ProductUseCase,
     private val getUserDailyProduct: GetTodayUserProductsUseCase,
@@ -45,6 +49,9 @@ class DailyViewModel @Inject constructor(
         getDailyData()
         loadUserDailyProducts()
         loadInitialIntake()
+        viewModelScope.launch {
+            refreshUserUseCase()
+        }
     }
 
     override fun onEvent(event: DailyEvent) {
@@ -150,26 +157,25 @@ class DailyViewModel @Inject constructor(
             getDailyDataUseCase().collect { resource ->
                 when (resource) {
                     is Resource.Loader -> {
-                        Log.d("DailyViewModel", "getDailyData: loading")
                         updateState { copy(isLoading = true) }
                     }
 
                     is Resource.Success -> {
-                        Log.d("DailyViewModel", "getDailyData: success ${resource.data}")
+                        val nutrient=calculateNutritionUseCase(resource.data)
                         updateState {
                             copy(
-                                totalCaloriesGoal = resource.data.dailyCalories,
-                                totalProteinGoal = resource.data.protein,
-                                totalFatGoal = resource.data.fats,
-                                totalCarbsGoal = resource.data.carbs,
-                                waterGoal = resource.data.water
+                                //gadasaketebelia
+                                totalCaloriesGoal = nutrient.calories.toDouble(),
+                                totalProteinGoal = nutrient.protein.toDouble(),
+                                totalFatGoal = nutrient.fats.toDouble(),
+                                totalCarbsGoal = nutrient.carbs.toDouble(),
+                                waterGoal = nutrient.waterLiters
                             )
                         }
                     }
 
                     is Resource.Error -> {
-                        //   emitSideEffect(DailySideEffect.ShowError(resource.errorMessage))
-                        Log.e("DailyViewModel", "getDailyData: error ${resource.errorMessage}")
+
                     }
                 }
                 Log.d("DailyViewModel", "getDailyData: finished collecting nutrients")

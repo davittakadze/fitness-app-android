@@ -15,16 +15,15 @@ import javax.inject.Inject
 import java.time.YearMonth
 import com.example.betteryou.core_ui.R
 import com.example.betteryou.feature.profile.domain.usecase.usecase.GetUserInfoUseCase
-import com.example.betteryou.feature.profile.domain.usecase.usecase.SyncUserUseCase
 import com.example.betteryou.feature.profile.domain.usecase.usecase.UploadUserInfoUseCase
 import com.example.betteryou.feature.profile.domain.usecase.validator.AgeValidatorUseCase
+import com.example.betteryou.util.toLocalDate
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val uploadUseCase: UploadUserInfoUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val validator: AgeValidatorUseCase,
-    private val syncUserUseCase: SyncUserUseCase,
+    private val validator: AgeValidatorUseCase
 ) :
     BaseViewModel<ProfileState, ProfileEvent, ProfileSideEffect>(ProfileState()) {
     private var pendingCameraUri: Uri? = null
@@ -40,7 +39,8 @@ class ProfileViewModel @Inject constructor(
                                 copy(
                                     firstName = userUi.firstName.orEmpty(),
                                     lastName = userUi.lastName.orEmpty(),
-                                    age = userUi.age,
+                                    age=userUi.age,
+                                    selectedDate = userUi.birthDate.toLocalDate(),
                                     selectedSex = userUi.gender,
                                     height = userUi.height?.toString().orEmpty(),
                                     weight = userUi.weight?.toString().orEmpty(),
@@ -63,9 +63,6 @@ class ProfileViewModel @Inject constructor(
                     }
                 }
             }
-        }
-        viewModelScope.launch {
-            syncUserUseCase()
         }
     }
 

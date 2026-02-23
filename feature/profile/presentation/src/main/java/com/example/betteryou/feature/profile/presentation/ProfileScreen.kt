@@ -379,7 +379,8 @@ fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
                             UserUi(
                                 state.firstName,
                                 state.lastName,
-                                age = state.selectedDate?.let { calculateAge(it) } ?: 0,
+                                age = state.selectedDate?.let { calculateAge(it) } ?: state.age,
+                                birthDate = state.selectedDate?.formatToString(),
                                 state.selectedSex,
                                 state.height.toDoubleOrNull(),
                                 state.weight.toDoubleOrNull(),

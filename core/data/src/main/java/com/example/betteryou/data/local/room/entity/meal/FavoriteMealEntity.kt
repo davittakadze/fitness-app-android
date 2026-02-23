@@ -16,5 +16,5 @@ data class FavoriteMealEntity(
     val ingredients: List<String>,
     val cookingTime: String,
     val difficulty: String,
-    val recipe: String,
+    val recipe: String
 )

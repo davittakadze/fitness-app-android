@@ -1,4 +1,4 @@
-package com.betteryou.feature.register.domain.model
+package com.example.betteryou.feature.daily.domain.model.user
 
 data class NutritionResults (
     val calories: Int,

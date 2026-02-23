@@ -5,7 +5,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.betteryou.domain.usecase.GetUserIdUseCase
-import com.example.betteryou.feature.daily.domain.model.Intake
+import com.example.betteryou.feature.daily.domain.model.intake.Intake
 import com.example.betteryou.feature.daily.domain.usecase.intake.UpdateDailyIntakeUseCase
 import com.example.betteryou.feature.daily.domain.usecase.user_daily_product.ClearOldUserDailyProductsUseCase
 import dagger.assisted.Assisted

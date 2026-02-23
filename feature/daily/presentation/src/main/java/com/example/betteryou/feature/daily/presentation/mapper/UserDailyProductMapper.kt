@@ -1,6 +1,6 @@
 package com.example.betteryou.feature.daily.presentation.mapper
 
-import com.example.betteryou.feature.daily.domain.model.UserDailyProduct
+import com.example.betteryou.feature.daily.domain.model.intake.UserDailyProduct
 import com.example.betteryou.feature.daily.presentation.model.UserDailyProductUi
 
 fun UserDailyProduct.toPresentation(): UserDailyProductUi {

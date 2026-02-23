@@ -4,6 +4,7 @@ import com.betteryou.feature.register.domain.model.ActivityLevelType
 import com.betteryou.feature.register.domain.model.Gender
 import com.betteryou.feature.register.domain.model.GoalType
 import com.example.betteryou.presentation.navigation.RegistrationRoute
+import java.time.LocalDate
 
 data class RegisterState(
     val currentStep: RegistrationRoute = RegistrationRoute.ActivityLevel,

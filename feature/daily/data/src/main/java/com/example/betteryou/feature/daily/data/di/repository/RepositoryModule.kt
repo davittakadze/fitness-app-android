@@ -2,10 +2,10 @@ package com.example.betteryou.feature.daily.data.di.repository
 
 import com.example.betteryou.feature.daily.data.repository.intake.GetDailyIntakeRepositoryImpl
 import com.example.betteryou.feature.daily.data.repository.intake.UpdateDailyIntakeRepositoryImpl
-import com.example.betteryou.feature.daily.data.repository.nutrient.GetNutrientsRepositoryImpl
+import com.example.betteryou.feature.daily.data.repository.user_info.UserInfoRepositoryImpl
 import com.example.betteryou.feature.daily.data.repository.product.ProductRepositoryImpl
 import com.example.betteryou.feature.daily.data.repository.user_daily_product.UserDailyProductRepositoryImpl
-import com.example.betteryou.feature.daily.domain.repository.data.GetNutrientsRepository
+import com.example.betteryou.feature.daily.domain.repository.user.GetUserRepository
 import com.example.betteryou.feature.daily.domain.repository.intake.GetDailyIntakeRepository
 import com.example.betteryou.feature.daily.domain.repository.intake.UpdateDailyIntakeRepository
 import com.example.betteryou.feature.daily.domain.repository.product.ProductRepository
@@ -22,8 +22,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindGetDataRepository(
-        getDataRepositoryImpl: GetNutrientsRepositoryImpl,
-    ): GetNutrientsRepository
+        getDataRepositoryImpl: UserInfoRepositoryImpl,
+    ): GetUserRepository
 
     @Binds
     @Singleton

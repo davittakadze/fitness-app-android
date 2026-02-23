@@ -83,7 +83,7 @@ private fun BasicInfoContent(
             onValueChange = {
                 onEvent(RegisterEvent.OnNameChange(it))
             },
-            placeholder = stringResource(R.string.your_last_name),
+            placeholder = stringResource(R.string.your_name),
             keyboardType = KeyboardType.Text
         )
 
@@ -93,7 +93,7 @@ private fun BasicInfoContent(
             onValueChange = {
                 onEvent(RegisterEvent.OnLastNameChange(it))
             },
-            placeholder = stringResource(R.string.last_name),
+            placeholder = stringResource(R.string.your_last_name),
             keyboardType = KeyboardType.Text
         )
 
