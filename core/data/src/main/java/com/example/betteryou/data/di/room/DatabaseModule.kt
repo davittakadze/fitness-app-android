@@ -66,4 +66,7 @@ object DatabaseModule {
 
     @Provides
     fun provideExerciseDao(db: AppDatabase): ExerciseDao = db.exerciseDao()
+
+    @Provides
+    fun provideNotificationDao(db: AppDatabase) = db.notificationDao()
 }

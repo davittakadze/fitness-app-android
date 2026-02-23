@@ -46,6 +46,7 @@ fun SettingsScreen(
     onNavigateToMenu: () -> Unit,
     onNavigateToHistory: () -> Unit,
     onNavigateToFavorites: () -> Unit,
+    onNavigateToNotifications: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -70,6 +71,7 @@ fun SettingsScreen(
 
             SettingSideEffects.NavigateToHistory -> onNavigateToHistory()
             SettingSideEffects.NavigateToFavorites -> onNavigateToFavorites()
+            SettingSideEffects.NavigateToNotifications -> onNavigateToNotifications()
         }
     }
 }
@@ -123,6 +125,12 @@ private fun SettingsContent(
         Spacer(Modifier.height(Spacer.spacing32))
 
         SettingsSection {
+            SettingsItem(
+                title = stringResource(R.string.notifications),
+                textColor = LocalTBCColors.current.onBackground,
+                showArrow = true,
+                onClick = { onEvent(SettingsEvent.OnNotificationsClick) }
+            )
             SettingsItem(
                 title = stringResource(R.string.history),
                 textColor = LocalTBCColors.current.onBackground,

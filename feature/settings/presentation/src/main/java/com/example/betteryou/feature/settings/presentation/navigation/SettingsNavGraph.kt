@@ -20,6 +20,9 @@ fun NavGraphBuilder.settingsNavGraph(navController: NavController){
             },
             onNavigateToFavorites = {
                 navController.navigate(Route.Favorites)
+            },
+            onNavigateToNotifications = {
+                navController.navigate(Route.Notifications)
             }
         )
     }
