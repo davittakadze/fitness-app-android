@@ -3,10 +3,8 @@ package com.example.betteryou
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.betteryou.core.notifications.NotificationHelper
 import com.example.betteryou.core_ui.theme.TBCTheme
 import com.example.betteryou.domain.common.NotificationConfig

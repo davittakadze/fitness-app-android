@@ -373,7 +373,7 @@ private fun SexItem(
         if (selected) LocalTBCColors.current.onBackground
         else Color.Transparent
 
-        if (state.isCalendarOpen) {
+        /*if (state.isCalendarOpen) {
             CalendarBottomSheet(
                 state = state,
                 onEvent = onEvent,
@@ -403,8 +403,8 @@ private fun SexItem(
                     onEvent(OnYearPickerToggle)
                 }
             )
-        }
-    }
+
+    }*/
 }
 
 

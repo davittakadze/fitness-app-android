@@ -39,7 +39,7 @@ import com.example.betteryou.data.local.room.entity.product.ProductEntity
         MealEntity::class,
         FavoriteMealEntity::class,
         ExerciseEntity::class,
-        ProductEntity::class
+        ProductEntity::class,
         NotificationEntity::class
     ],
     version = 24,
