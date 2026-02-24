@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetAllSavedWorkoutsUseCase @Inject constructor(
     private val repository: WorkoutsRepository
 ) {
-    operator fun invoke(): Flow<List<Workout>> {
-        return repository.getAllSavedWorkouts()
+    operator fun invoke(userId: String): Flow<List<Workout>> {
+        return repository.getAllSavedWorkouts(userId = userId)
     }
 }

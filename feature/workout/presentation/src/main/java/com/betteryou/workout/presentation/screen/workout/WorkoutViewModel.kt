@@ -11,6 +11,7 @@ import com.betteryou.workout.presentation.mapper.toPresentation
 import com.betteryou.workout.presentation.model.ExerciseUI
 import com.bettetyou.core.model.GetExercise
 import com.example.betteryou.core_ui.R
+import com.example.betteryou.domain.usecase.GetUserIdUseCase
 import com.example.betteryou.presentation.common.BaseViewModel
 import com.example.betteryou.presentation.common.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +25,8 @@ class WorkoutViewModel @Inject constructor(
     private val getExercisesUseCase: GetExercisesUseCase,
     private val saveWorkoutUseCase: SaveWorkoutUseCase,
     private val getAllSavedWorkoutsUseCase: GetAllSavedWorkoutsUseCase,
-    private val deleteWorkoutUseCase: DeleteWorkoutUseCase
+    private val deleteWorkoutUseCase: DeleteWorkoutUseCase,
+    private val getUserIdUseCase: GetUserIdUseCase
 ) : BaseViewModel<WorkoutState, WorkoutEvent, WorkoutSideEffect>(WorkoutState()) {
 
     override fun onEvent(event: WorkoutEvent) {
@@ -62,7 +64,8 @@ class WorkoutViewModel @Inject constructor(
     }
 
     private fun observeWorkouts() {
-        getAllSavedWorkoutsUseCase.invoke()
+        val userId = getUserIdUseCase.invoke() ?: ""
+        getAllSavedWorkoutsUseCase.invoke(userId)
             .onEach { workouts ->
                 updateState { copy(myWorkouts = workouts) }
             }
@@ -123,7 +126,8 @@ class WorkoutViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            saveWorkoutUseCase.invoke(title, exercises.map(ExerciseUI::toDomain))
+            val userId = getUserIdUseCase.invoke() ?: ""
+            saveWorkoutUseCase.invoke(title, exercises.map(ExerciseUI::toDomain), userId)
 
             dismissSheet()
         }

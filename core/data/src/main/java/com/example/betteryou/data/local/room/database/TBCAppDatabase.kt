@@ -42,7 +42,7 @@ import com.example.betteryou.data.local.room.entity.product.ProductEntity
         ProductEntity::class,
         NotificationEntity::class
     ],
-    version = 26,
+    version = 27,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
