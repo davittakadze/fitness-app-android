@@ -14,13 +14,13 @@ data class UserProductEntity(
     @PrimaryKey
     val id: Long,
     val userId: String?,
-    val name: String,
+    val name: Map<String, String>,
     val photo: String,
     val calories: Double,
     val protein: Double,
     val carbs: Double,
     val fat: Double,
-    val description: String,
+    val description: Map<String, String>,
     val quantity: Double,
     val date: Long,
 )
