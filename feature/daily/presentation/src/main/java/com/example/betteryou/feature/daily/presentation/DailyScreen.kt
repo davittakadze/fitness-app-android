@@ -203,7 +203,7 @@ private fun DailyScreenContent(
                     }
                 }
 
-                item { Spacer(Modifier.height(Spacer.spacing32)) }
+                item { Spacer(Modifier.height(Spacer.spacing100)) }
             }
 
             if (state.isBottomSheetOpen && state.selectedProduct != null) {
