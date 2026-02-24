@@ -1,24 +1,19 @@
 package com.example.betteryou.feature.settings.presentation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,15 +22,15 @@ import com.example.betteryou.core_ui.theme.LocalTBCColors
 import com.example.betteryou.core_ui.R
 import com.example.betteryou.core_ui.theme.TBCTheme
 import com.example.betteryou.core_ui.theme.LocalTBCTypography
-import com.example.betteryou.core_ui.theme.Radius
 import com.example.betteryou.core_ui.theme.Spacer
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.betteryou.core_ui.components.button.AppButtonType
+import com.example.betteryou.core_ui.components.button.TBCAppButton
 import com.example.betteryou.core_ui.components.button.TBCAppSwitch
+import com.example.betteryou.core_ui.components.text_field.TBCAppPasswordField
 import com.example.betteryou.feature.settings.presentation.component.SettingsItem
 import com.example.betteryou.feature.settings.presentation.component.SettingsSection
 import com.example.betteryou.presentation.extensions.CollectSideEffects
@@ -76,6 +71,13 @@ fun SettingsScreen(
             SettingSideEffects.NavigateToNotifications -> onNavigateToNotifications()
         }
     }
+    DeleteAccountBottomSheet(
+        state = state,
+        passwordChange = { viewModel.onEvent(SettingsEvent.OnPasswordChange(it)) },
+        passwordVisibilityChange = { viewModel.onEvent(SettingsEvent.OnPasswordVisibilityChange(it)) },
+        onDeleteClick = { viewModel.onEvent(SettingsEvent.OnDeleteAccountClick) },
+        onDismiss = { viewModel.onEvent(SettingsEvent.OnDismissBottomSheet) }
+    )
 }
 
 @Composable
@@ -179,10 +181,70 @@ private fun SettingsContent(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DeleteAccountBottomSheet(
+    state: SettingsState,
+    passwordChange: (String) -> Unit,
+    onDeleteClick: (String) -> Unit,
+    passwordVisibilityChange:(Boolean)->Unit,
+    onDismiss: () -> Unit
+) {
+    if (!state.isBottomSheetOpen) return
+
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+
+    ModalBottomSheet(
+        onDismissRequest = { onDismiss() },
+        sheetState = sheetState,
+        containerColor = LocalTBCColors.current.background
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+
+            Text(
+                text = stringResource(R.string.fill_in_password),
+                style= TBCTheme.typography.bodyLargest,
+                color = LocalTBCColors.current.onBackground
+            )
+
+            Spacer(Modifier.height(Spacer.spacing16))
+
+            TBCAppPasswordField(
+                value = state.password,
+                isPasswordVisible = state.isPasswordVisible,
+                onPasswordChange = {
+                    passwordChange(it)
+                },
+                onIconClick = {
+                    passwordVisibilityChange(!state.isPasswordVisible)
+                },
+                placeholder = stringResource(R.string.password),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(Modifier.height(Spacer.spacing16))
+
+            TBCAppButton(
+                text = stringResource(R.string.delete_account),
+                type = AppButtonType.Outlined,
+                onClick = { onDeleteClick(state.password) },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun SettingsScreenPreview() {
     TBCTheme {
-        SettingsContent({}, SettingsState())
+        DeleteAccountBottomSheet(SettingsState(isBottomSheetOpen = true),{},{},{},{})
     }
 }

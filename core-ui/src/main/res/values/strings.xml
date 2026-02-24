@@ -113,6 +113,7 @@ Time to hit the gym!</string>
     <string name="invalid_age">Invalid age!</string>
     <string name="toggle_language_to_georgian">Toggle language to Georgian</string>
     <string name="toggle_language_to_english">Toggle language to English</string>
+    <string name="fill_in_password">Fill in password</string>
 
     <!-- Daily Screen  -->
     <string name="daily_screen_title">Daily intake</string>

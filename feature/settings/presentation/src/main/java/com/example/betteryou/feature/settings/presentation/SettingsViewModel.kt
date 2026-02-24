@@ -31,13 +31,36 @@ class SettingsViewModel @Inject constructor(
     override fun onEvent(event: SettingsEvent) {
         when (event) {
             is SettingsEvent.OnDarkThemeChanged -> updateDarkTheme(event.isEnabled)
-            SettingsEvent.OnDeleteAccountClick -> deleteAccount()
+
+            SettingsEvent.OnDeleteAccountClick -> {
+                updateState {
+                    copy(isBottomSheetOpen = true)
+                }
+                deleteAccount()
+            }
             SettingsEvent.OnLogOutClick -> logout()
+
             SettingsEvent.OnProfileClick -> emitSideEffect(SettingSideEffects.NavigateToProfile)
+
             SettingsEvent.OnHistoryClick -> emitSideEffect(SettingSideEffects.NavigateToHistory)
+
             SettingsEvent.OnFavoritesClick -> emitSideEffect(SettingSideEffects.NavigateToFavorites)
+
             is SettingsEvent.OnToggleLanguageClick -> updateLanguage(event.isEnabled)
+
             SettingsEvent.OnNotificationsClick -> emitSideEffect(SettingSideEffects.NavigateToNotifications)
+
+            SettingsEvent.OnDismissBottomSheet -> updateState {
+                copy(isBottomSheetOpen = false)
+            }
+            is SettingsEvent.OnPasswordChange -> updateState {
+                copy(password = event.password)
+            }
+            is SettingsEvent.OnPasswordVisibilityChange -> {
+                updateState {
+                    copy(isPasswordVisible=event.isPasswordVisible)
+                }
+            }
         }
     }
 
@@ -101,7 +124,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun deleteAccount() {
         viewModelScope.launch {
-            deleteAccountUseCase().collectLatest { result ->
+            deleteAccountUseCase(state.value.password).collectLatest { result ->
                 when (result) {
                     is Resource.Loader -> {
                         updateState { copy(isLoading = result.isLoading) }

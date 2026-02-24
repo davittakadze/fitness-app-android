@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface DeleteAccountRepository {
 
-    suspend fun deleteAccount(): Flow<Resource<Unit>>
+    suspend fun deleteAccount(password: String): Flow<Resource<Unit>>
 
 }
