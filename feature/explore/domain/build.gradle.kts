@@ -18,4 +18,5 @@ dependencies {
     implementation(libs.kotlinx.coroutines.play.services)
 
     implementation(projects.core.domain)
+    testImplementation(projects.testUtil.testing)
 }

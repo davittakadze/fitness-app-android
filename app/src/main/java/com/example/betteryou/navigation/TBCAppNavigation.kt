@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.betteryou.navigation
 
 import android.annotation.SuppressLint
