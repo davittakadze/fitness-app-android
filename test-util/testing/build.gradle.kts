@@ -16,8 +16,7 @@ kotlin {
 
 dependencies {
     api(libs.junit)
-    api(libs.mockk)
+    api("io.mockk:mockk:1.13.5")
     api(libs.kotlinx.coroutines.test)
     api(libs.turbine)
-    api(libs.androidx.arch.core.testing)
 }

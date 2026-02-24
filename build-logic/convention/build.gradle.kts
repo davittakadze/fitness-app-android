@@ -67,8 +67,8 @@ gradlePlugin {
         }
 
         register("androidTest") {
-            id = "fitness.android.test"
-            implementationClass = "AndroidTestConventionPlugin"
+            id = "betteryou.android.test"
+            implementationClass = "com.betteryou.build_logic.AndroidTestConventionPlugin"
         }
     }
 }

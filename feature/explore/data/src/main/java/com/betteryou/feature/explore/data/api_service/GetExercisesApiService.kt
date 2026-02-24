@@ -9,6 +9,6 @@ interface GetExercisesApiService {
     suspend fun getExercises(): Response<List<ExerciseDto>>
 
     companion object {
-        const val EXPLORE = "explore"
+        const val EXPLORE = "91b67b12-0dfa-4b40-98d4-e649e51bc05a"
     }
 }

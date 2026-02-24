@@ -66,6 +66,10 @@ fun ExploreScreen(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.onEvent(ExploreEvent.FetchExercises)
+    }
+
     ExploreScreenContent(
         state = state,
         onEvent = viewModel::onEvent

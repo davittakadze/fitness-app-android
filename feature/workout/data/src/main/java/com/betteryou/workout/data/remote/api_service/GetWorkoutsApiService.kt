@@ -5,10 +5,10 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface GetWorkoutsApiService {
-    @GET(EXERCISES)
+    @GET(WORKOUTS)
     suspend fun getWorkouts(): Response<List<ExerciseDto>>
 
     companion object {
-        const val EXERCISES = "exercises"
+        const val WORKOUTS = "3af647b8-3520-4049-aea6-4b345a6ca2a7"
     }
 }

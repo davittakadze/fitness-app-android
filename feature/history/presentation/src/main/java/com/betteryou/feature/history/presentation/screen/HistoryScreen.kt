@@ -59,6 +59,10 @@ fun HistoryScreen(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.onEvent(HistoryEvent.LoadHistory)
+    }
+
     HistoryContent(
         state = state,
         onEvent = viewModel::onEvent

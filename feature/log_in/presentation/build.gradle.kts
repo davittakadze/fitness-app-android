@@ -3,6 +3,7 @@ plugins {
     id("betteryou.android.hilt")
     id("betteryou.android.compose")
     id("betteryou.android.serialization")
+    id("betteryou.android.test")
 }
 
 android {
@@ -15,4 +16,5 @@ dependencies {
 
     implementation(projects.coreUi)
     implementation(projects.feature.logIn.domain)
+    implementation(projects.testUtil.testing)
 }

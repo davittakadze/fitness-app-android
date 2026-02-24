@@ -23,14 +23,11 @@ class HistoryViewModel @Inject constructor(
 
     override fun onEvent(event: HistoryEvent) {
         when (event) {
+            is HistoryEvent.LoadHistory -> loadHistory()
             is HistoryEvent.DeleteHistory -> deleteHistory(event.id)
             is HistoryEvent.OnBackClick -> emitSideEffect(HistorySideEffect.NavigateBack)
         }
 
-    }
-
-    init {
-        loadHistory()
     }
 
     private fun deleteHistory(id: Long) {
