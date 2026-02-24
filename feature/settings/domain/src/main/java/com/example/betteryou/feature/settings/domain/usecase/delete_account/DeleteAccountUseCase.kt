@@ -9,8 +9,8 @@ class DeleteAccountUseCase @Inject constructor(
     private val repository: DeleteAccountRepository
 ) {
 
-    suspend operator fun invoke(): Flow<Resource<Unit>> {
-        return repository.deleteAccount()
+    suspend operator fun invoke(password:String): Flow<Resource<Unit>> {
+        return repository.deleteAccount(password)
     }
 
 }

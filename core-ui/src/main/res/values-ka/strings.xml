@@ -114,6 +114,7 @@
     <string name="invalid_age">შეუძლებელი ასაკი!</string>
     <string name="toggle_language_to_georgian">ჩართეთ ქართული ენა</string>
     <string name="toggle_language_to_english">ჩართეთ ინგლისური ენა</string>
+    <string name="fill_in_password">შეიყვანეთ პაროლი</string>
 
     <!-- Daily Screen  -->
     <string name="daily_screen_title">დღიური კვება</string>
