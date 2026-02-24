@@ -2,6 +2,7 @@ package com.example.betteryou.feature.settings.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.example.betteryou.domain.common.DatastoreKeys.DARK_THEME_KEY
+import com.example.betteryou.domain.common.DatastoreKeys.USER_LANGUAGE_KEY
 import com.example.betteryou.domain.common.Resource
 import com.example.betteryou.domain.usecase.GetPreferencesUseCase
 import com.example.betteryou.domain.usecase.SetPreferencesUseCase
@@ -24,6 +25,7 @@ class SettingsViewModel @Inject constructor(
 
     init {
         observeTheme()
+        observeLanguage()
     }
 
     override fun onEvent(event: SettingsEvent) {
@@ -40,6 +42,7 @@ class SettingsViewModel @Inject constructor(
 
             SettingsEvent.OnHistoryClick -> emitSideEffect(SettingSideEffects.NavigateToHistory)
             SettingsEvent.OnFavoritesClick -> emitSideEffect(SettingSideEffects.NavigateToFavorites)
+            is SettingsEvent.OnToggleLanguageClick -> updateLanguage(event.isEnabled)
         }
     }
 
@@ -50,11 +53,27 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    private fun updateLanguage(isEnabled: Boolean) {
+        viewModelScope.launch {
+            setPreferencesUseCase(USER_LANGUAGE_KEY, if(isEnabled){"ka"}else{"en"})
+            updateState { copy(isGeorgianLanguageEnabled = isEnabled) }
+        }
+    }
+
     private fun observeTheme() {
         viewModelScope.launch {
             getPreferencesUseCase(DARK_THEME_KEY, false)
                 .collectLatest { dark ->
                     updateState { copy(isDarkThemeEnabled = dark) }
+                }
+        }
+    }
+
+    private fun observeLanguage() {
+        viewModelScope.launch {
+            getPreferencesUseCase(USER_LANGUAGE_KEY, "en")
+                .collectLatest { lang ->
+                    updateState { copy(isGeorgianLanguageEnabled = lang == "ka") }
                 }
         }
     }

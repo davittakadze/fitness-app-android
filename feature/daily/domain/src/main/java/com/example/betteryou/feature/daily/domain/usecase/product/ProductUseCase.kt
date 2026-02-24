@@ -9,7 +9,7 @@ import javax.inject.Inject
 class ProductUseCase @Inject constructor(
     private val productRepository: ProductRepository,
 ) {
-    suspend operator fun invoke(): Flow<Resource<List<Product>>> {
-        return productRepository.getProducts()
+    suspend operator fun invoke(currentLang:String): Flow<Resource<List<Product>>> {
+        return productRepository.getProducts(currentLang)
     }
 }

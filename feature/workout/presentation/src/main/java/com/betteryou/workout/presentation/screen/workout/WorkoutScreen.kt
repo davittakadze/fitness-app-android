@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -89,7 +90,7 @@ private fun WorkoutContent(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Workouts",
+                        text = stringResource(R.string.workouts),
                         style = TBCTheme.typography.headlineLarge,
                         color = TBCTheme.colors.textPrimary
                     )
@@ -155,7 +156,7 @@ private fun CreateWorkoutBottomSheet(
             onValueChange = {
                 onEvent(WorkoutEvent.OnExerciseNameChange(it))
             },
-            placeholder = "Workout plan name",
+            placeholder = stringResource(R.string.workout_plan_name),
             modifier = Modifier
                 .fillMaxWidth()
         )
@@ -168,7 +169,7 @@ private fun CreateWorkoutBottomSheet(
             onValueChange = {
                 onEvent(WorkoutEvent.OnSearchChange(it))
             },
-            placeholder = "Search exercises...",
+            placeholder = stringResource(R.string.search_exercise),
             modifier = Modifier.fillMaxWidth()
         )
 

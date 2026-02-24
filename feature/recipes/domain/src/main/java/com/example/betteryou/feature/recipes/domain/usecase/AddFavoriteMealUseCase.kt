@@ -7,7 +7,7 @@ import javax.inject.Inject
 class AddFavoriteMealUseCase @Inject constructor(
     private val favoriteMealRepository: RecipeRepository,
 ) {
-    suspend fun addFavoriteMeal(meal: Recipe) {
-        favoriteMealRepository.addFavoriteMeal(meal)
+    suspend fun addFavoriteMeal(meal: Recipe, currentLang: String) {
+        favoriteMealRepository.addFavoriteMeal(meal, currentLang)
     }
 }

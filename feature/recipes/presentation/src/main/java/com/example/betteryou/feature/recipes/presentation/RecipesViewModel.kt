@@ -1,7 +1,8 @@
 package com.example.betteryou.feature.recipes.presentation
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.example.betteryou.domain.common.DatastoreKeys.USER_LANGUAGE_KEY
+import com.example.betteryou.domain.usecase.GetPreferencesUseCase
 import com.example.betteryou.domain.usecase.GetUserIdUseCase
 import com.example.betteryou.feature.recipes.domain.usecase.AddFavoriteMealUseCase
 import com.example.betteryou.feature.recipes.domain.usecase.GetFavoriteMealUseCase
@@ -11,6 +12,7 @@ import com.example.betteryou.feature.recipes.presentation.mapper.toDomain
 import com.example.betteryou.feature.recipes.presentation.mapper.toPresentation
 import com.example.betteryou.presentation.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,6 +23,8 @@ class RecipesViewModel @Inject constructor(
     private val removeFavoriteMealUseCase: RemoveFavoriteMealUseCase,
     private val getFavoriteMealUseCase: GetFavoriteMealUseCase,
     private val getIdUseCase: GetUserIdUseCase,
+    //datastore
+    private val getPreferencesUseCase: GetPreferencesUseCase
 ) : BaseViewModel<RecipesState, RecipesEvent, Unit>(RecipesState()) {
 
     init {
@@ -33,7 +37,6 @@ class RecipesViewModel @Inject constructor(
                 updateState {
                     copy(selectedCategory = event.item)
                 }
-                Log.d("VM_DEBUG", "Selected category: ${event.item.displayName}")
             }
 
             is RecipesEvent.SelectMeal -> {
@@ -56,7 +59,11 @@ class RecipesViewModel @Inject constructor(
                         favoriteMealUseCase.addFavoriteMeal(
                             event.item.copy(
                                 userId = getIdUseCase.invoke()
-                            ).toDomain()
+                            ).toDomain(),
+                            currentLang = getPreferencesUseCase(
+                                USER_LANGUAGE_KEY,
+                        ""
+                        ).first()
                         )
                     }
                     updateState {
@@ -98,7 +105,10 @@ class RecipesViewModel @Inject constructor(
 
     private fun loadMeals() {
         handleResponse(
-            apiCall = { mealUseCase.getMeals(getIdUseCase.invoke()) },
+            apiCall = { mealUseCase.getMeals(currentLang = getPreferencesUseCase(
+                USER_LANGUAGE_KEY,
+                ""
+            ).first()) },
             onLoading = {
                 updateState { copy(isLoading = it.isLoading) }
             },
@@ -116,7 +126,11 @@ class RecipesViewModel @Inject constructor(
 
     private fun loadFavoriteMeals() {
         handleResponse(
-            apiCall = { getFavoriteMealUseCase.invoke(getIdUseCase.invoke()!!) },
+            apiCall = { getFavoriteMealUseCase.invoke(getIdUseCase.invoke()!!,currentLang = getPreferencesUseCase(
+                USER_LANGUAGE_KEY,
+                ""
+            ).first()
+            ) },
             onSuccess = { resource ->
                 val currentMeals = state.value.meals
 

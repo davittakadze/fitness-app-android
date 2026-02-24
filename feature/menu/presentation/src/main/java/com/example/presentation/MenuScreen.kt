@@ -46,7 +46,7 @@ fun MenuScreen(
     viewModel: MenuViewModel,
 ) {
     val state by viewModel.state.collectAsState()
-    val context = LocalContext.current
+    LocalContext.current
 
     viewModel.sideEffect.CollectSideEffects { effect ->
         when (effect) {

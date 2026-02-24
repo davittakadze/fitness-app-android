@@ -9,4 +9,6 @@ sealed interface SettingsEvent {
     data object OnChangePasswordClick : SettingsEvent
     data object OnHistoryClick : SettingsEvent
     data object OnFavoritesClick : SettingsEvent
+
+    data class OnToggleLanguageClick(val isEnabled: Boolean) : SettingsEvent
 }

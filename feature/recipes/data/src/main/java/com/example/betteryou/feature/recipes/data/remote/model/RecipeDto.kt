@@ -6,11 +6,11 @@ import kotlinx.serialization.Serializable
 data class RecipeDto(
     val id: Long,
     val category: String,
-    val title: String,
+    val title: Map<String, String>,
     val imageUrl: String,
     val ingredientCount: Int,
-    val ingredients: List<String>,
-    val cookingTime: String,
-    val difficulty: String,
-    val recipe: String
+    val ingredients: Map<String, List<String>>,
+    val cookingTime: Map<String, String>,
+    val difficulty: Map<String, String>,
+    val recipe: Map<String, String>
 )

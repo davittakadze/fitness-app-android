@@ -8,6 +8,7 @@ import com.example.betteryou.data.local.room.dao.history.HistoryDao
 import com.example.betteryou.data.local.room.dao.intake.DailyIntakeDao
 import com.example.betteryou.data.local.room.dao.meal.FavoriteMealDao
 import com.example.betteryou.data.local.room.dao.meal.MealDao
+import com.example.betteryou.data.local.room.dao.product.ProductDao
 import com.example.betteryou.data.local.room.dao.user.UserDao
 import com.example.betteryou.data.local.room.dao.user_product.UserProductDao
 import com.example.betteryou.data.local.room.dao.workout.WorkoutDao
@@ -22,6 +23,7 @@ import com.example.betteryou.data.local.room.entity.workout.ExerciseSetEntity
 import com.example.betteryou.data.local.room.entity.workout.WorkoutEntity
 import com.example.betteryou.data.local.room.entity.workout.WorkoutExerciseEntity
 import com.example.betteryou.data.local.room.entity.workout.WorkoutHistoryEntity
+import com.example.betteryou.data.local.room.entity.product.ProductEntity
 
 @Database(
     entities = [
@@ -34,9 +36,10 @@ import com.example.betteryou.data.local.room.entity.workout.WorkoutHistoryEntity
         WorkoutHistoryEntity::class,
         MealEntity::class,
         FavoriteMealEntity::class,
-        ExerciseEntity::class
+        ExerciseEntity::class,
+        ProductEntity::class
     ],
-    version = 20,
+    version = 24,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -49,4 +52,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun mealDao(): MealDao
     abstract fun favoriteMealDao(): FavoriteMealDao
     abstract fun exerciseDao(): ExerciseDao
+    abstract fun productDao(): ProductDao
 }

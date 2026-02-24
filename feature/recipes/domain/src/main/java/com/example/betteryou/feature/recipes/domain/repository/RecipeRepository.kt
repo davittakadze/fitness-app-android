@@ -5,10 +5,10 @@ import com.example.betteryou.feature.recipes.domain.model.Recipe
 import kotlinx.coroutines.flow.Flow
 
 interface RecipeRepository {
-    suspend fun getMeals(): Flow<Resource<List<Recipe>>>
-    suspend fun getFavoriteMeals(userId:String?): Flow<Resource<List<Recipe>>>
+    suspend fun getMeals(currentLang: String): Flow<Resource<List<Recipe>>>
+    suspend fun getFavoriteMeals(userId:String?, currentLang: String): Flow<Resource<List<Recipe>>>
 
-    suspend fun addFavoriteMeal(meal: Recipe)
+    suspend fun addFavoriteMeal(meal: Recipe,currentLang: String)
 
     suspend fun removeFavoriteMealById(mealId: Long, userId: String?)
 }

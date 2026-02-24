@@ -455,14 +455,14 @@ fun SexSelector(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         SexItem(
-            text = "Male",
+            text = stringResource(R.string.male),
             selected = selected == Sex.MALE,
             onClick = { onSelected(Sex.MALE) },
             modifier = Modifier.weight(1f)
         )
 
         SexItem(
-            text = "Female",
+            text = stringResource(R.string.female),
             selected = selected == Sex.FEMALE,
             onClick = { onSelected(Sex.FEMALE) },
             modifier = Modifier.weight(1f)

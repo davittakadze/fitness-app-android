@@ -77,14 +77,35 @@
     <string name="account_creation_title">Create your account</string>
     <string name="account_creation_description">Secure your data and start your fitness journey</string>
 
+    <!-- Details screen   -->
+    <string name="instructions">Instructions</string>
+
+    <!-- Explore screen   -->
+    <string name="explore">Explore</string>
+    <string name="search_exercise">Search Exercise</string>
+
+    <!-- History screen   -->
+    <string name="no_workouts">No workouts yet</string>
+    <string name="exercises_will_appear">Your completed workouts will appear here.\n
+Time to hit the gym!</string>
+
+    <!-- Workouts Screen  -->
+    <string name="finish_workout">Finish Workout</string>
+    <string name="workouts">Workouts</string>
+    <string name="workout_plan_name">Workout plan name</string>
+
     <!-- Profile Screen   -->
     <string name="profile_updated">Profile updated successfully</string>
+
+    <!--Settings Screen -->
     <string name="account_deleted">Account deleted successfully</string>
     <string name="settings">Settings</string>
     <string name="dark_theme">Dark theme</string>
     <string name="light_theme">Light theme</string>
     <string name="change_password">Change password</string>
     <string name="invalid_age">Invalid age!</string>
+    <string name="toggle_language_to_georgian">Toggle language to Georgian</string>
+    <string name="toggle_language_to_english">Toggle language to English</string>
 
     <!-- Daily Screen  -->
     <string name="daily_screen_title">Daily intake</string>
@@ -121,8 +142,15 @@
     <string name="ingredient_count_without_dots">Ingredients</string>
     <string name="cooking_time_without_dots">Time</string>
     <string name="difficulty_without_dots">Difficulty</string>
+    <string name="all">All</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="lunch">Lunch</string>
+    <string name="dinner">Dinner</string>
 
     <!-- Favorites screen -->
     <string name="favorites_title">Favorites</string>
     <string name="no_favorites">No favorites yet</string>
+    <string name="ingredients">Ingredients:</string>
+    <string name="recipe">Recipe:</string>
+    <string name="favorites_will_appear_here">Favorites will appear here</string>
 </resources>

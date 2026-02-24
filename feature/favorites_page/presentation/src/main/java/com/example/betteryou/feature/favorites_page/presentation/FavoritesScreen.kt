@@ -125,7 +125,7 @@ fun FavoritesContent(state: FavoritesState, onEvent: (FavoritesEvent) -> Unit) {
                                     .fillMaxWidth(),
                                 primaryText = stringResource(R.string.no_favorites),
                                 icon = R.drawable.heart_shape_svgrepo_com,
-                                secondaryText = "Favorites will appear here"
+                                secondaryText = stringResource(R.string.favorites_will_appear_here)
                             )
                         }
                     }
@@ -244,7 +244,7 @@ fun BottomSheet(
             Spacer(Modifier.height(12.dp))
 
             Text(
-                text = "Ingredients:",
+                text = stringResource(R.string.ingredients),
                 style = TBCTheme.typography.headlineMedium,
                 color = TBCTheme.colors.onBackground
             )
@@ -261,7 +261,7 @@ fun BottomSheet(
             }
             Spacer(Modifier.height(Spacer.spacing12))
             Text(
-                text = "Recipe:",
+                text = stringResource(R.string.recipe),
                 style = TBCTheme.typography.headlineMedium,
                 color = TBCTheme.colors.onBackground
             )
@@ -339,5 +339,5 @@ fun InfoItem(title: String, value: String, @DrawableRes icon: Int) {
 @Preview
 @Composable
 fun FavoritesScreenPreview() {
-    FavoritesContent(FavoritesState(), {})
+    FavoritesContent(FavoritesState()) {}
 }
