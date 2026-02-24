@@ -176,7 +176,7 @@ fun GlassWaterTracker3D(
             }
         }
 
-        Spacer(Modifier.height(Spacer.spacing16))
+        Spacer(Modifier.height(Spacer.spacing32))
 
         Text(
             text = stringResource(
@@ -194,7 +194,7 @@ fun GlassWaterTracker3D(
             color = LocalTBCColors.current.onBackground
         )
 
-        Spacer(Modifier.height(Spacer.spacing8))
+        Spacer(Modifier.height(Spacer.spacing16))
 
         Text(
             text = hydrationMessage,

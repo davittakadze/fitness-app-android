@@ -30,8 +30,6 @@ class SettingsViewModel @Inject constructor(
 
     override fun onEvent(event: SettingsEvent) {
         when (event) {
-            SettingsEvent.OnChangePasswordClick -> {}
-
             is SettingsEvent.OnDarkThemeChanged -> updateDarkTheme(event.isEnabled)
             SettingsEvent.OnDeleteAccountClick -> deleteAccount()
             SettingsEvent.OnLogOutClick -> logout()
@@ -84,10 +82,12 @@ class SettingsViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
+                        updateState { copy(isLoading = false) }
                         emitSideEffect(SettingSideEffects.NavigateToMenu)
                     }
 
                     is Resource.Error -> {
+                        updateState { copy(isLoading = false) }
                         emitSideEffect(
                             SettingSideEffects.ShowError(
                                 UiText.DynamicString(result.errorMessage)
@@ -108,10 +108,12 @@ class SettingsViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
+                        updateState { copy(isLoading = false) }
                         emitSideEffect(SettingSideEffects.NavigateToMenu)
                     }
 
                     is Resource.Error -> {
+                        updateState { copy(isLoading = false) }
                         emitSideEffect(
                             SettingSideEffects.ShowError(
                                 UiText.DynamicString(result.errorMessage)

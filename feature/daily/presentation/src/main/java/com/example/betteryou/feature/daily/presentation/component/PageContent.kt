@@ -26,8 +26,8 @@ fun PageContent(
 ) {
     val shadowElevationDp = 8.dp
     val shadowElevationPx = with(LocalDensity.current) { shadowElevationDp.toPx() }
-    val minHeightDp = 350.dp
-    val maxHeightDp = 400.dp
+    val minHeightDp = 370.dp
+    val maxHeightDp = 420.dp
     val heightDp = maxHeightDp - (maxHeightDp - minHeightDp) * pageOffset.absoluteValue
 
     Box(

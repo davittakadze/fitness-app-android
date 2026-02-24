@@ -11,6 +11,7 @@ import com.example.betteryou.feature.recipes.domain.usecase.RemoveFavoriteMealUs
 import com.example.betteryou.feature.recipes.presentation.mapper.toDomain
 import com.example.betteryou.feature.recipes.presentation.mapper.toPresentation
 import com.example.betteryou.presentation.common.BaseViewModel
+import com.example.betteryou.presentation.common.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -24,8 +25,8 @@ class RecipesViewModel @Inject constructor(
     private val getFavoriteMealUseCase: GetFavoriteMealUseCase,
     private val getIdUseCase: GetUserIdUseCase,
     //datastore
-    private val getPreferencesUseCase: GetPreferencesUseCase
-) : BaseViewModel<RecipesState, RecipesEvent, Unit>(RecipesState()) {
+    private val getPreferencesUseCase: GetPreferencesUseCase,
+) : BaseViewModel<RecipesState, RecipesEvent, RecipesSideEffect>(RecipesState()) {
 
     init {
         loadMeals()
@@ -62,8 +63,8 @@ class RecipesViewModel @Inject constructor(
                             ).toDomain(),
                             currentLang = getPreferencesUseCase(
                                 USER_LANGUAGE_KEY,
-                        ""
-                        ).first()
+                                ""
+                            ).first()
                         )
                     }
                     updateState {
@@ -105,10 +106,14 @@ class RecipesViewModel @Inject constructor(
 
     private fun loadMeals() {
         handleResponse(
-            apiCall = { mealUseCase.getMeals(currentLang = getPreferencesUseCase(
-                USER_LANGUAGE_KEY,
-                ""
-            ).first()) },
+            apiCall = {
+                mealUseCase.getMeals(
+                    currentLang = getPreferencesUseCase(
+                        USER_LANGUAGE_KEY,
+                        ""
+                    ).first()
+                )
+            },
             onLoading = {
                 updateState { copy(isLoading = it.isLoading) }
             },
@@ -126,11 +131,14 @@ class RecipesViewModel @Inject constructor(
 
     private fun loadFavoriteMeals() {
         handleResponse(
-            apiCall = { getFavoriteMealUseCase.invoke(getIdUseCase.invoke()!!,currentLang = getPreferencesUseCase(
-                USER_LANGUAGE_KEY,
-                ""
-            ).first()
-            ) },
+            apiCall = {
+                getFavoriteMealUseCase.invoke(
+                    getIdUseCase.invoke()!!, currentLang = getPreferencesUseCase(
+                        USER_LANGUAGE_KEY,
+                        ""
+                    ).first()
+                )
+            },
             onSuccess = { resource ->
                 val currentMeals = state.value.meals
 
@@ -141,14 +149,18 @@ class RecipesViewModel @Inject constructor(
                 }
 
                 updateState {
-                    copy(favouriteMeals = updatedFavorites)
+                    copy(
+                        isLoading = false,
+                        favouriteMeals = updatedFavorites
+                    )
                 }
             },
-            onError = {
-
+            onError = { resource->
+                updateState { copy(isLoading = false) }
+                emitSideEffect(RecipesSideEffect.ShowError(UiText.DynamicString(resource)))
             },
             onLoading = {
-
+                updateState { copy(isLoading = it.isLoading) }
             }
         )
     }

@@ -1,12 +1,10 @@
 package com.example.betteryou.feature.daily.presentation
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.betteryou.domain.common.DatastoreKeys
 import com.example.betteryou.domain.common.Resource
 import com.example.betteryou.domain.usecase.GetPreferencesUseCase
 import com.example.betteryou.domain.usecase.GetUserIdUseCase
-import com.example.betteryou.domain.usecase.RemovePreferencesUseCase
 import com.example.betteryou.domain.usecase.SetPreferencesUseCase
 import com.example.betteryou.feature.daily.domain.model.intake.Intake
 import com.example.betteryou.feature.daily.domain.usecase.user.GetUserUseCase
@@ -28,7 +26,6 @@ import com.example.betteryou.util.getStartOfDayMillis
 import com.example.betteryou.util.getTodayStartTimestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -49,8 +46,7 @@ class DailyViewModel @Inject constructor(
     private val addUserDailyProductUseCase: AddUserDailyProductUseCase,
     private val deleteProductByIdUseCase: DeleteProductByIdUseCase,
     //datastore
-    private val getPreferencesUseCase: GetPreferencesUseCase,
-    private val setPreferencesUseCase: SetPreferencesUseCase,
+    private val getPreferencesUseCase: GetPreferencesUseCase
 ) : BaseViewModel<DailyState, DailyEvent, DailySideEffect>(DailyState()) {
 
     init {
@@ -191,10 +187,12 @@ class DailyViewModel @Inject constructor(
                     }
 
                     is Resource.Error -> {
-
+                        updateState {
+                            copy(isLoading = false)
+                        }
+                        emitSideEffect(DailySideEffect.ShowError(UiText.DynamicString(resource.errorMessage)))
                     }
                 }
-                Log.d("DailyViewModel", "getDailyData: finished collecting nutrients")
             }
         }
     }
@@ -242,22 +240,25 @@ class DailyViewModel @Inject constructor(
 
     private fun getProducts(currentLang:String) {
         viewModelScope.launch {
-            getProductsUseCase(currentLang).collect {
-                when (it) {
+            getProductsUseCase(currentLang).collect {resource->
+                when (resource) {
                     is Resource.Loader -> {
                         updateState { copy(isLoading = true) }
                     }
 
                     is Resource.Success -> {
                         updateState {
-                            copy(products = it.data.map { product ->
+                            copy(products = resource.data.map { product ->
                                 product.toPresentation()
                             })
                         }
                     }
 
                     is Resource.Error -> {
-                        //  emitSideEffect(DailySideEffect.ShowError(it.errorMessage))
+                        updateState {
+                            copy(isLoading = false)
+                        }
+                        emitSideEffect(DailySideEffect.ShowError(UiText.DynamicString(resource.errorMessage)))
                     }
                 }
             }
@@ -291,7 +292,8 @@ class DailyViewModel @Inject constructor(
                     }
 
                     is Resource.Error -> {
-                        //...
+                        updateState { copy(isLoading = false) }
+                        emitSideEffect(DailySideEffect.ShowError(UiText.DynamicString(resource.errorMessage)))
                     }
                 }
             }

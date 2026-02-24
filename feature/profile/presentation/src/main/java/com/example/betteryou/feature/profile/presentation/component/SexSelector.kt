@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.betteryou.core_ui.R
 import com.example.betteryou.feature.profile.presentation.model.Sex
 
 @Composable
@@ -19,14 +21,14 @@ fun SexSelector(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         SexItem(
-            text = "Male",
+            text = stringResource(R.string.male),
             selected = selected == Sex.MALE,
             onClick = { onSelected(Sex.MALE) },
             modifier = Modifier.weight(1f)
         )
 
         SexItem(
-            text = "Female",
+            text = stringResource(R.string.female),
             selected = selected == Sex.FEMALE,
             onClick = { onSelected(Sex.FEMALE) },
             modifier = Modifier.weight(1f)

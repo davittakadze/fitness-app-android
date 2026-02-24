@@ -6,7 +6,6 @@ sealed interface SettingsEvent {
     data class OnDarkThemeChanged(val isEnabled: Boolean) : SettingsEvent
     data object OnLogOutClick : SettingsEvent
     data object OnDeleteAccountClick : SettingsEvent
-    data object OnChangePasswordClick : SettingsEvent
     data object OnHistoryClick : SettingsEvent
     data object OnNotificationsClick : SettingsEvent
     data object OnFavoritesClick : SettingsEvent

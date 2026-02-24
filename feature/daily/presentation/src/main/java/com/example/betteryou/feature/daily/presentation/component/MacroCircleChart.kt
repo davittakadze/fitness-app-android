@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -139,7 +138,6 @@ fun MacroCircleChart(
         Row(
             Modifier
                 .wrapContentHeight()
-                .padding(horizontal = 4.dp, vertical = 6.dp)
         ) {
             InfoItem(
                 color = LocalTBCColors.current.protein,
@@ -147,26 +145,26 @@ fun MacroCircleChart(
                 goal = totalProteinGoal,
                 current = protein,
             )
-            Spacer(Modifier.width(Spacer.spacing16))
+            Spacer(Modifier.width(Spacer.spacing8))
             VerticalDivider(
                 Modifier
                     .fillMaxHeight()
                     .width(1.5.dp), color = LocalTBCColors.current.border
             )
-            Spacer(Modifier.width(Spacer.spacing16))
+            Spacer(Modifier.width(Spacer.spacing8))
             InfoItem(
                 color = LocalTBCColors.current.fat,
                 text = stringResource(R.string.fat),
                 goal = totalFatGoal,
                 current = fat
             )
-            Spacer(Modifier.width(Spacer.spacing16))
+            Spacer(Modifier.width(Spacer.spacing8))
             VerticalDivider(
                 Modifier
                     .fillMaxHeight()
                     .width(1.5.dp), color = LocalTBCColors.current.border
             )
-            Spacer(Modifier.width(Spacer.spacing16))
+            Spacer(Modifier.width(Spacer.spacing8))
             InfoItem(
                 color = LocalTBCColors.current.carbs,
                 text = stringResource(R.string.carb),

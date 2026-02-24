@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Search
@@ -25,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.betteryou.core_ui.theme.TBCTheme
 import com.example.betteryou.core_ui.theme.Radius
@@ -47,6 +49,7 @@ fun TBCAppSearchField(
         singleLine = true,
         textStyle = TBCTheme.typography.bodyLarge.copy(color = colors.textPrimary),
         cursorBrush = SolidColor(colors.accent),
+        keyboardOptions = KeyboardOptions(keyboardType=KeyboardType.Text),
         modifier = modifier
             .fillMaxWidth()
             .height(56.dp)

@@ -34,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -47,10 +48,27 @@ import com.example.betteryou.core_ui.components.TBCAppAsyncImage
 import com.example.betteryou.core_ui.components.text_field.TBCAppTextField
 import com.example.betteryou.feature.recipes.presentation.model.Meal
 import com.example.betteryou.feature.recipes.presentation.model.RecipeUi
+import com.example.betteryou.presentation.extensions.CollectSideEffects
+import com.example.betteryou.presentation.snackbar.SnackBarController
+import com.example.betteryou.presentation.snackbar.SnackbarEvent
 
 @Composable
 fun RecipesScreen(viewModel: RecipesViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+
+    viewModel.sideEffect.CollectSideEffects {
+        when(it){
+            is RecipesSideEffect.ShowError -> {
+                SnackBarController.sendEvent(
+                    SnackbarEvent(
+                        message = it.error.asString(context)
+                    )
+                )
+            }
+        }
+    }
     RecipesContent(state, viewModel::onEvent)
 }
 
