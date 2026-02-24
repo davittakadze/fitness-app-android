@@ -19,4 +19,5 @@ dependencies {
     api(libs.mockk)
     api(libs.kotlinx.coroutines.test)
     api(libs.turbine)
+    api(libs.androidx.arch.core.testing)
 }

@@ -65,5 +65,10 @@ gradlePlugin {
             id = "betteryou.android.workmanager"
             implementationClass = "com.betteryou.build_logic.AndroidWorkManagerConventionPlugin"
         }
+
+        register("androidTest") {
+            id = "fitness.android.test"
+            implementationClass = "AndroidTestConventionPlugin"
+        }
     }
 }

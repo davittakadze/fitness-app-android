@@ -50,6 +50,7 @@ baseUrl = "\"https://2376a723-59b6-4dd0-be98-53970deeab86.mock.pstmn.io/\""
 workManager = "2.9.1"
 retrofitSerialization = "0.8.0"
 hiltWork = "1.2.0"
+androidxArchCore = "2.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -122,6 +123,7 @@ androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref 
 hilt-android-gradle-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workManager" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "androidxArchCore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
