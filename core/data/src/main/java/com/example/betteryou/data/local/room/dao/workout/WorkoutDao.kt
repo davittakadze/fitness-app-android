@@ -27,9 +27,8 @@ interface WorkoutDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertExercises(exercises: List<WorkoutExerciseEntity>)
 
-    @Transaction
-    @Query("SELECT * FROM workouts ORDER BY createdAt DESC")
-    fun getAllWorkouts(): Flow<List<WorkoutWithExercises>>
+    @Query("SELECT * FROM workouts WHERE userId = :userId ORDER BY createdAt DESC")
+    fun getWorkoutsByUserId(userId: String): Flow<List<WorkoutWithExercises>>
 
     @Transaction
     @Query("SELECT * FROM workouts WHERE id = :workoutId")

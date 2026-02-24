@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.Flow
 interface WorkoutsRepository {
     suspend fun getWorkoutsFromApi(): Flow<Resource<List<GetExercise>>>
 
-    suspend fun saveWorkout(title: String, exercises: List<GetExercise>): String
+    suspend fun saveWorkout(title: String, exercises: List<GetExercise>, userId: String): String
 
-    fun getAllSavedWorkouts(): Flow<List<Workout>>
+    fun getAllSavedWorkouts(userId: String): Flow<List<Workout>>
     fun getWorkoutById(id: String): Flow<Workout?>
 
     suspend fun deleteWorkout(workoutId: String)

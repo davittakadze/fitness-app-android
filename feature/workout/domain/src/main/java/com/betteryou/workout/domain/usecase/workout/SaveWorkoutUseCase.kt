@@ -7,7 +7,7 @@ import javax.inject.Inject
 class SaveWorkoutUseCase @Inject constructor(
     private val repository: WorkoutsRepository
 ) {
-    suspend operator fun invoke(title: String, exercises: List<GetExercise>): String {
-        return repository.saveWorkout(title, exercises)
+    suspend operator fun invoke(title: String, exercises: List<GetExercise>, userId: String): String {
+        return repository.saveWorkout(title, exercises, userId)
     }
 }

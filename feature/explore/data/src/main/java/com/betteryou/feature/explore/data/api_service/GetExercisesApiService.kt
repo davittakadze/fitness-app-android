@@ -5,6 +5,10 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface GetExercisesApiService {
-    @GET("1c350973-a7ac-47d5-a702-308c2cdadce6")
+    @GET(EXPLORE)
     suspend fun getExercises(): Response<List<ExerciseDto>>
+
+    companion object {
+        const val EXPLORE = "explore"
+    }
 }

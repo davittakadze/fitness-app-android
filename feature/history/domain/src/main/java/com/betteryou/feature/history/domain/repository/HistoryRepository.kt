@@ -5,6 +5,6 @@ import com.example.betteryou.domain.common.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface HistoryRepository {
-    fun getAllWorkoutsHistory() : Flow<Resource<List<GetHistory>>>
+    fun getAllWorkoutsHistory(userId: String): Flow<Resource<List<GetHistory>>>
     suspend fun deleteHistory(id: Long)
 }

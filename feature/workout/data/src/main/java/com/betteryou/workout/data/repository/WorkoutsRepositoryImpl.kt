@@ -34,6 +34,7 @@ class WorkoutsRepositoryImpl @Inject constructor(
     override suspend fun saveWorkout(
         title: String,
         exercises: List<GetExercise>,
+        userId: String
     ): String {
         val workoutId = UUID.randomUUID().toString()
         val currentTime = System.currentTimeMillis()
@@ -41,6 +42,7 @@ class WorkoutsRepositoryImpl @Inject constructor(
         val workoutEntity = WorkoutEntity(
             id = workoutId,
             title = title,
+            userId = userId,
             createdAt = currentTime
         )
 
@@ -86,8 +88,8 @@ class WorkoutsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getAllSavedWorkouts(): Flow<List<Workout>> {
-        return workoutDao.getAllWorkouts().map { list ->
+    override fun getAllSavedWorkouts(userId: String): Flow<List<Workout>> {
+        return workoutDao.getWorkoutsByUserId(userId).map { list ->
             list.map { it.toDomain() }
         }
     }
