@@ -3,6 +3,7 @@ plugins {
     id("betteryou.android.hilt")
     id("betteryou.android.firebase")
     id("betteryou.android.serialization")
+    id("betteryou.android.datastore")
 }
 android {
     namespace = "com.betteryou.feature.explore.data"

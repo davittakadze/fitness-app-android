@@ -8,6 +8,7 @@ import com.betteryou.workout.domain.usecase.set.DeleteSetUseCase
 import com.betteryou.workout.domain.usecase.set.UpdateSetUseCase
 import com.betteryou.workout.presentation.mapper.toPresentation
 import com.bettetyou.core.model.WorkoutHistory
+import com.example.betteryou.domain.usecase.GetUserIdUseCase
 import com.example.betteryou.presentation.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -25,7 +26,8 @@ class DetailsViewModel @Inject constructor(
     private val addSetUseCase: AddSetUseCase,
     private val deleteSetUseCase: DeleteSetUseCase,
     private val updateSetUseCase: UpdateSetUseCase,
-    private val saveWorkoutHistoryUseCase: SaveWorkoutHistoryUseCase
+    private val saveWorkoutHistoryUseCase: SaveWorkoutHistoryUseCase,
+    private val getUserIdUseCase: GetUserIdUseCase
 ) : BaseViewModel<DetailsState, DetailsEvent, DetailsSideEffect>(DetailsState()) {
     private val startTime = System.currentTimeMillis()
 
@@ -77,6 +79,7 @@ class DetailsViewModel @Inject constructor(
 
     private fun finishWorkout() {
         viewModelScope.launch {
+            val userId = getUserIdUseCase.invoke() ?: ""
             val endTime = System.currentTimeMillis()
             val duration = endTime - startTime
 
@@ -86,7 +89,8 @@ class DetailsViewModel @Inject constructor(
                 workoutTitle = state.value.workoutTitle,
                 timestamp = endTime,
                 durationMillis = duration,
-                exercisesJson = exerciseData
+                exercisesJson = exerciseData,
+                userId = userId
             )
 
             saveWorkoutHistoryUseCase.invoke(history)

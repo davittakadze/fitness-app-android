@@ -6,5 +6,5 @@ import javax.inject.Inject
 class GetAllHistoryUseCase @Inject constructor(
     private val historyRepository: HistoryRepository
 ) {
-    operator fun invoke() = historyRepository.getAllWorkoutsHistory()
+    operator fun invoke(userId: String) = historyRepository.getAllWorkoutsHistory(userId = userId)
 }

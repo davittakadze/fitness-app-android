@@ -13,29 +13,28 @@ import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class HistoryRepositoryImpl @Inject constructor(
-    private val historyDao: HistoryDao
+    private val historyDao: HistoryDao,
 ) : HistoryRepository {
-    override fun getAllWorkoutsHistory(): Flow<Resource<List<GetHistory>>> {
-        return historyDao.getAllHistory()
-            .map<List<WorkoutHistoryEntity>, Resource<List<GetHistory>>> { entities ->
+
+    override fun getAllWorkoutsHistory(userId: String): Flow<Resource<List<GetHistory>>> {
+        return historyDao.getHistoryByUserId(userId)
+            .map { entities ->
                 val domainModels = entities.map { entity ->
                     entity.toDomain()
                 }
-                Resource.Success(domainModels)
+                Resource.Success(domainModels) as Resource<List<GetHistory>>
             }
             .onStart {
                 emit(Resource.Loader(isLoading = true))
             }
             .catch { e ->
-                emit(Resource.Error(e.localizedMessage ?: ""))
+                emit(Resource.Error(e.localizedMessage ?: "Unknown Error"))
             }
     }
 
     override suspend fun deleteHistory(id: Long) {
         historyDao.deleteHistoryById(id)
     }
-
-
 }
 
 

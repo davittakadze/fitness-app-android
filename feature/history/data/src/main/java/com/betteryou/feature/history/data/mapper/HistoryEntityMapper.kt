@@ -5,6 +5,7 @@ import com.example.betteryou.data.local.room.entity.workout.WorkoutHistoryEntity
 
 fun WorkoutHistoryEntity.toDomain() = GetHistory(
     id = id,
+    userId = userId,
     workoutTitle = workoutTitle,
     timestamp = timestamp,
     durationMillis = durationMillis,

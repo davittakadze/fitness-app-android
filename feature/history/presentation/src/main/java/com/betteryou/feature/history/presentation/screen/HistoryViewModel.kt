@@ -5,6 +5,7 @@ import com.betteryou.feature.history.domain.model.GetHistory
 import com.betteryou.feature.history.domain.usecase.DeleteHistoryUseCase
 import com.betteryou.feature.history.domain.usecase.GetAllHistoryUseCase
 import com.betteryou.feature.history.presentation.screen.mapper.toPresentation
+import com.example.betteryou.domain.usecase.GetUserIdUseCase
 import com.example.betteryou.presentation.common.BaseViewModel
 import com.example.betteryou.presentation.common.UiText
 import com.example.betteryou.presentation.snackbar.SnackBarController
@@ -16,8 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
     private val getAllHistoryUseCase: GetAllHistoryUseCase,
-    private val deleteHistoryUseCase: DeleteHistoryUseCase
-) : BaseViewModel<HistoryState, HistoryEvent, HistorySideEffect> (HistoryState()) {
+    private val deleteHistoryUseCase: DeleteHistoryUseCase,
+    private val getUserIdUseCase: GetUserIdUseCase,
+) : BaseViewModel<HistoryState, HistoryEvent, HistorySideEffect>(HistoryState()) {
 
     override fun onEvent(event: HistoryEvent) {
         when (event) {
@@ -35,8 +37,13 @@ class HistoryViewModel @Inject constructor(
     }
 
     private fun loadHistory() {
+
         handleResponse(
-            apiCall = { getAllHistoryUseCase.invoke() },
+            apiCall = {
+                val userId = getUserIdUseCase.invoke() ?: ""
+
+                getAllHistoryUseCase.invoke(userId)
+            },
             onSuccess = {
                 updateState { copy(history = it.map(GetHistory::toPresentation), loader = false) }
             },
