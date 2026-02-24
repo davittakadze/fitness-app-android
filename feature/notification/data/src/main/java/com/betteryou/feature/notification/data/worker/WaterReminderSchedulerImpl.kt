@@ -17,6 +17,7 @@ class WaterReminderSchedulerImpl @Inject constructor(
 ) : WaterReminderScheduler {
     override fun schedule() {
         val workRequest = PeriodicWorkRequestBuilder<WaterReminderWorker>(FOUR_HOURS, TimeUnit.HOURS)
+            .setInitialDelay(FOUR_HOURS, TimeUnit.HOURS)
             .setConstraints(
                 Constraints.Builder()
                     .setRequiresBatteryNotLow(true)
@@ -26,7 +27,7 @@ class WaterReminderSchedulerImpl @Inject constructor(
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             WORK_NAME,
-            ExistingPeriodicWorkPolicy.UPDATE,
+            ExistingPeriodicWorkPolicy.KEEP,
             workRequest
         )
     }
