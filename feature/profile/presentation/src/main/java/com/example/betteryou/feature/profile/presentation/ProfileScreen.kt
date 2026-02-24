@@ -9,32 +9,24 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -60,22 +52,16 @@ import com.example.betteryou.core_ui.theme.LocalTBCTypography
 import com.example.betteryou.core_ui.theme.Spacer
 import java.io.File
 import com.example.betteryou.core_ui.theme.TBCTheme
-import com.example.betteryou.core_ui.components.calendar.CalendarContent
 import com.example.betteryou.feature.profile.presentation.ProfileEvent.*
 import com.example.betteryou.core_ui.R
-import com.example.betteryou.core_ui.theme.Radius
 import com.example.betteryou.core_ui.components.button.AppButtonType
-import com.example.betteryou.core_ui.components.DatePickerRow
 import com.example.betteryou.core_ui.components.bottom_sheet.ImagePickerBottomSheet
 import com.example.betteryou.core_ui.components.button.TBCAppButton
 import com.example.betteryou.core_ui.components.TBCAppCircularProgress
-import com.example.betteryou.core_ui.components.text_field.ThinTBCAppTextField
 import com.example.betteryou.core_ui.components.calendar.MonthPicker
 import com.example.betteryou.core_ui.components.calendar.YearPickerDialog
 import com.example.betteryou.feature.profile.presentation.component.CalendarBottomSheet
 import com.example.betteryou.feature.profile.presentation.component.ProfileCard
-import com.example.betteryou.feature.profile.presentation.component.SexSelector
-import com.example.betteryou.feature.profile.presentation.model.Sex
 import com.example.betteryou.feature.profile.presentation.model.UserUi
 import com.example.betteryou.presentation.snackbar.SnackBarController
 import com.example.betteryou.presentation.snackbar.SnackbarEvent
@@ -284,7 +270,7 @@ private fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit)
             )
         }
         if (state.isLoading) {
-            TBCAppCircularProgress(Modifier.align(Alignment.Center))
+            //TBCAppCircularProgress(Modifier.align(Alignment.Center))
         }
     }
 
@@ -336,44 +322,7 @@ private fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit)
 }
 
 
-@Composable
-fun SexSelector(
-    selected: Sex?,
-    onSelected: (Sex) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        SexItem(
-            text = stringResource(R.string.male),
-            selected = selected == Sex.MALE,
-            onClick = { onSelected(Sex.MALE) },
-            modifier = Modifier.weight(1f)
-        )
-
-        SexItem(
-            text = stringResource(R.string.female),
-            selected = selected == Sex.FEMALE,
-            onClick = { onSelected(Sex.FEMALE) },
-            modifier = Modifier.weight(1f)
-        )
-    }
-}
-
-@Composable
-private fun SexItem(
-    text: String,
-    selected: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val background =
-        if (selected) LocalTBCColors.current.onBackground
-        else Color.Transparent
-
-        /*if (state.isCalendarOpen) {
+/*if (state.isCalendarOpen) {
             CalendarBottomSheet(
                 state = state,
                 onEvent = onEvent,
@@ -405,7 +354,7 @@ private fun SexItem(
             )
 
     }*/
-}
+
 
 
 private fun createImageUri(context: Context): Uri {
