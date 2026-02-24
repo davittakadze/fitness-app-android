@@ -2,8 +2,12 @@ package com.example.betteryou.feature.daily.presentation
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.example.betteryou.domain.common.DatastoreKeys
 import com.example.betteryou.domain.common.Resource
+import com.example.betteryou.domain.usecase.GetPreferencesUseCase
 import com.example.betteryou.domain.usecase.GetUserIdUseCase
+import com.example.betteryou.domain.usecase.RemovePreferencesUseCase
+import com.example.betteryou.domain.usecase.SetPreferencesUseCase
 import com.example.betteryou.feature.daily.domain.model.intake.Intake
 import com.example.betteryou.feature.daily.domain.usecase.user.GetUserUseCase
 import com.example.betteryou.feature.daily.domain.usecase.intake.GetDailyIntakeUseCase
@@ -23,6 +27,8 @@ import com.example.betteryou.presentation.common.UiText
 import com.example.betteryou.util.getStartOfDayMillis
 import com.example.betteryou.util.getTodayStartTimestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -42,10 +48,19 @@ class DailyViewModel @Inject constructor(
     private val getUserDailyProduct: GetTodayUserProductsUseCase,
     private val addUserDailyProductUseCase: AddUserDailyProductUseCase,
     private val deleteProductByIdUseCase: DeleteProductByIdUseCase,
+    //datastore
+    private val getPreferencesUseCase: GetPreferencesUseCase,
+    private val setPreferencesUseCase: SetPreferencesUseCase,
 ) : BaseViewModel<DailyState, DailyEvent, DailySideEffect>(DailyState()) {
 
     init {
-        getProducts()
+        viewModelScope.launch {
+            val currentLang = getPreferencesUseCase(
+                DatastoreKeys.USER_LANGUAGE_KEY,
+                ""
+            ).first()
+            getProducts(currentLang)
+        }
         getDailyData()
         loadUserDailyProducts()
         loadInitialIntake()
@@ -225,9 +240,9 @@ class DailyViewModel @Inject constructor(
         }
     }
 
-    private fun getProducts() {
+    private fun getProducts(currentLang:String) {
         viewModelScope.launch {
-            getProductsUseCase().collect {
+            getProductsUseCase(currentLang).collect {
                 when (it) {
                     is Resource.Loader -> {
                         updateState { copy(isLoading = true) }

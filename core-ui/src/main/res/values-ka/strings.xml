@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BetterYou</string>
+    <string name="application_name">Guardian</string>
+    <string name="login">შესვლა</string>
+    <string name="register">რეგისტრაცია</string>
+    <string name="next">შემდეგი</string>
+    <string name="email">ელფოსტა</string>
+    <string name="password">პაროლი</string>
+    <string name="username">მომხმარებელი</string>
+    <string name="age">ასაკი</string>
+    <string name="sleep_time">ძილის დრო</string>
+    <string name="wake_up_time">გამოღვიძების დრო</string>
+    <string name="sex">სქესი</string>
+    <string name="female">ქალი</string>
+    <string name="male">კაცი</string>
+    <string name="unspecified">უცნობი</string>
+    <string name="repeat_password">პაროლის დადასტურება</string>
+    <string name="google_sign_up">რეგისტრაცია Google-ით</string>
+    <string name="google_sign_in_failed">Google შესვლა წარუმატებლად დასრულდა.</string>
+    <string name="profile">პროფილი</string>
+    <string name="edit_profile_picture">პროფილის სურათის შეცვლა</string>
+    <string name="first_name">სახელი</string>
+    <string name="last_name">გვარი</string>
+    <string name="save_changes">შენახვა</string>
+    <string name="log_out">გამოსვლა</string>
+    <string name="delete_account">ანგარიშის წაშლა</string>
+    <string name="date_format">DD / MM / YYYY</string>
+    <string name="height_placeholder">170სმ</string>
+    <string name="weight_placeholder">60კგ</string>
+    <string name="history">ისტორია</string>
+
+    <!-- Validations -->
+    <string name="date_of_birth">დაბადების თარიღი</string>
+    <string name="select_month">აირჩიე თვე</string>
+    <string name="next_month">შემდეგი თვე</string>
+    <string name="previous_month">წინა თვე</string>
+    <string name="take_photo">სურათის გადაღება</string>
+    <string name="choose_from_gallery">აირჩიეთ გალერეიდან</string>
+    <string name="cancel">გაუქმება</string>
+    <string name="invalid_email">არასწორი ელფოსტის ფორმატი</string>
+    <string name="password_mismatch">პაროლები არ ემთხვევა</string>
+    <string name="empty_fields">ველები არ შეიძლება იყოს ცარიელი</string>
+    <string name="invalid_password">პაროლი უნდა შეიცავდეს მინიმუმ 6 სიმბოლოს</string>
+    <string name="gender_validation">გთხოვთ, აირჩიეთ სქესი</string>
+    <string name="something_went_wrong">რაღაც ვერ წავიდა სწორად</string>
+    <string name="enter_title">გთხოვთ, მიუთითოთ სათაური</string>
+    <string name="add_at_least_one_exercise">დაამატეთ მინიმუმ ერთი ვარჯიში</string>
+
+    <!-- Activity levels -->
+    <string name="low">დაბალი</string>
+    <string name="medium">საშუალო</string>
+    <string name="high">მაღალი</string>
+    <string name="very_high">ძალიან მაღალი</string>
+    <string name="activity_screen_title">რა არის თქვენი საწყისი აქტივობის დონე?</string>
+    <string name="activity_screen_description">ეს დაგვეხმარება კალორიების სწორი გამოთვლაში</string>
+
+    <!-- Basic Info Screen  -->
+    <string name="basic_screen_title">გვითხარით თქვენს შესახებ</string>
+    <string name="basic_screen_description">გთხოვთ შეიყვანოთ დეტალები გაგრძელებისთვის</string>
+    <string name="your_name">თქვენი სახელი</string>
+    <string name="your_last_name">თქვენი გვარი</string>
+
+    <!-- Body Metrics Screen  -->
+    <string name="body_screen_title">ავიღოთ თქვენი ზომები</string>
+    <string name="body_screen_description">ჩვენ გვჭირდება ეს მონაცემები BMI-ის და ენერგიის მოხმარების დასათვლელად</string>
+    <string name="weight">წონა (კგ)</string>
+    <string name="height">სიმაღლე (სმ)</string>
+
+    <!-- Goal Setting Screen  -->
+    <string name="goal_screen_title">რა არის თქვენი მთავარი მიზანი?</string>
+    <string name="goal_screen_description">აირჩიეთ ყველაზე შესაფერისი ვარიანტი</string>
+    <string name="lose_weight">წონაში კლება</string>
+    <string name="keep_fit">ფორმის შენარჩუნება</string>
+    <string name="gain_weight">წონის მომატება</string>
+
+    <!-- Account Creation Screen   -->
+    <string name="account_creation_title">შექმენით თქვენი ანგარიში</string>
+    <string name="account_creation_description">უზრუნველყავით მონაცემები და დაიწყეთ თქვენი ფიტნეს-თავგადასავალი!</string>
+
+    <!-- Details screen   -->
+    <string name="instructions">ინსტრუქციები</string>
+
+    <!-- Explore Screen  -->
+    <string name="explore">აღმოაჩინე</string>
+    <string name="search_exercise">მოძებნე ვარჯიში</string>
+
+    <!-- History screen   -->
+    <string name="no_workouts">არცერთი ვარჯიში ჯერჯერობით</string>
+    <string name="exercises_will_appear">თქვენი შესრულებული ვარჯიშები აქ გამოჩნდება!\n
+        დროა დაიწყო.</string>
+
+    <!-- Workouts Screen  -->
+    <string name="finish_workout">დაასრულე ვარჯიში</string>
+    <string name="workouts">ვარჯიშები</string>
+    <string name="workout_plan_name">ვარჯიშის გეგმის სახელი</string>
+
+    <!-- Profile Screen   -->
+    <string name="profile_updated">პროფილი წარმატებით განახლდა</string>
+
+    <!--Settings Screen -->
+    <string name="account_deleted">ანგარიში წარმატებით წაიშალა</string>
+    <string name="settings">პარამეტრები</string>
+    <string name="dark_theme">მუქი თემა</string>
+    <string name="light_theme">ბნელი თემა</string>
+    <string name="change_password">პაროლის შეცვლა</string>
+    <string name="invalid_age">შეუძლებელი ასაკი!</string>
+    <string name="toggle_language_to_georgian">ჩართეთ ქართული ენა</string>
+    <string name="toggle_language_to_english">ჩართეთ ინგლისური ენა</string>
+
+    <!-- Daily Screen  -->
+    <string name="daily_screen_title">დღიური კვება</string>
+    <string name="calories">%1$.0f კალ</string>
+    <string name="protein">პროტეინი</string>
+    <string name="fat">ცხიმები</string>
+    <string name="carb">ნახშირწყლები</string>
+    <string name="intake">%1$.1f გ</string>
+    <string name="start_drinking">წყლის მიღება დაიწყე 💧</string>
+    <string name="keep_going">განაგრძე!</string>
+    <string name="good_progress">კარგი პროგრესია!</string>
+    <string name="almost_done">ცოტაც დარჩა!</string>
+    <string name="so_close">ძალიან ახლოს ხარ!</string>
+    <string name="goal_reached">მიზანი მიღწეულია! 🎉</string>
+    <string name="water_intake">წყლის რაოდენობა</string>
+    <string name="water_progress">%1$.2f ლ / %2$.2f ლ</string>
+    <string name="hydration_message">%1$d%% დატენიანებული</string>
+    <string name="select_product">აირჩიეთ პროდუქტი</string>
+    <string name="per_100g">100 გ-ზე</string>
+    <string name="calories_intake">კალორია: %1$.0f კალ</string>
+    <string name="protein_intake">პროტეინი: %1$.1f გ</string>
+    <string name="carbs_intake">ნახშირწყლები: %1$.1f გ</string>
+    <string name="fats_intake">ცხიმები: %1$.1f გ</string>
+    <string name="add">დამატება</string>
+    <string name="calories_intake_string">კალორიების მიღება</string>
+    <string name="g">გ.</string>
+
+    <!-- Healthy recipes Screen  -->
+    <string name="healthy_recipes_title">ჯანსაღი რეცეპტები</string>
+    <string name="search_recipes">რეცეპტების ძებნა...</string>
+    <string name="ingredient_count">ინგრედიენტების რაოდენობა: %1$d</string>
+    <string name="cooking_time">მომზადების დრო: %1$s</string>
+    <string name="difficulty">სირთულე: %1$s</string>
+    <string name="ingredient_count_without_dots">ინგრედიენტები</string>
+    <string name="cooking_time_without_dots">დრო</string>
+    <string name="difficulty_without_dots">სირთულე</string>
+    <string name="all">ყველაფერი</string>
+    <string name="breakfast">საუზმე</string>
+    <string name="lunch">ხემსი</string>
+    <string name="dinner">სადილი</string>
+
+    <!-- Favorites screen -->
+    <string name="favorites_title">ფავორიტები</string>
+    <string name="no_favorites">ფავორიტები ჯერ არაა</string>
+    <string name="ingredients">ინგრედიენტები:</string>
+    <string name="recipe">რეცეპტი:</string>
+    <string name="favorites_will_appear_here">ფავორიტები აქ გამოჩნდება</string>
+</resources>

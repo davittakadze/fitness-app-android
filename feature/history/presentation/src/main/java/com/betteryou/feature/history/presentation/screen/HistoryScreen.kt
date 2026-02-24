@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -80,7 +81,7 @@ private fun HistoryContent(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "History",
+                        text = stringResource(R.string.history),
                         style = TBCTheme.typography.headlineLarge,
                         color = TBCTheme.colors.textPrimary
                     )
@@ -124,9 +125,9 @@ private fun HistoryContent(
                             modifier = Modifier
                                 .padding(top = 200.dp)
                                 .fillMaxWidth(),
-                            primaryText = "No Workouts Yet",
+                            primaryText = stringResource(R.string.no_workouts),
                             icon = R.drawable.ic_history,
-                            secondaryText = "Your completed workouts will appear here.\nTime to hit the gym!"
+                            secondaryText = stringResource(R.string.exercises_will_appear)
                         )
                     }
                 }

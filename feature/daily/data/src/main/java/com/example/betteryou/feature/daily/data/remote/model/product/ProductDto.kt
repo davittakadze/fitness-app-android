@@ -5,11 +5,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ProductDto(
     val id: Int,
-    val name: String,
+    val name: Map<String, String>,
     val photo: String,
     val calories: Double,
     val protein: Double,
     val carbs: Double,
     val fat: Double,
-    val description: String
+    val description: Map<String, String>
 )

@@ -14,11 +14,11 @@ import javax.inject.Inject
 class FavoritesPageRepositoryImpl @Inject constructor(
     private val favoriteMealDao: FavoriteMealDao,
 ) : FavoritesPageRepository {
-    override fun getFavoriteMeals(userId: String): Flow<Resource<List<Recipe>>> = flow {
+    override fun getFavoriteMeals(userId: String, currentLang: String): Flow<Resource<List<Recipe>>> = flow {
         emit(Resource.Loader(true))
         try {
             val favorites = favoriteMealDao.getMealsForUser(userId)
-            emit(Resource.Success(favorites.map { it.toDomain() }))
+            emit(Resource.Success(favorites.map { it.toDomain(currentLang) }))
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "Unknown error"))
         }

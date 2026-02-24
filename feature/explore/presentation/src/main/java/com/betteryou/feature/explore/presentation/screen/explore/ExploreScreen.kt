@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -87,7 +88,7 @@ fun ExploreScreenContent(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "Explore",
+                        text = stringResource(R.string.explore),
                         style = TBCTheme.typography.headlineLarge,
                         color = TBCTheme.colors.textPrimary
                     )
@@ -109,7 +110,7 @@ fun ExploreScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                placeholder = "Search Exercise",
+                placeholder = stringResource(R.string.search_exercise),
             )
 
             Box(

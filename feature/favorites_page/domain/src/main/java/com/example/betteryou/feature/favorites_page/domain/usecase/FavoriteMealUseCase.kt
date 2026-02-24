@@ -9,5 +9,5 @@ import javax.inject.Inject
 class FavoriteMealUseCase @Inject constructor(
     private val repository: FavoritesPageRepository,
 ) {
-    operator fun invoke(userId:String): Flow<Resource<List<Recipe>>> = repository.getFavoriteMeals(userId)
+    operator fun invoke(userId:String,currentLang:String): Flow<Resource<List<Recipe>>> = repository.getFavoriteMeals(userId,currentLang)
 }

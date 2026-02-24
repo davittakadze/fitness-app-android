@@ -283,6 +283,95 @@ private fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit)
                 }
             )
         }
+        if (state.isLoading) {
+            TBCAppCircularProgress(Modifier.align(Alignment.Center))
+        }
+    }
+
+    if (state.showImagePickerDialog) {
+        ImagePickerBottomSheet(
+            onGalleryClick = {
+                onEvent(OnGallerySelected)
+            },
+            onCameraClick = {
+                onEvent(OnCameraSelected)
+            },
+            onDismiss = {
+                onEvent(OnDialogDismiss)
+            }
+        )
+    }
+
+    if (state.isCalendarOpen) {
+        CalendarBottomSheet(
+            state = state,
+            onEvent = onEvent,
+            onDismiss = { onEvent(OnCalendarDismiss) }
+        )
+    }
+
+    if (state.isMonthPickerOpen) {
+        MonthPicker(
+            currentMonth = state.calendarMonth.monthValue,
+            onMonthSelected = { month ->
+                onEvent(OnMonthSelected(month))
+            },
+            onDismiss = {
+                onEvent(OnMonthPickerToggle)
+            }
+        )
+    }
+
+    if (state.isYearPickerOpen) {
+        YearPickerDialog(
+            currentYear = state.calendarMonth.year,
+            onYearSelected = { year ->
+                onEvent(OnYearSelected(year))
+            },
+            onDismiss = {
+                onEvent(OnYearPickerToggle)
+            }
+        )
+    }
+}
+
+
+@Composable
+fun SexSelector(
+    selected: Sex?,
+    onSelected: (Sex) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        SexItem(
+            text = stringResource(R.string.male),
+            selected = selected == Sex.MALE,
+            onClick = { onSelected(Sex.MALE) },
+            modifier = Modifier.weight(1f)
+        )
+
+        SexItem(
+            text = stringResource(R.string.female),
+            selected = selected == Sex.FEMALE,
+            onClick = { onSelected(Sex.FEMALE) },
+            modifier = Modifier.weight(1f)
+        )
+    }
+}
+
+@Composable
+private fun SexItem(
+    text: String,
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val background =
+        if (selected) LocalTBCColors.current.onBackground
+        else Color.Transparent
 
         if (state.isCalendarOpen) {
             CalendarBottomSheet(

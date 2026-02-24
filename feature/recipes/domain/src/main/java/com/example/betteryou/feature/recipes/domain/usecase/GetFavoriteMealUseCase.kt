@@ -9,5 +9,5 @@ import javax.inject.Inject
 class GetFavoriteMealUseCase @Inject constructor(
     private val favoriteMealRepository: RecipeRepository,
 ) {
-    suspend fun invoke(userId:String): Flow<Resource<List<Recipe>>> = favoriteMealRepository.getFavoriteMeals(userId)
+    suspend fun invoke(userId:String, currentLang: String): Flow<Resource<List<Recipe>>> = favoriteMealRepository.getFavoriteMeals(userId,currentLang)
 }

@@ -163,7 +163,7 @@ fun RecipesContent(state: RecipesState, onEvent: (RecipesEvent) -> Unit) {
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.padding(12.dp)
                 ) {
-                    items(items = state.categoryList, key = { it.displayName }) { item ->
+                    items(items = state.categoryList, key = { it }) { item ->
                         CategoryItem(item, item == state.selectedCategory, onClick = {
                             onEvent(RecipesEvent.OnCategoryClick(item))
                         })
@@ -180,7 +180,7 @@ fun RecipesContent(state: RecipesState, onEvent: (RecipesEvent) -> Unit) {
                         if (selected == Meal.ALL) {
                             return@let state.meals
                         } else {
-                            state.meals.filter { it.category == state.selectedCategory.displayName }
+                            state.meals.filter { it.category == state.selectedCategory.toString().lowercase().replaceFirstChar { if(it.isLowerCase()) it.titlecase() else it.toString()} }
                         }
                     }
                     items(items = filteredMeals, key = { it.title }) { item ->
@@ -216,7 +216,13 @@ fun CategoryItem(item: Meal, isSelected: Boolean, onClick: () -> Unit) {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = item.displayName,
+            text =
+            when(item){
+                Meal.ALL -> stringResource(R.string.all)
+                Meal.BREAKFAST -> stringResource(R.string.breakfast)
+                Meal.LUNCH -> stringResource(R.string.lunch)
+                Meal.DINNER -> stringResource(R.string.dinner)
+            },
             style = TBCTheme.typography.bodyLarge,
             color = if (isSelected) {
                 TBCTheme.colors.background
@@ -339,7 +345,7 @@ fun BottomSheet(
             Spacer(Modifier.height(12.dp))
 
             Text(
-                text = "Ingredients:",
+                text = stringResource(R.string.ingredients),
                 style = TBCTheme.typography.headlineMedium,
                 color = TBCTheme.colors.onBackground
             )
@@ -356,7 +362,7 @@ fun BottomSheet(
             }
             Spacer(Modifier.height(Spacer.spacing12))
             Text(
-                text = "Recipe:",
+                text = stringResource(R.string.recipe),
                 style = TBCTheme.typography.headlineMedium,
                 color = TBCTheme.colors.onBackground
             )

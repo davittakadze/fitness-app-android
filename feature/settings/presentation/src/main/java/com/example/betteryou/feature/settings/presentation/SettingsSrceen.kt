@@ -122,6 +122,23 @@ private fun SettingsContent(
                     )
                 }
             )
+            SettingsItem(
+                title =
+                    if(state.isGeorgianLanguageEnabled){
+                        stringResource(R.string.toggle_language_to_english)
+                    }else{
+                        stringResource(R.string.toggle_language_to_georgian)
+                    },
+                textColor = LocalTBCColors.current.onBackground,
+                trailingContent = {
+                    TBCAppSwitch(
+                        checked = state.isGeorgianLanguageEnabled,
+                        onCheckedChange = {
+                            onEvent(SettingsEvent.OnToggleLanguageClick(it))
+                        }
+                    )
+                }
+            )
         }
 
         Spacer(Modifier.height(Spacer.spacing32))

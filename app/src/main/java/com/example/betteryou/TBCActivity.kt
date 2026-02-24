@@ -1,9 +1,10 @@
 package com.example.betteryou
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.betteryou.core.notifications.NotificationHelper
@@ -14,7 +15,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TBCActivity : ComponentActivity() {
+class TBCActivity : AppCompatActivity() {
+    
     @Inject
     lateinit var notificationHelper: NotificationHelper
 

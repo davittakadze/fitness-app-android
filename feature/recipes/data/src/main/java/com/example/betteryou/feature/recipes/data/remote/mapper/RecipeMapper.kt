@@ -19,45 +19,45 @@ fun RecipeDto.toEntity(): MealEntity {
     )
 }
 
-fun MealEntity.toDomain(): Recipe {
+fun MealEntity.toDomain(currentLang: String): Recipe {
     return Recipe(
-        id=id,
+        id = id,
         category = category,
-        title = title,
+        title = title[currentLang] ?: title["en"] ?: "",
         imageUrl = imageUrl,
         ingredientCount = ingredientCount,
-        ingredients = ingredients,
-        cookingTime = cookingTime,
-        difficulty = difficulty,
-        recipe = recipe
+        ingredients = ingredients[currentLang] ?: ingredients["en"] ?: emptyList(),
+        cookingTime = cookingTime[currentLang] ?: cookingTime["en"] ?: "",
+        difficulty = difficulty[currentLang] ?: difficulty["en"] ?: "",
+        recipe = recipe[currentLang] ?: recipe["en"] ?: ""
     )
 }
 
-fun FavoriteMealEntity.toDomain(): Recipe {
+fun FavoriteMealEntity.toDomain(currentLang: String = "en"): Recipe {
     return Recipe(
-        id=id,
+        id = id,
         category = category,
-        title = title,
+        title = title[currentLang] ?: title["en"] ?: "",
         imageUrl = imageUrl,
         ingredientCount = ingredientCount,
-        ingredients = ingredients,
-        cookingTime = cookingTime,
-        difficulty = difficulty,
-        recipe = recipe
+        ingredients = ingredients[currentLang] ?: ingredients["en"] ?: emptyList(),
+        cookingTime = cookingTime[currentLang] ?: cookingTime["en"] ?: "",
+        difficulty = difficulty[currentLang] ?: difficulty["en"] ?: "",
+        recipe = recipe[currentLang] ?: recipe["en"] ?: ""
     )
 }
 
-fun Recipe.toEntity(): FavoriteMealEntity {
+fun Recipe.toEntity(currentLang: String): FavoriteMealEntity {
     return FavoriteMealEntity(
-        id=id,
+        id = id,
+        userId = userId!!,
         category = category,
-        title = title,
+        title = mapOf(currentLang to title),
         imageUrl = imageUrl,
         ingredientCount = ingredientCount,
-        ingredients = ingredients,
-        cookingTime = cookingTime,
-        difficulty = difficulty,
-        recipe = recipe,
-        userId = userId!!
+        ingredients = mapOf(currentLang to ingredients),
+        cookingTime = mapOf(currentLang to cookingTime),
+        difficulty = mapOf(currentLang to difficulty),
+        recipe = mapOf(currentLang to recipe)
     )
 }

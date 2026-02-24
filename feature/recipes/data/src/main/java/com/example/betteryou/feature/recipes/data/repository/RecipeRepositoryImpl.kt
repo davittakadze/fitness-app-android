@@ -4,8 +4,8 @@ import com.example.betteryou.data.common.HandleResponse
 import com.example.betteryou.data.local.room.dao.meal.FavoriteMealDao
 import com.example.betteryou.data.local.room.dao.meal.MealDao
 import com.example.betteryou.domain.common.Resource
-import com.example.betteryou.feature.recipes.data.remote.service.RecipeService
 import com.example.betteryou.feature.recipes.data.remote.mapper.toDomain
+import com.example.betteryou.feature.recipes.data.remote.service.RecipeService
 import com.example.betteryou.feature.recipes.data.remote.mapper.toEntity
 import com.example.betteryou.feature.recipes.domain.model.Recipe
 import com.example.betteryou.feature.recipes.domain.repository.RecipeRepository
@@ -22,51 +22,55 @@ class RecipeRepositoryImpl @Inject constructor(
     private val mealDao: MealDao,
     private val favoriteMealDao: FavoriteMealDao
 ) : RecipeRepository {
-    override suspend fun getMeals(): Flow<Resource<List<Recipe>>> {
+
+    override suspend fun getMeals(currentLang: String): Flow<Resource<List<Recipe>>> {
         return handleResponse.safeApiCall {
             recipeService.getMeals()
         }.flowOn(Dispatchers.IO)
-         .map { resource ->
-            when (resource) {
-                is Resource.Success -> {
-                    val dtoList = resource.data
-                    val entities = dtoList.map { it.toEntity() }
-                    mealDao.insertMeals(entities)
-                    Resource.Success(entities.map { it.toDomain() })
-                }
+            .map { resource ->
+                when (resource) {
+                    is Resource.Success -> {
+                        val dtoList = resource.data
+                        val entities = dtoList.map { it.toEntity() }
+                        mealDao.insertMeals(entities)
+                        Resource.Success(entities.map { it.toDomain(currentLang) })
+                    }
 
-                is Resource.Error -> {
-                    val cached = mealDao.getAllMeals()
-                    if (cached.isNotEmpty()) {
-                        Resource.Success(cached.map { it.toDomain() })
-                    } else {
-                        Resource.Error(resource.errorMessage)
+                    is Resource.Error -> {
+                        val cached = mealDao.getAllMeals()
+                        if (cached.isNotEmpty()) {
+                            Resource.Success(cached.map { it.toDomain(currentLang) })
+                        } else {
+                            Resource.Error(resource.errorMessage)
+                        }
+                    }
+
+                    is Resource.Loader -> {
+                        Resource.Loader(resource.isLoading)
                     }
                 }
-
-                is Resource.Loader -> {
-                    Resource.Loader(resource.isLoading)
-                }
             }
-        }
     }
 
-    override suspend fun getFavoriteMeals(userId: String?): Flow<Resource<List<Recipe>>> = flow {
+    override suspend fun getFavoriteMeals(userId: String?, currentLang: String): Flow<Resource<List<Recipe>>> = flow {
         emit(Resource.Loader(true))
         try {
             val favorites = favoriteMealDao.getMealsForUser(userId!!)
-            emit(Resource.Success(favorites.map { it.toDomain() }))
+            emit(Resource.Success(favorites.map { it.toDomain(currentLang) }))
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "Unknown error"))
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun addFavoriteMeal(meal: Recipe) {
-        val entity = meal.toEntity()
+    override suspend fun addFavoriteMeal(
+        meal: Recipe,
+        currentLang: String
+    ) {
+        val entity = meal.toEntity(currentLang)
         favoriteMealDao.insertMeal(entity)
     }
 
     override suspend fun removeFavoriteMealById(mealId: Long, userId: String?) {
-        favoriteMealDao.deleteMealByIdForUser(mealId,userId!!)
+        favoriteMealDao.deleteMealByIdForUser(mealId, userId!!)
     }
 }
