@@ -36,6 +36,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.betteryou.core_ui.components.button.TBCAppSwitch
+import com.example.betteryou.feature.settings.presentation.component.SettingsItem
+import com.example.betteryou.feature.settings.presentation.component.SettingsSection
 import com.example.betteryou.presentation.extensions.CollectSideEffects
 import com.example.betteryou.presentation.snackbar.SnackBarController
 import com.example.betteryou.presentation.snackbar.SnackbarEvent
@@ -46,6 +48,7 @@ fun SettingsScreen(
     onNavigateToMenu: () -> Unit,
     onNavigateToHistory: () -> Unit,
     onNavigateToFavorites: () -> Unit,
+    onNavigateToNotifications: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -70,6 +73,7 @@ fun SettingsScreen(
 
             SettingSideEffects.NavigateToHistory -> onNavigateToHistory()
             SettingSideEffects.NavigateToFavorites -> onNavigateToFavorites()
+            SettingSideEffects.NavigateToNotifications -> onNavigateToNotifications()
         }
     }
 }
@@ -141,6 +145,12 @@ private fun SettingsContent(
 
         SettingsSection {
             SettingsItem(
+                title = stringResource(R.string.notifications),
+                textColor = LocalTBCColors.current.onBackground,
+                showArrow = true,
+                onClick = { onEvent(SettingsEvent.OnNotificationsClick) }
+            )
+            SettingsItem(
                 title = stringResource(R.string.history),
                 textColor = LocalTBCColors.current.onBackground,
                 showArrow = true,
@@ -168,100 +178,6 @@ private fun SettingsContent(
 
     }
 }
-
-@Composable
-private fun SettingsItem(
-    title: String,
-    textColor: Color,
-    showArrow: Boolean = true,
-    showDivider: Boolean = true,
-    leadingIcon: Painter? = null,
-    trailingIcon: Painter? = null,
-    trailingContent: @Composable (() -> Unit)? = null,
-    onClick: () -> Unit? = {},
-) {
-
-    Column {
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { onClick() }
-                .padding(horizontal = 20.dp, vertical = 14.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            leadingIcon?.let {
-                Icon(
-                    painter = it,
-                    contentDescription = null,
-                    tint = textColor,
-                    modifier = Modifier
-                        .size(20.dp)
-                )
-            }
-
-            Spacer(Modifier.width(Spacer.spacing16))
-
-            Text(
-                text = title,
-                color = textColor,
-                style = LocalTBCTypography.current.bodyLargest,
-                modifier = Modifier.weight(1f)
-            )
-
-            trailingContent?.invoke()
-
-            if (trailingContent == null && trailingIcon != null) {
-                Icon(
-                    painter = trailingIcon,
-                    contentDescription = null,
-                    tint = LocalTBCColors.current.textSecondary,
-                    modifier = Modifier.size(18.dp)
-                )
-            }
-
-            if (trailingContent == null && trailingIcon == null && showArrow) {
-                Icon(
-                    painter = painterResource(R.drawable.right_arrow_svgrepo_com),
-                    contentDescription = null,
-                    tint = LocalTBCColors.current.textSecondary,
-                    modifier = Modifier.size(18.dp)
-                )
-            }
-        }
-
-        if (showDivider) {
-            HorizontalDivider(
-                Modifier, 0.5.dp,
-                LocalTBCColors.current.primary.copy(alpha = 0.08f)
-            )
-        }
-    }
-}
-
-
-@Composable
-private fun SettingsSection(
-    content: @Composable ColumnScope.() -> Unit,
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                color = LocalTBCColors.current.background,
-                shape = Radius.radius16
-            )
-            .border(
-                width = 1.dp,
-                color = LocalTBCColors.current.border,
-                shape = Radius.radius16
-            )
-    ) {
-        content()
-    }
-}
-
 
 @Preview(showBackground = true)
 @Composable

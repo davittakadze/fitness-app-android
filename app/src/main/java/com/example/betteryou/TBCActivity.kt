@@ -5,17 +5,29 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.betteryou.core.notifications.NotificationHelper
 import com.example.betteryou.core_ui.theme.TBCTheme
+import com.example.betteryou.domain.common.NotificationConfig
 import com.example.betteryou.navigation.TBCAppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TBCActivity : AppCompatActivity() {
-    private val appViewModel: TBCAppViewModel by viewModels()
+    
+    @Inject
+    lateinit var notificationHelper: NotificationHelper
+
+    @Inject
+    lateinit var waterNotificationConfig: NotificationConfig
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val appViewModel: TBCAppViewModel = hiltViewModel()
             TBCTheme(darkTheme = appViewModel.isDarkTheme) {
                 TBCAppTheme()
             }

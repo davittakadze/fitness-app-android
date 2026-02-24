@@ -163,12 +163,13 @@ class DailyViewModel @Inject constructor(
                     )
                 }
             }
+
+            OnNavigateToNotifications -> emitSideEffect(DailySideEffect.NavigateToNotifications)
         }
     }
 
     private fun getDailyData() {
         viewModelScope.launch {
-            Log.d("DailyViewModel", "getDailyData: start collecting nutrients")
             getDailyDataUseCase().collect { resource ->
                 when (resource) {
                     is Resource.Loader -> {

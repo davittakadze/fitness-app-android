@@ -20,6 +20,7 @@ import com.betteryou.feature.explore.presentation.navigation.exploreNavGraph
 import com.betteryou.feature.history.presentation.navigation.historyNavGraph
 import com.betteryou.feature.register.presentation.register.navigation.registerNavGraph
 import com.betteryou.workout.presentation.navgraph.workoutNavGraph
+import com.bettetyou.feature.notification.presentation.navigation.notificationNavGraph
 import com.example.betteryou.feature.daily.presentation.navigation.dailyNavGraph
 import com.example.betteryou.feature.favorites_page.presentation.navigation.favoritesNavGraph
 import com.example.betteryou.feature.profile.presentation.navigation.profileNavGraph
@@ -65,6 +66,9 @@ fun TBCAppTheme() {
     } == true
             && currentRoute?.contains("Details") == false)
             && !currentRoute.contains("History")
+            && !currentRoute.contains("Notification")
+            && !currentRoute.contains("Profile")
+            && !currentRoute.contains("Favorites")
 
 
     // Observe SnackBar events
@@ -116,6 +120,7 @@ fun TBCAppTheme() {
                 recipesNavGraph(navController)
                 exploreNavGraph(navController)
                 favoritesNavGraph(navController)
+                notificationNavGraph(navController)
             }
         }
     }

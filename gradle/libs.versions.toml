@@ -6,6 +6,7 @@ coilCompose = "2.7.0"
 dagger = "2.59.1"
 datastorePreferences = "1.1.7"
 firebaseBom = "34.9.0"
+hiltWorkVersion = "1.3.0"
 kotlin = "2.0.21"
 coreKtx = "1.17.0"
 junit = "4.13.2"
@@ -43,7 +44,7 @@ androidGradlePlugin = "8.2.2"
 androidxComposeCompiler = "1.5.8"
 playServicesAuth = "21.0.0"
 firebaseAuth = "23.1.0"
-baseUrl = "\"https://c5768aca-b76c-4049-86b0-1ebee8ac65a4.mock.pstmn.io\""
+baseUrl = "\"https://mocki.io/v1/\""
 workManager = "2.9.1"
 retrofitSerialization = "0.8.0"
 hiltWork = "1.2.0"
@@ -51,6 +52,7 @@ hiltWork = "1.2.0"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+androidx-hilt-work-v130 = { module = "androidx.hilt:hilt-work", version.ref = "hiltWorkVersion" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }

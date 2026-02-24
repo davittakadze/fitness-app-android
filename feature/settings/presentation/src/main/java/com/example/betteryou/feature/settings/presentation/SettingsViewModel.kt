@@ -30,19 +30,16 @@ class SettingsViewModel @Inject constructor(
 
     override fun onEvent(event: SettingsEvent) {
         when (event) {
-            is SettingsEvent.OnDarkThemeChanged -> updateDarkTheme(event.isEnabled)
-
             SettingsEvent.OnChangePasswordClick -> {}
 
+            is SettingsEvent.OnDarkThemeChanged -> updateDarkTheme(event.isEnabled)
             SettingsEvent.OnDeleteAccountClick -> deleteAccount()
-
             SettingsEvent.OnLogOutClick -> logout()
-
             SettingsEvent.OnProfileClick -> emitSideEffect(SettingSideEffects.NavigateToProfile)
-
             SettingsEvent.OnHistoryClick -> emitSideEffect(SettingSideEffects.NavigateToHistory)
             SettingsEvent.OnFavoritesClick -> emitSideEffect(SettingSideEffects.NavigateToFavorites)
             is SettingsEvent.OnToggleLanguageClick -> updateLanguage(event.isEnabled)
+            SettingsEvent.OnNotificationsClick -> emitSideEffect(SettingSideEffects.NavigateToNotifications)
         }
     }
 

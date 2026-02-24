@@ -8,6 +8,7 @@ sealed interface SettingsEvent {
     data object OnDeleteAccountClick : SettingsEvent
     data object OnChangePasswordClick : SettingsEvent
     data object OnHistoryClick : SettingsEvent
+    data object OnNotificationsClick : SettingsEvent
     data object OnFavoritesClick : SettingsEvent
 
     data class OnToggleLanguageClick(val isEnabled: Boolean) : SettingsEvent

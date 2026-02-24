@@ -97,7 +97,7 @@ private fun MenuContent(
             ) {
                 Box {
                     Image(
-                        painter = painterResource(R.drawable.guardian_svgrepo_com),
+                        painter = painterResource(R.mipmap.better_you_logo_foreground),
                         contentDescription = null,
                         modifier = Modifier.wrapContentSize()
                     )
@@ -106,7 +106,7 @@ private fun MenuContent(
                 Spacer(modifier = Modifier.width(24.dp))
 
                 Text(
-                    text = stringResource(R.string.application_name),
+                    text = stringResource(R.string.app_name),
                     style = LocalTBCTypography.current.headlineLarge,
                     color = LocalTBCColors.current.onBackground
                 )

@@ -2,7 +2,6 @@ package com.example.data.repository
 
 import com.example.betteryou.data.common.HandleFirebase
 import com.example.betteryou.domain.common.Resource
-import com.example.betteryou.data.exception.EmailNotVerifiedException
 import com.example.domain.repository.LogInRepository
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.Flow

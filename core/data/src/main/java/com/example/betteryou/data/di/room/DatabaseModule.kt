@@ -65,4 +65,7 @@ object DatabaseModule {
 
     @Provides
     fun provideProductDao(db: AppDatabase): ProductDao = db.productDao()
+    
+    @Provides
+    fun provideNotificationDao(db: AppDatabase) = db.notificationDao()
 }

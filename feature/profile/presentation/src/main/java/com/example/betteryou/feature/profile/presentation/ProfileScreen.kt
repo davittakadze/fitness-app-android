@@ -22,14 +22,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -66,6 +72,9 @@ import com.example.betteryou.core_ui.components.TBCAppCircularProgress
 import com.example.betteryou.core_ui.components.text_field.ThinTBCAppTextField
 import com.example.betteryou.core_ui.components.calendar.MonthPicker
 import com.example.betteryou.core_ui.components.calendar.YearPickerDialog
+import com.example.betteryou.feature.profile.presentation.component.CalendarBottomSheet
+import com.example.betteryou.feature.profile.presentation.component.ProfileCard
+import com.example.betteryou.feature.profile.presentation.component.SexSelector
 import com.example.betteryou.feature.profile.presentation.model.Sex
 import com.example.betteryou.feature.profile.presentation.model.UserUi
 import com.example.betteryou.presentation.snackbar.SnackBarController
@@ -75,8 +84,8 @@ import com.example.betteryou.util.formatToString
 
 @Composable
 fun ProfileScreen(
-    onBackClick:()->Unit,
-    viewModel: ProfileViewModel = hiltViewModel()
+    onBackClick: () -> Unit,
+    viewModel: ProfileViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -145,249 +154,132 @@ fun ProfileScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
+private fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit) {
     val focusManager = LocalFocusManager.current
-    Box(Modifier.fillMaxSize()) {
-        Column(
-            Modifier
-                .fillMaxSize()
-                .background(LocalTBCColors.current.background)
-                .padding(
-                    top = Spacer.spacing32,
-                    start = Spacer.spacing24,
-                    end = Spacer.spacing24,
-                    bottom = Spacer.spacing24
-                )
-                .clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }
-                ) {
-                    focusManager.clearFocus()
-                }
-        ) {
-            IconButton(
-                onClick = {
-                    onEvent(OnBackClick)
+
+    Scaffold(
+        containerColor = LocalTBCColors.current.background,
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.profile),
+                        style = LocalTBCTypography.current.headlineLarge,
+                        color = LocalTBCColors.current.onBackground
+                    )
                 },
-                Modifier.padding(4.dp)
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.left_arrow_svgrepo_com),
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp),
-                    tint = LocalTBCColors.current.onBackground
+                navigationIcon = {
+                    IconButton(onClick = { onEvent(OnBackClick) }) {
+                        Icon(
+                            painter = painterResource(R.drawable.left_arrow_svgrepo_com),
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp),
+                            tint = LocalTBCColors.current.onBackground
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = TBCTheme.colors.background,
+                    titleContentColor = Color.White,
+                    actionIconContentColor = Color.White
                 )
-            }
-
-            Spacer(modifier = Modifier.height(Spacer.spacing12))
-
-            Text(
-                text = stringResource(R.string.profile),
-                style = LocalTBCTypography.current.headlineLarge,
-                color = LocalTBCColors.current.onBackground
             )
+        }
+    ) { paddingValues ->
 
-            Spacer(modifier = Modifier.height(Spacer.spacing32))
-
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
+        Box(Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .background(LocalTBCColors.current.background))
+        {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(
+                        top = Spacer.spacing32,
+                        start = Spacer.spacing24,
+                        end = Spacer.spacing24,
+                        bottom = Spacer.spacing24
+                    )
+                    .clickable(
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() }
+                    ) {
+                        focusManager.clearFocus()
+                    }
             ) {
-                Card(
+
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(500.dp),
-
-                    shape = Radius.radius16,
-
-                    colors = CardDefaults.cardColors(
-                        containerColor = LocalTBCColors.current.surface
-                    ),
-
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 6.dp
-                    )
+                        .wrapContentHeight()
                 ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
+
+                    ProfileCard(
+                        state = state,
+                        onEvent = onEvent
+                    )
+
+                    AsyncImage(
+                        model = state.profilePhoto,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        placeholder = painterResource(R.mipmap.user),
+                        error = painterResource(R.mipmap.user),
+                        fallback = painterResource(R.mipmap.user),
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top=64.dp, start = 24.dp, end = 24.dp,bottom=24.dp)
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 18.dp)
-                                .clickable { onEvent(OnEditProfilePictureClick) },
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = stringResource(R.string.edit_profile_picture),
-                                style = LocalTBCTypography.current.bodyLarge,
-                                color = LocalTBCColors.current.accent
+                            .size(Spacer.spacing100)
+                            .align(Alignment.TopCenter)
+                            .clip(CircleShape)
+                            .border(
+                                3.dp,
+                                LocalTBCColors.current.accent,
+                                CircleShape
                             )
-                        }
-
-                        Spacer(modifier = Modifier.height(Spacer.spacing16))
-
-                        Row(
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                stringResource(R.string.first_name),
-                                style = LocalTBCTypography.current.bodyMedium,
-                                color = LocalTBCColors.current.onBackground
-                            )
-
-                            Spacer(modifier = Modifier.width(Spacer.spacing16))
-
-                            ThinTBCAppTextField(
-                                value = state.firstName,
-                                onValueChange = { onEvent(OnFirstNameChanged(it)) },
-                                placeholder = stringResource(R.string.first_name)
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.height(Spacer.spacing16))
-
-                        Row(
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                stringResource(R.string.last_name),
-                                style = LocalTBCTypography.current.bodyMedium,
-                                color = LocalTBCColors.current.onBackground
-                            )
-
-                            Spacer(modifier = Modifier.width(Spacer.spacing16))
-
-                            ThinTBCAppTextField(
-                                value = state.lastName,
-                                onValueChange = { onEvent(OnLastNameChanged(it)) },
-                                placeholder = stringResource(R.string.last_name)
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(Spacer.spacing24))
-
-                        DatePickerRow(
-                            label = stringResource(R.string.date_of_birth),
-                            valueText = state.selectedDate?.formatToString() ?: "dd/MM/yyyy",
-                            onClick = { onEvent(OnOpenCalendar) }
-                        )
-
-                        if (state.isCalendarOpen) {
-                            CalendarBottomSheet(
-                                onDismiss = {
-                                    onEvent(OnCalendarDismiss)
-                                }
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.height(Spacer.spacing32))
-
-                        SexSelector(
-                            selected = state.selectedSex,
-                            onSelected = {
-                                onEvent(OnSexSelected(it))
-                            }
-                        )
-
-                        Spacer(modifier = Modifier.height(Spacer.spacing32))
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-
-                            Column(modifier = Modifier.weight(1f)) {
-
-                                Text(
-                                    text = stringResource(R.string.height),
-                                    style = LocalTBCTypography.current.bodyMedium,
-                                    color = LocalTBCColors.current.onBackground
-                                )
-
-                                Spacer(modifier = Modifier.height(Spacer.spacing16))
-
-                                ThinTBCAppTextField(
-                                    value = state.height,
-                                    onValueChange = { onEvent(OnHeightChanged(it)) },
-                                    placeholder = stringResource(R.string.height_placeholder),
-                                    modifier = Modifier.fillMaxWidth(),
-                                    numbersOnly = true
-                                )
-                            }
-
-                            Column(modifier = Modifier.weight(1f)) {
-
-                                Text(
-                                    text = stringResource(R.string.weight),
-                                    style = LocalTBCTypography.current.bodyMedium,
-                                    color = LocalTBCColors.current.onBackground
-                                )
-
-                                Spacer(modifier = Modifier.height(Spacer.spacing16))
-
-                                ThinTBCAppTextField(
-                                    value = state.weight,
-                                    onValueChange = { onEvent(OnWeightChanged(it)) },
-                                    placeholder = stringResource(R.string.weight_placeholder),
-                                    modifier = Modifier.fillMaxWidth(),
-                                    numbersOnly = true
-                                )
-                            }
-                        }
-
-                    }
+                    )
                 }
 
-                AsyncImage(
-                    model = state.profilePhoto,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    placeholder = painterResource(R.mipmap.user),
-                    error = painterResource(R.mipmap.user),
-                    fallback = painterResource(R.mipmap.user),
-                    modifier = Modifier
-                        .size(Spacer.spacing100)
-                        .offset(0.dp, (-240).dp)
-                        .clip(CircleShape)
-                        .border(
-                            3.dp,
-                            LocalTBCColors.current.accent,
-                            CircleShape
-                        )
-                )
-            }
-
-            Spacer(modifier = Modifier.height(Spacer.spacing12))
+                Spacer(modifier = Modifier.height(Spacer.spacing12))
 
 
-            TBCAppButton(
-                text = stringResource(R.string.save_changes),
-                type = AppButtonType.Outlined,
-                modifier = Modifier.fillMaxWidth(),
-                onClick = {
-                    onEvent(
-                        SaveChanges(
-                            UserUi(
-                                state.firstName,
-                                state.lastName,
-                                age = state.selectedDate?.let { calculateAge(it) } ?: state.age,
-                                birthDate = state.selectedDate?.formatToString(),
-                                state.selectedSex,
-                                state.height.toDoubleOrNull(),
-                                state.weight.toDoubleOrNull(),
-                                photoUrl = state.profilePhoto
+                TBCAppButton(
+                    text = stringResource(R.string.save_changes),
+                    type = AppButtonType.Outlined,
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        onEvent(
+                            SaveChanges(
+                                UserUi(
+                                    state.firstName,
+                                    state.lastName,
+                                    age = state.selectedDate?.let { calculateAge(it) } ?: state.age,
+                                    birthDate = state.selectedDate?.formatToString(),
+                                    state.selectedSex,
+                                    state.height.toDoubleOrNull(),
+                                    state.weight.toDoubleOrNull(),
+                                    photoUrl = state.profilePhoto
+                                )
                             )
                         )
-                    )
+                    }
+                )
+            }
+            if (state.isLoading) {
+                TBCAppCircularProgress(Modifier.align(Alignment.Center))
+            }
+        }
+
+        if (state.showImagePickerDialog) {
+            ImagePickerBottomSheet(
+                onGalleryClick = {
+                    onEvent(OnGallerySelected)
+                },
+                onCameraClick = {
+                    onEvent(OnCameraSelected)
+                },
+                onDismiss = {
+                    onEvent(OnDialogDismiss)
                 }
             )
         }
@@ -481,59 +373,42 @@ private fun SexItem(
         if (selected) LocalTBCColors.current.onBackground
         else Color.Transparent
 
-    val textColor =
-        if (selected) LocalTBCColors.current.background
-        else LocalTBCColors.current.onBackground
+        if (state.isCalendarOpen) {
+            CalendarBottomSheet(
+                state = state,
+                onEvent = onEvent,
+                onDismiss = { onEvent(OnCalendarDismiss) }
+            )
+        }
 
-    val borderColor =
-        if (selected) Color.Transparent
-        else LocalTBCColors.current.border
+        if (state.isMonthPickerOpen) {
+            MonthPicker(
+                currentMonth = state.calendarMonth.monthValue,
+                onMonthSelected = { month ->
+                    onEvent(OnMonthSelected(month))
+                },
+                onDismiss = {
+                    onEvent(OnMonthPickerToggle)
+                }
+            )
+        }
 
-    Box(
-        modifier = modifier
-            .height(44.dp)
-            .background(background, CircleShape)
-            .border(1.dp, borderColor, CircleShape)
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = text,
-            style = LocalTBCTypography.current.bodyLarge,
-            color = textColor
-        )
+        if (state.isYearPickerOpen) {
+            YearPickerDialog(
+                currentYear = state.calendarMonth.year,
+                onYearSelected = { year ->
+                    onEvent(OnYearSelected(year))
+                },
+                onDismiss = {
+                    onEvent(OnYearPickerToggle)
+                }
+            )
+        }
     }
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CalendarBottomSheet(
-    state: ProfileState,
-    onEvent: (ProfileEvent) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        containerColor = LocalTBCColors.current.background
-    ) {
-        CalendarContent(
-            month = state.calendarMonth,
-            selectedDate = state.selectedDate,
-            onPrevMonth = { onEvent(OnPrevMonth) },
-            onNextMonth = { onEvent(OnNextMonth) },
-            onDateSelected = { onEvent(OnDateSelected(it, calculateAge(it))) },
-            onYearClick = {
-                onEvent(OnYearPickerToggle)
-            },
-            onMonthClick = {
-                onEvent(OnMonthPickerToggle)
-            }
-        )
-    }
-}
-
-fun createImageUri(context: Context): Uri {
+private fun createImageUri(context: Context): Uri {
     val file = File(
         context.cacheDir,
         "camera_${System.currentTimeMillis()}.jpg"
@@ -547,7 +422,7 @@ fun createImageUri(context: Context): Uri {
 
 @Preview
 @Composable
-fun ProfileScreenPreview() {
+private fun ProfileScreenPreview() {
     TBCTheme {
         ProfileContent(ProfileState()) {}
     }

@@ -17,4 +17,5 @@ sealed interface Route {
     @Serializable data object Explore : Route
     @Serializable data class ExploreDetails(val workoutId: String) : Route
     @Serializable data object Favorites : Route
+    @Serializable data object Notifications : Route
 }

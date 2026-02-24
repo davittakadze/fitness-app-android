@@ -13,6 +13,7 @@ sealed interface DailyEvent {
 
     //pager event
     data class ChangePage(val page: Int) : DailyEvent
+    data object OnNavigateToNotifications : DailyEvent
 
     //bottom sheet events
     data class OpenBottomSheet(val product: ProductUi) : DailyEvent
