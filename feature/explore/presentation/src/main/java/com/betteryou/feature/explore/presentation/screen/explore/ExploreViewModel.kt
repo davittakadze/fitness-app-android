@@ -17,7 +17,6 @@ class ExploreViewModel @Inject constructor(
 
     override fun onEvent(event: ExploreEvent) {
         when(event) {
-            ExploreEvent.FetchExercises -> fetchExercises()
             is ExploreEvent.OnExerciseClick -> {
                 emitSideEffect(ExploreSideEffect.NavigateToDetails(event.workoutId))
             }
@@ -33,6 +32,9 @@ class ExploreViewModel @Inject constructor(
         }
     }
 
+    init {
+        fetchExercises()
+    }
 
     private fun fetchExercises() {
         handleResponse(

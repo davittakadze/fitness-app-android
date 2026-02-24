@@ -12,5 +12,4 @@ sealed interface WorkoutEvent {
     data object ObserveWorkouts : WorkoutEvent
     data object ShowSheet : WorkoutEvent
     data object DismissSheet : WorkoutEvent
-    data object LoadWorkouts : WorkoutEvent
 }

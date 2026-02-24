@@ -69,7 +69,6 @@ fun WorkoutScreen(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.onEvent(WorkoutEvent.LoadWorkouts)
         viewModel.onEvent(WorkoutEvent.ObserveWorkouts)
     }
 

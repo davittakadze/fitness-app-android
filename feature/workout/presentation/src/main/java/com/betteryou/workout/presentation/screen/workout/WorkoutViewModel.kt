@@ -29,6 +29,10 @@ class WorkoutViewModel @Inject constructor(
     private val getUserIdUseCase: GetUserIdUseCase
 ) : BaseViewModel<WorkoutState, WorkoutEvent, WorkoutSideEffect>(WorkoutState()) {
 
+    init {
+        loadWorkouts()
+    }
+
     override fun onEvent(event: WorkoutEvent) {
         when (event) {
             is WorkoutEvent.OnSearchChange -> {
@@ -46,7 +50,6 @@ class WorkoutViewModel @Inject constructor(
 
 
             is WorkoutEvent.OnSelectExercise -> toggleExerciseCard(event)
-            is WorkoutEvent.LoadWorkouts -> loadWorkouts()
             is WorkoutEvent.OnSaveWorkout -> saveWorkout(event.title, event.exercises)
             is WorkoutEvent.ShowSheet -> openSheet()
             is WorkoutEvent.DismissSheet -> dismissSheet()
