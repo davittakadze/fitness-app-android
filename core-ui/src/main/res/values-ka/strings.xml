@@ -35,7 +35,9 @@
     <string name="notifications">შეტყობინებები</string>
     <string name="water_reminder_title">წყლის დალევის დროა</string>
     <string name="water_reminder_body">ჭიქა წყალი დალიე რომ დარჩე დატენიანებული</string>
-
+    <string name="meal_tracker">საკვების მთვლელი</string>
+    <string name="water_reminder_desc">მიიღე შეტყობინებები წყლის მიღების შესახსენებლად</string>
+    <string name="meal_reminder_desc">მიიღე შეტყობინებები კვების აღსარიცხად და კალორიების კონტროლისთვის</string>
 
     <!-- Validations -->
     <string name="date_of_birth">დაბადების თარიღი</string>

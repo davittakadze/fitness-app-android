@@ -34,6 +34,9 @@
     <string name="notifications">Notifications</string>
     <string name="water_reminder_title">It\'s time to drink some water</string>
     <string name="water_reminder_body">Drink a glass of water to keep your body hydrated</string>
+    <string name="meal_tracker">Meal Tracker</string>
+    <string name="water_reminder_desc">Get notified to stay hydrated throughout the day</string>
+    <string name="meal_reminder_desc">Get notified to log your meals and stay on track with your calories</string>
 
 
     <!-- Validations -->

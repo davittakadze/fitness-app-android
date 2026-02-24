@@ -9,5 +9,6 @@ data class NotificationState(
     val isWaterReminderEnabled: Boolean = false,
     val isNotificationPermissionGranted: Boolean = false,
     val showPermissionRationaleDialog: Boolean = false,
+    val isMealReminderEnabled: Boolean = false,
     val notifications: List<NotificationUi> = emptyList()
 )

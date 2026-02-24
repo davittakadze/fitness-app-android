@@ -176,7 +176,6 @@ class DailyViewModel @Inject constructor(
                         val nutrient=calculateNutritionUseCase(resource.data)
                         updateState {
                             copy(
-                                //gadasaketebelia
                                 totalCaloriesGoal = nutrient.calories.toDouble(),
                                 totalProteinGoal = nutrient.protein.toDouble(),
                                 totalFatGoal = nutrient.fats.toDouble(),
@@ -293,7 +292,6 @@ class DailyViewModel @Inject constructor(
 
                     is Resource.Error -> {
                         updateState { copy(isLoading = false) }
-                        emitSideEffect(DailySideEffect.ShowError(UiText.DynamicString(resource.errorMessage)))
                     }
                 }
             }

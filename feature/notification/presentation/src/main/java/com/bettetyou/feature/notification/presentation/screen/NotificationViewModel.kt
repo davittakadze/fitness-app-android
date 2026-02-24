@@ -7,6 +7,7 @@ import com.bettetyou.feature.notification.domain.usecase.history.UpdateReadStatu
 import com.bettetyou.feature.notification.domain.usecase.reminder.GetWaterReminderStatusUseCase
 import com.bettetyou.feature.notification.domain.usecase.reminder.ManageWaterReminderUseCase
 import com.bettetyou.feature.notification.presentation.mapper.toPresentation
+import com.bettetyou.feature.notification.presentation.screen.NotificationSideEffect.*
 import com.example.betteryou.presentation.common.BaseViewModel
 import com.example.betteryou.presentation.common.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.example.betteryou.core_ui.R
+import com.example.betteryou.presentation.common.UiText.*
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
@@ -49,8 +51,8 @@ class NotificationViewModel @Inject constructor(
                 } else {
                     updateState { copy(isWaterReminderEnabled = false) }
                     emitSideEffect(
-                        NotificationSideEffect.ShowPermissionRequiredMessage(
-                            UiText.StringResource(R.string.enable_notifications)
+                        ShowPermissionRequiredMessage(
+                            StringResource(R.string.enable_notifications)
                         )
                     )
                 }
@@ -61,6 +63,7 @@ class NotificationViewModel @Inject constructor(
             is NotificationEvent.GetNotifications -> getNotifications()
             is NotificationEvent.DeleteNotificationById -> deleteNotificationById(event.id)
             is NotificationEvent.OnWaterNotificationClicked -> onWaterNotificationClicked(event.id)
+            is NotificationEvent.OnMealReminderToggled -> updateState { copy(isMealReminderEnabled = event.isChecked) }
         }
     }
     private fun observeWaterReminderStatus() {
