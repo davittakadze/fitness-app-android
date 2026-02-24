@@ -85,6 +85,8 @@
             <option value="$PROJECT_DIR$/feature/workout/data" />
             <option value="$PROJECT_DIR$/feature/workout/domain" />
             <option value="$PROJECT_DIR$/feature/workout/presentation" />
+            <option value="$PROJECT_DIR$/test-util" />
+            <option value="$PROJECT_DIR$/test-util/testing" />
             <option value="$PROJECT_DIR$/util" />
           </set>
         </option>
