@@ -142,7 +142,7 @@ fun FavoritesContent(state: FavoritesState, onEvent: (FavoritesEvent) -> Unit) {
                             }
                         }
                     } else {
-                        items(items = state.favouriteMeals, key = { it.title }) { item ->
+                        items(items = state.favouriteMeals, key = { it.id }) { item ->
                             SwipeToDeleteContainer(
                                 onDelete = { onEvent.invoke(FavoritesEvent.RemoveFavorite(item.id)) }
                             ) {

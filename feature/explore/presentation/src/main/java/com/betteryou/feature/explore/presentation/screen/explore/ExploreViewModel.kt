@@ -33,7 +33,6 @@ class ExploreViewModel @Inject constructor(
         }
     }
 
-
     private fun fetchExercises() {
         handleResponse(
             apiCall = { getExercisesUseCase.invoke() },

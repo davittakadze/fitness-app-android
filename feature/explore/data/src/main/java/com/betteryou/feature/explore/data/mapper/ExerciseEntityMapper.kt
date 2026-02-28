@@ -5,7 +5,7 @@ import com.betteryou.feature.explore.domain.model.GetExercise
 import com.example.betteryou.data.local.room.entity.explore.ExerciseEntity
 
 
-fun ExerciseDto.toEntity() = ExerciseEntity(
+internal fun ExerciseDto.toEntity() = ExerciseEntity(
     id = id,
     titleEn = title.en,
     titleKa = title.ka,
@@ -15,7 +15,7 @@ fun ExerciseDto.toEntity() = ExerciseEntity(
     musclesTargetedKa = musclesTargeted.ka,
     imageUrl = imageUrl
 )
-fun ExerciseEntity.toDomain(lang: String) = GetExercise(
+internal fun ExerciseEntity.toDomain(lang: String) = GetExercise(
     id = id,
     title = if (lang == "ka") titleKa else titleEn,
     description = if (lang == "ka") descriptionKa else descriptionEn,

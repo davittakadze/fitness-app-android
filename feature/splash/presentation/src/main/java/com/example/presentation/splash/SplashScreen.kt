@@ -49,7 +49,7 @@ fun SplashScreen(
 }
 
 @Composable
-fun SplashContent(){
+private fun SplashContent(){
     Box(
         modifier = Modifier.fillMaxSize().background(LocalTBCColors.current.background),
         contentAlignment = Alignment.Center

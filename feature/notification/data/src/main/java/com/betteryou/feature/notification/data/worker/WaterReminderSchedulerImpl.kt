@@ -15,34 +15,34 @@ import javax.inject.Inject
 class WaterReminderSchedulerImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : WaterReminderScheduler {
-    override fun schedule() {
-        val workRequest = PeriodicWorkRequestBuilder<WaterReminderWorker>(FOUR_HOURS, TimeUnit.HOURS)
-            .setInitialDelay(FOUR_HOURS, TimeUnit.HOURS)
-            .setConstraints(
-                Constraints.Builder()
-                    .setRequiresBatteryNotLow(true)
-                    .build()
-            )
-            .build()
-
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP,
-            workRequest
-        )
-    }
-
-    // This is for testing purposes
 //    override fun schedule() {
-//        val workRequest = OneTimeWorkRequestBuilder<WaterReminderWorker>()
+//        val workRequest = PeriodicWorkRequestBuilder<WaterReminderWorker>(FOUR_HOURS, TimeUnit.HOURS)
+//            .setInitialDelay(FOUR_HOURS, TimeUnit.HOURS)
+//            .setConstraints(
+//                Constraints.Builder()
+//                    .setRequiresBatteryNotLow(true)
+//                    .build()
+//            )
 //            .build()
 //
-//        WorkManager.getInstance(context).enqueueUniqueWork(
-//            "water_reminder_test",
-//            ExistingWorkPolicy.REPLACE,
+//        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+//            WORK_NAME,
+//            ExistingPeriodicWorkPolicy.KEEP,
 //            workRequest
 //        )
 //    }
+
+    // This is for testing purposes
+    override fun schedule() {
+        val workRequest = OneTimeWorkRequestBuilder<WaterReminderWorker>()
+            .build()
+
+        WorkManager.getInstance(context).enqueueUniqueWork(
+            "water_reminder_test",
+            ExistingWorkPolicy.REPLACE,
+            workRequest
+        )
+    }
 
     override fun cancel() {
         WorkManager.getInstance(context).cancelUniqueWork(WORK_NAME)

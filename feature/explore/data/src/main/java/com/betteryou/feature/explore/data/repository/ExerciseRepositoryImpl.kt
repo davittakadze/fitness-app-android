@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ExerciseRepositoryImpl @Inject constructor(
+internal class ExerciseRepositoryImpl @Inject constructor(
     private val exerciseDao: ExerciseDao,
     private val apiService: GetExercisesApiService,
     private val handleResponse: HandleResponse,

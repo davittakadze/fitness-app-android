@@ -75,7 +75,7 @@ fun DetailsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailsContent(
+private fun DetailsContent(
     state: DetailsState,
     onEvent: (DetailsEvent) -> Unit,
 ) {

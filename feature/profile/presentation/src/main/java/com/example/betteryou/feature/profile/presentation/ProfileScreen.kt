@@ -269,60 +269,22 @@ private fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit)
                 }
             )
         }
-        if (state.isLoading) {
-            //TBCAppCircularProgress(Modifier.align(Alignment.Center))
+
+        if (state.showImagePickerDialog) {
+            ImagePickerBottomSheet(
+                onGalleryClick = {
+                    onEvent(OnGallerySelected)
+                },
+                onCameraClick = {
+                    onEvent(OnCameraSelected)
+                },
+                onDismiss = {
+                    onEvent(OnDialogDismiss)
+                }
+            )
         }
-    }
 
-    if (state.showImagePickerDialog) {
-        ImagePickerBottomSheet(
-            onGalleryClick = {
-                onEvent(OnGallerySelected)
-            },
-            onCameraClick = {
-                onEvent(OnCameraSelected)
-            },
-            onDismiss = {
-                onEvent(OnDialogDismiss)
-            }
-        )
-    }
-
-    if (state.isCalendarOpen) {
-        CalendarBottomSheet(
-            state = state,
-            onEvent = onEvent,
-            onDismiss = { onEvent(OnCalendarDismiss) }
-        )
-    }
-
-    if (state.isMonthPickerOpen) {
-        MonthPicker(
-            currentMonth = state.calendarMonth.monthValue,
-            onMonthSelected = { month ->
-                onEvent(OnMonthSelected(month))
-            },
-            onDismiss = {
-                onEvent(OnMonthPickerToggle)
-            }
-        )
-    }
-
-    if (state.isYearPickerOpen) {
-        YearPickerDialog(
-            currentYear = state.calendarMonth.year,
-            onYearSelected = { year ->
-                onEvent(OnYearSelected(year))
-            },
-            onDismiss = {
-                onEvent(OnYearPickerToggle)
-            }
-        )
-    }
-}
-
-
-/*if (state.isCalendarOpen) {
+        if (state.isCalendarOpen) {
             CalendarBottomSheet(
                 state = state,
                 onEvent = onEvent,
@@ -352,10 +314,9 @@ private fun ProfileContent(state: ProfileState, onEvent: (ProfileEvent) -> Unit)
                     onEvent(OnYearPickerToggle)
                 }
             )
-
-    }*/
-
-
+        }
+    }
+}
 
 private fun createImageUri(context: Context): Uri {
     val file = File(

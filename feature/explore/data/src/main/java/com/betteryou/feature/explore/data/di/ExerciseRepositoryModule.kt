@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class ExerciseRepositoryModule {
+internal abstract class ExerciseRepositoryModule {
     @Binds
     @Singleton
     abstract fun bindExploreRepository(

@@ -4,7 +4,7 @@ import com.betteryou.feature.explore.data.model.ExerciseDto
 import retrofit2.Response
 import retrofit2.http.GET
 
-interface GetExercisesApiService {
+internal interface GetExercisesApiService {
     @GET(EXPLORE)
     suspend fun getExercises(): Response<List<ExerciseDto>>
 

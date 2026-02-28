@@ -78,7 +78,7 @@ fun ExploreScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExploreScreenContent(
+private fun ExploreScreenContent(
     state: ExploreState,
     onEvent: (ExploreEvent) -> Unit,
 ) {
@@ -150,7 +150,7 @@ fun ExploreScreenContent(
 }
 
 @Composable
-fun ExerciseCard(
+private fun ExerciseCard(
     exercise: ExerciseUI,
     onClick: () -> Unit,
 ) {

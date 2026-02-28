@@ -23,7 +23,7 @@ import com.example.betteryou.util.toLocalDate
 class ProfileViewModel @Inject constructor(
     private val uploadUseCase: UploadUserInfoUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val validator: AgeValidatorUseCase
+    private val validator: AgeValidatorUseCase,
 ) :
     BaseViewModel<ProfileState, ProfileEvent, ProfileSideEffect>(ProfileState()) {
     private var pendingCameraUri: Uri? = null
@@ -39,7 +39,7 @@ class ProfileViewModel @Inject constructor(
                                 copy(
                                     firstName = userUi.firstName.orEmpty(),
                                     lastName = userUi.lastName.orEmpty(),
-                                    age=userUi.age,
+                                    age = userUi.age,
                                     selectedDate = userUi.birthDate.toLocalDate(),
                                     selectedSex = userUi.gender,
                                     height = userUi.height?.toString().orEmpty(),
@@ -194,13 +194,14 @@ class ProfileViewModel @Inject constructor(
             is ProfileEvent.SaveChanges -> {
                 uploadUserProfile(event.user)
             }
+
             ProfileEvent.OnBackClick -> emitSideEffect(ProfileSideEffect.OnBackClick)
         }
     }
 
     private fun uploadUserProfile(user: UserUi) {
         viewModelScope.launch {
-            if ( state.value.selectedDate==null||validator(user.age!!)) {
+            if (state.value.selectedDate == null || validator(user.age!!)) {
                 uploadUseCase(user.toDomain())
                     .collectLatest { result ->
                         when (result) {
